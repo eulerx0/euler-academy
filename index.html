@@ -101,73 +101,69 @@
       <div id="math01SimulatorSection" class="hidden glass rounded-3xl p-6 sm:p-8 border border-cyan-500/30">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-5 mb-6">
           <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">المختبر البصري التفاعلي • الدرس 01</span>
-            <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1">
-              محاكي الاتصال، الاشتقاق، وتماثل منحنى الدالة $(C_f)$ والدالة العكسية $(C_{f^{-1}})$
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+                المختبر البصري التفاعلي • الدرس 01
+              </span>
+              <span class="text-xs text-slate-400 font-mono">Laboratoire Visuel Interactif</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-white">
+              محاكي الاتصال في نقطة، الدوال المجزأة (القفزة)، والتماثل العكسي
             </h3>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button onclick="setFunc(0)" id="btnF0" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 transition">
-              $f_1(x) = x - 2\sqrt{x} + 2$
+          <!-- Mode Switcher Tabs -->
+          <div class="flex flex-wrap gap-2 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800">
+            <button onclick="setSimMode('continuity')" id="btnModeCont" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 shadow transition">
+              1. الاتصال في نقطة
             </button>
-            <button onclick="setFunc(1)" id="btnF1" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-              $f_2(x) = \sqrt{x^2 - 2x}$
+            <button onclick="setSimMode('piecewise')" id="btnModePiece" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">
+              2. الدالة المجزأة والقفزة
             </button>
-            <button onclick="setFunc(2)" id="btnF2" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-              $f_3(x) = \frac{1}{4}x^3 + \frac{1}{2}x$
+            <button onclick="setSimMode('reciprocal')" id="btnModeRecip" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">
+              3. الدالة العكسية والتماثل
             </button>
           </div>
         </div>
 
+        <!-- Sub-selector for reciprocal functions if mode is reciprocal -->
+        <div id="reciprocalSubButtons" class="hidden mb-4 flex flex-wrap gap-2 items-center bg-slate-950/70 p-3 rounded-2xl border border-slate-800/80">
+          <span class="text-xs text-slate-400 font-semibold px-2">اختر الدالة العكسية لدراسة تماثلها:</span>
+          <button onclick="setFunc(0)" id="btnF0" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 transition">
+            $f_1(x) = x - 2\sqrt{x} + 2$
+          </button>
+          <button onclick="setFunc(1)" id="btnF1" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            $f_2(x) = \sqrt{x^2 - 2x}$
+          </button>
+          <button onclick="setFunc(2)" id="btnF2" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            $f_3(x) = \frac{1}{4}x^3 + \frac{1}{2}x$
+          </button>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div class="lg:col-span-7 bg-slate-950 rounded-2xl border border-slate-800 p-4">
-            <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 mb-3 gap-2">
-              <div class="flex items-center gap-4">
-                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> $(C_f)$</span>
-                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> $(C_{f^{-1}})$</span>
-                <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-slate-400 inline-block"></span> المنصف الأول $y=x$</span>
-              </div>
-              <span class="text-cyan-300 font-semibold">حرك النقطة $x_0$ لمعاينة الاتصال والتماثل</span>
-            </div>
+            <div id="simLegend" class="flex flex-wrap items-center justify-between text-xs text-slate-400 mb-3 gap-2"></div>
             <canvas id="mathCanvas" width="660" height="460" class="w-full h-auto rounded-xl bg-[#050811] border border-slate-800/90"></canvas>
             <div class="mt-4 bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
               <div class="flex justify-between text-xs font-bold mb-1.5">
-                <span class="text-slate-300">أفصول النقطة $x_0 \in I$:</span>
-                <span id="xValDisplay" class="font-mono text-cyan-300">x₀ = 2.50</span>
+                <span id="sliderLabel" class="text-slate-300">أفصول النقطة $x_0$:</span>
+                <span id="xValDisplay" class="font-mono text-cyan-300">x₀ = 1.50</span>
               </div>
-              <input id="xSlider" type="range" min="1.0" max="6.0" step="0.02" value="2.5" oninput="updateSim()" class="w-full accent-cyan-400 cursor-pointer" />
+              <input id="xSlider" type="range" min="-0.5" max="3.5" step="0.02" value="1.5" oninput="updateSim()" class="w-full accent-cyan-400 cursor-pointer" />
             </div>
           </div>
 
           <div class="lg:col-span-5 space-y-4">
             <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5">
-              <h4 class="text-sm font-bold text-cyan-400 mb-3">📐 القيم اللحظية والتأويل الهندسي</h4>
-              <div class="grid grid-cols-2 gap-3 text-xs mb-4">
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                  <span class="text-slate-400 block mb-1">النقطة $M \in (C_f)$:</span>
-                  <span id="ptMOut" class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">M(2.50, 1.34)</span>
-                </div>
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                  <span class="text-slate-400 block mb-1">النقطة $M' \in (C_{f^{-1}})$:</span>
-                  <span id="ptMpOut" class="font-mono font-bold text-amber-300 text-sm" dir="ltr">M'(1.34, 2.50)</span>
-                </div>
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                  <span class="text-slate-400 block mb-1">العدد المشتق $f'(x_0)$:</span>
-                  <span id="dfOut" class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">0.37</span>
-                </div>
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                  <span class="text-slate-400 block mb-1">مشتقة العكسية $(f^{-1})'(y_0)$:</span>
-                  <span id="dinvOut" class="font-mono font-bold text-pink-400 text-sm" dir="ltr">2.72</span>
-                </div>
-              </div>
+              <h4 class="text-sm font-bold text-cyan-400 mb-3">📐 التحليل الرياضي والتأويل الهندسي اللحظي</h4>
+              <div id="simMetricsGrid" class="grid grid-cols-2 gap-3 text-xs mb-4"></div>
+              <div id="simStatusBanner" class="mb-3"></div>
               <div id="funcRuleBox" class="text-xs text-slate-300 leading-relaxed bg-slate-950/80 p-4 rounded-xl border border-slate-800"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-  </main>
+</main>
 
   <!-- Footer -->
   <footer class="border-t border-slate-800/80 py-6 mt-12 text-center text-xs text-slate-500">
@@ -179,13 +175,19 @@
 
     function renderMath(el) {
       if (window.renderMathInElement && el) {
-        window.renderMathInElement(el, {
-          delimiters: [
-            { left: '$$', right: '$$', display: true },
-            { left: '$', right: '$', display: false }
-          ],
-          throwOnError: false
-        });
+        try {
+          window.renderMathInElement(el, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '$', right: '$', display: false }
+            ],
+            throwOnError: false
+          });
+        } catch (e) {
+          console.warn('KaTeX render error:', e);
+        }
+      } else if (el) {
+        setTimeout(() => renderMath(el), 120);
       }
     }
 
@@ -208,7 +210,6 @@
       });
 
       // Render Subject Banner
-      const activeCount = subj.lessons.filter(l => l.status === 'active').length;
       document.getElementById('subjectBanner').innerHTML = `
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -236,7 +237,7 @@
 
         const metaTag = lesson.unit
           ? lesson.unit
-          : `الدورة ${lesson.semester || 1}`;
+          : `الأسدوس ${lesson.semester || 1}`;
 
         return `
           <div onclick="openLesson('${subjectKey}', '${lesson.id}')" class="cursor-pointer rounded-2xl p-5 transition flex flex-col justify-between ${isActive ? 'bg-slate-900/95 border-2 border-cyan-500/60 hover:border-cyan-400 shadow-lg' : 'bg-slate-900/60 border border-slate-800/90 hover:border-slate-700 hover:bg-slate-900'}">
@@ -292,7 +293,7 @@
 
       // Render Official Axes
       const axesContainer = document.getElementById('lessonAxesContainer');
-      axesContainer.innerHTML = (lesson.axes || []).map((ax, idx) => {
+      axesContainer.innerHTML = (lesson.axes || []).map((ax) => {
         const hasFullContent = Boolean(ax.contentHtml);
         const reqListHtml = (ax.requirements || []).length > 0
           ? `<div class="mt-3 bg-slate-950/90 border border-slate-800/90 rounded-xl p-4">
@@ -324,7 +325,7 @@
       const simSection = document.getElementById('math01SimulatorSection');
       if (lessonId === 'math-01') {
         simSection.classList.remove('hidden');
-        setTimeout(() => setFunc(0), 50);
+        setTimeout(() => setSimMode('continuity'), 50);
       } else {
         simSection.classList.add('hidden');
       }
@@ -332,38 +333,83 @@
       renderMath(document.getElementById('lessonView'));
     }
 
-    // Simulator Logic for Math Lesson 01
+    // ==========================================
+    // 🧪 SIMULATOR ENGINE (3 PEDAGOGICAL MODES)
+    // ==========================================
+    let currentSimMode = 'continuity';
+    let currentFuncIdx = 0;
+
     const funcs = [
       {
         minX: 1.0, maxX: 6.0, defaultX: 2.8,
         f: x => x - 2 * Math.sqrt(x) + 2,
         df: x => 1 - 1 / Math.sqrt(x),
-        desc: `<b>الدالة $f_1(x) = x - 2\\sqrt{x} + 2$ على $I = [1, +\\infty[$:</b><br/>• متصلة على $[1, +\\infty[$ وتقبل نصف مماس أفقي على يمين $A(1,1)$ لأن $f'_d(1) = 0$.<br/>• منحنى $(C_{f^{-1}})$ يقبل بالتالي نصف مماس عمودي موجه نحو الأعلى في $A'(1,1)$.`
+        desc: `<b>الدالة $f_1(x) = x - 2\sqrt{x} + 2$ على $I = [1, +\infty[$:</b><br/>• متصلة ورتيبة قطعاً على $[1, +\infty[$، وتقبل نصف مماس أفقي على يمين $A(1,1)$ لأن $f'_d(1) = 0$.<br/>• منحنى الدالة العكسية $(C_{f^{-1}})$ يقبل بالتالي نصف مماس عمودي موجه نحو الأعلى في النقطة $A'(1,1)$.`
       },
       {
         minX: 2.01, maxX: 6.0, defaultX: 3.2,
         f: x => Math.sqrt(Math.max(0, x * x - 2 * x)),
         df: x => (x - 1) / Math.sqrt(Math.max(0.0001, x * x - 2 * x)),
-        desc: `<b>الدالة $f_2(x) = \\sqrt{x^2 - 2x}$ على $I = [2, +\\infty[$:</b><br/>• متصلة على $[2, +\\infty[$ وغير قابلة للاشتقاق على يمين $x_0 = 2$ (نصف مماس عمودي في $A(2,0)$).<br/>• منحنى $(C_{f^{-1}})$ يقبل نصف مماس أفقي في $A'(0,2)$.`
+        desc: `<b>الدالة $f_2(x) = \sqrt{x^2 - 2x}$ على $I = [2, +\infty[$:</b><br/>• متصلة على $[2, +\infty[$ وغير قابلة للاشتقاق على يمين $x_0 = 2$ (نصف مماس عمودي في $A(2,0)$).<br/>• منحنى $(C_{f^{-1}})$ يقبل نصف مماس أفقي في $A'(0,2)$.`
       },
       {
         minX: 0.0, maxX: 2.4, defaultX: 1.5,
         f: x => 0.25 * Math.pow(x, 3) + 0.5 * x,
         df: x => 0.75 * x * x + 0.5,
-        desc: `<b>الدالة $f_3(x) = \\frac{1}{4}x^3 + \\frac{1}{2}x$:</b><br/>• متصلة وقابلة للاشتقاق على $\\mathbb{R}$، ومشتقتها $f'(x) > 0$ قطعاً.<br/>• تحقق: $(f^{-1})'(y_0) = \\frac{1}{f'(x_0)}$.`
+        desc: `<b>الدالة $f_3(x) = \frac{1}{4}x^3 + \frac{1}{2}x$:</b><br/>• متصلة وقابلة للاشتقاق على $\mathbb{R}$، ومشتقتها $f'(x) > 0$ قطعاً.<br/>• تحقق دائماً خاصية التماثل والاشتقاق: $(f^{-1})'(y_0) = \frac{1}{f'(x_0)}$.`
       }
     ];
 
-    let currentIdx = 0;
+    function setSimMode(mode) {
+      currentSimMode = mode;
+      const btnCont = document.getElementById('btnModeCont');
+      const btnPiece = document.getElementById('btnModePiece');
+      const btnRecip = document.getElementById('btnModeRecip');
+      const recipSub = document.getElementById('reciprocalSubButtons');
+      const slider = document.getElementById('xSlider');
+      const sliderLabel = document.getElementById('sliderLabel');
+
+      [btnCont, btnPiece, btnRecip].forEach(b => {
+        b.className = 'px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition';
+      });
+
+      if (mode === 'continuity') {
+        btnCont.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 shadow transition';
+        recipSub.classList.add('hidden');
+        slider.min = -0.5;
+        slider.max = 3.5;
+        slider.step = 0.02;
+        slider.value = 1.5;
+        sliderLabel.innerHTML = 'أفصول النقطة $x_0$:';
+      } else if (mode === 'piecewise') {
+        btnPiece.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow transition';
+        recipSub.classList.add('hidden');
+        slider.min = 0.0;
+        slider.max = 4.0;
+        slider.step = 0.02;
+        slider.value = 2.0;
+        sliderLabel.innerHTML = 'أفصول النقطة $x$ (حرّك لاجتياز النقطة المفصلية $x_0=2$):';
+      } else if (mode === 'reciprocal') {
+        btnRecip.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 shadow transition';
+        recipSub.classList.remove('hidden');
+        sliderLabel.innerHTML = 'أفصول النقطة $x_0 \in I$:';
+        setFunc(currentFuncIdx);
+        return;
+      }
+      renderMath(sliderLabel);
+      updateSim();
+    }
 
     function setFunc(idx) {
-      currentIdx = idx;
+      currentFuncIdx = idx;
       const fn = funcs[idx];
       const slider = document.getElementById('xSlider');
-      if (!slider) return;
-      slider.min = fn.minX;
-      slider.max = fn.maxX;
-      slider.value = fn.defaultX;
+      if (slider) {
+        slider.min = fn.minX;
+        slider.max = fn.maxX;
+        slider.step = 0.02;
+        slider.value = fn.defaultX;
+      }
 
       [0, 1, 2].forEach(i => {
         const b = document.getElementById('btnF' + i);
@@ -373,12 +419,6 @@
             : 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
         }
       });
-
-      const ruleBox = document.getElementById('funcRuleBox');
-      if (ruleBox) {
-        ruleBox.innerHTML = fn.desc;
-        renderMath(ruleBox);
-      }
       updateSim();
     }
 
@@ -387,80 +427,322 @@
       const canvas = document.getElementById('mathCanvas');
       if (!slider || !canvas) return;
       const ctx = canvas.getContext('2d');
-      const fn = funcs[currentIdx];
-      const x0 = parseFloat(slider.value);
-      const y0 = fn.f(x0);
-      const slope = fn.df(x0);
-      const invSlope = Math.abs(slope) > 1e-4 ? (1 / slope) : Infinity;
-
-      document.getElementById('xValDisplay').innerText = `x₀ = ${x0.toFixed(2)}`;
-      document.getElementById('ptMOut').innerText = `M(${x0.toFixed(2)}, ${y0.toFixed(2)})`;
-      document.getElementById('ptMpOut').innerText = `M'(${y0.toFixed(2)}, ${x0.toFixed(2)})`;
-      document.getElementById('dfOut').innerText = slope > 50 ? `+∞` : slope.toFixed(2);
-      document.getElementById('dinvOut').innerText = !isFinite(invSlope) || invSlope > 50 ? `+∞` : invSlope.toFixed(2);
-
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
-      const originX = 70, originY = H - 55, scale = 64;
-      const toPxX = x => originX + x * scale;
-      const toPxY = y => originY - y * scale;
 
-      ctx.strokeStyle = '#111827';
-      ctx.lineWidth = 1;
-      for (let i = -1; i <= 8; i++) {
-        ctx.beginPath(); ctx.moveTo(toPxX(i), 0); ctx.lineTo(toPxX(i), H); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, toPxY(i)); ctx.lineTo(W, toPxY(i)); ctx.stroke();
+      const xVal = parseFloat(slider.value);
+      document.getElementById('xValDisplay').innerText = `x₀ = ${xVal.toFixed(2)}`;
+
+      const legend = document.getElementById('simLegend');
+      const metricsGrid = document.getElementById('simMetricsGrid');
+      const statusBanner = document.getElementById('simStatusBanner');
+      const ruleBox = document.getElementById('funcRuleBox');
+
+      if (currentSimMode === 'continuity') {
+        // Mode 1: Smooth Continuous Function f(x) = 0.35x^2 - 0.7x + 1.5
+        const f = x => 0.35 * x * x - 0.7 * x + 1.5;
+        const y0 = f(xVal);
+
+        legend.innerHTML = `
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> $(C_f)$ دالة متصلة في $x_0$</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-400 inline-block"></span> النقطة $M(x_0, f(x_0))$</span>
+          </div>
+          <span class="text-cyan-300 font-semibold">حرك $x_0$ لمعاينة الاتصال السلس</span>
+        `;
+
+        metricsGrid.innerHTML = `
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">الأفصول $x_0$:</span>
+            <span class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">${xVal.toFixed(2)}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">الصورة $f(x_0)$:</span>
+            <span class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">${y0.toFixed(2)}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">النهاية على اليمين $\lim_{x \to x_0^+}$:</span>
+            <span class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">${y0.toFixed(2)}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">النهاية على اليسار $\lim_{x \to x_0^-}$:</span>
+            <span class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">${y0.toFixed(2)}</span>
+          </div>
+        `;
+
+        statusBanner.innerHTML = `
+          <div class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center gap-2">
+            <span>✓</span> <span>الدالة متصلة في النقطة $x_0$: النهاية منتهية وتساوي الصورة $\lim_{x \to x_0} f(x) = f(x_0)$</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = `
+          <b>التأويل الهندسي للاتصال:</b><br/>
+          منحنى الدالة $(C_f)$ لا ينقطع أبداً عند النقطة $M(x_0, f(x_0))$. عندما يقترب $x$ من $x_0$ سواء من اليمين ($x > x_0$) أو من اليسار ($x < x_0$)، تقترب النقطة على المنحنى من $M(x_0, f(x_0))$ بدون أي فجوة أو قفزة مفاجئة.
+        `;
+
+        // Canvas drawing
+        const originX = 140, originY = 360, scale = 75;
+        const toPxX = x => originX + x * scale;
+        const toPxY = y => originY - y * scale;
+
+        // Grid
+        ctx.strokeStyle = '#111827';
+        ctx.lineWidth = 1;
+        for (let i = -1; i <= 6; i++) {
+          ctx.beginPath(); ctx.moveTo(toPxX(i), 0); ctx.lineTo(toPxX(i), H); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(0, toPxY(i)); ctx.lineTo(W, toPxY(i)); ctx.stroke();
+        }
+
+        // Axes
+        ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(0, originY); ctx.lineTo(W, originY);
+        ctx.moveTo(originX, 0); ctx.lineTo(originX, H);
+        ctx.stroke();
+
+        // Curve
+        ctx.strokeStyle = '#22d3ee'; ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        for (let x = -1.0; x <= 4.0; x += 0.02) {
+          const y = f(x);
+          if (x === -1.0) ctx.moveTo(toPxX(x), toPxY(y));
+          else ctx.lineTo(toPxX(x), toPxY(y));
+        }
+        ctx.stroke();
+
+        // Projections
+        ctx.save();
+        ctx.strokeStyle = '#64748b'; ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(toPxX(xVal), originY); ctx.lineTo(toPxX(xVal), toPxY(y0));
+        ctx.lineTo(originX, toPxY(y0));
+        ctx.stroke();
+        ctx.restore();
+
+        // Point M
+        ctx.fillStyle = '#34d399';
+        ctx.beginPath(); ctx.arc(toPxX(xVal), toPxY(y0), 7, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
+
+      } else if (currentSimMode === 'piecewise') {
+        // Mode 2: Piecewise Discontinuous Function (Saut at x = 2.0)
+        // x < 2: f(x) = -0.5x + 1.5  => lim x->2- = 0.5
+        // x >= 2: f(x) = 0.5x + 1.0  => f(2) = 2.0, lim x->2+ = 2.0
+        const fL = x => -0.5 * x + 1.5;
+        const fR = x => 0.5 * x + 1.0;
+        const isRight = xVal >= 2.0;
+        const currY = isRight ? fR(xVal) : fL(xVal);
+
+        legend.innerHTML = `
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> فرع اليسار ($x < 2$)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-400 inline-block"></span> فرع اليمين ($x \ge 2$)</span>
+          </div>
+          <span class="text-rose-400 font-semibold">قفزة انقطاع عند $x = 2$</span>
+        `;
+
+        metricsGrid.innerHTML = `
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">الأفصول الحالي $x$:</span>
+            <span class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">${xVal.toFixed(2)}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">الصورة $f(2)$ في النقطة المفصلية:</span>
+            <span class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">2.00</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">النهاية على اليمين $\lim_{x \to 2^+}$:</span>
+            <span class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">2.00</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">النهاية على اليسار $\lim_{x \to 2^-}$:</span>
+            <span class="font-mono font-bold text-amber-400 text-sm" dir="ltr">0.50</span>
+          </div>
+        `;
+
+        statusBanner.innerHTML = `
+          <div class="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 font-bold text-xs flex items-center gap-2">
+            <span>⚠️</span> <span>الدالة غير متصلة في النقطة 2 (يوجد انقطاع/قفزة لأن $\lim_{x \to 2^+} f(x) \neq \lim_{x \to 2^-} f(x)$)</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = `
+          <b>تحليل الاتصال على اليمين واليسار:</b><br/>
+          • لدينا $\lim_{x \to 2^+} f(x) = 2.00 = f(2) \implies$ الدالة متصلة على اليمين في $2$.<br/>
+          • لدينا $\lim_{x \to 2^-} f(x) = 0.50 \neq f(2) \implies$ الدالة <b>غير متصلة على اليسار في $2$</b>.<br/>
+          • <b>الخلاصة:</b> تكون الدالة متصلة في النقطة إذا وفقط إذا كانت متصلة على اليمين وعلى اليسار معاً، وبالتالي فالدالة $f$ <b>غير متصلة في النقطة 2</b>.
+        `;
+
+        // Canvas drawing
+        const originX = 100, originY = 360, scale = 75;
+        const toPxX = x => originX + x * scale;
+        const toPxY = y => originY - y * scale;
+
+        // Grid
+        ctx.strokeStyle = '#111827'; ctx.lineWidth = 1;
+        for (let i = -1; i <= 6; i++) {
+          ctx.beginPath(); ctx.moveTo(toPxX(i), 0); ctx.lineTo(toPxX(i), H); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(0, toPxY(i)); ctx.lineTo(W, toPxY(i)); ctx.stroke();
+        }
+
+        // Axes
+        ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(0, originY); ctx.lineTo(W, originY);
+        ctx.moveTo(originX, 0); ctx.lineTo(originX, H);
+        ctx.stroke();
+
+        // Left branch (orange)
+        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        for (let x = 0.0; x < 2.0; x += 0.02) {
+          const y = fL(x);
+          if (x === 0.0) ctx.moveTo(toPxX(x), toPxY(y));
+          else ctx.lineTo(toPxX(x), toPxY(y));
+        }
+        ctx.stroke();
+
+        // Right branch (emerald)
+        ctx.strokeStyle = '#34d399'; ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        for (let x = 2.0; x <= 4.0; x += 0.02) {
+          const y = fR(x);
+          if (x === 2.0) ctx.moveTo(toPxX(x), toPxY(y));
+          else ctx.lineTo(toPxX(x), toPxY(y));
+        }
+        ctx.stroke();
+
+        // Discontinuity Jump Line (red dashed)
+        ctx.save();
+        ctx.strokeStyle = 'rgba(244, 63, 94, 0.7)'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(toPxX(2.0), toPxY(0.5)); ctx.lineTo(toPxX(2.0), toPxY(2.0));
+        ctx.stroke();
+        ctx.restore();
+
+        // Open Circle at (2, 0.5) for left limit
+        ctx.fillStyle = '#050811'; ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.arc(toPxX(2.0), toPxY(0.5), 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+        // Closed Circle at (2, 2.0) for f(2) and right limit
+        ctx.fillStyle = '#34d399';
+        ctx.beginPath(); ctx.arc(toPxX(2.0), toPxY(2.0), 6, 0, Math.PI * 2); ctx.fill();
+
+        // Moving test point
+        ctx.fillStyle = isRight ? '#34d399' : '#fbbf24';
+        ctx.beginPath(); ctx.arc(toPxX(xVal), toPxY(currY), 7, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
+
+      } else if (currentSimMode === 'reciprocal') {
+        // Mode 3: Reciprocal & Symmetry y = x
+        const fn = funcs[currentFuncIdx];
+        const y0 = fn.f(xVal);
+        const slope = fn.df(xVal);
+        const invSlope = Math.abs(slope) > 1e-4 ? (1 / slope) : Infinity;
+
+        legend.innerHTML = `
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> $(C_f)$</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> $(C_{f^{-1}})$</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-slate-400 inline-block"></span> المنصف الأول $y=x$</span>
+          </div>
+          <span class="text-cyan-300 font-semibold">تماثل محوري متعامد</span>
+        `;
+
+        metricsGrid.innerHTML = `
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">النقطة $M \in (C_f)$:</span>
+            <span class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">M(${xVal.toFixed(2)}, ${y0.toFixed(2)})</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">النقطة $M' \in (C_{f^{-1}})$:</span>
+            <span class="font-mono font-bold text-amber-300 text-sm" dir="ltr">M'(${y0.toFixed(2)}, ${xVal.toFixed(2)})</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">العدد المشتق $f'(x_0)$:</span>
+            <span class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">${slope > 50 ? '+∞' : slope.toFixed(2)}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">مشتقة العكسية $(f^{-1})'(y_0)$:</span>
+            <span class="font-mono font-bold text-pink-400 text-sm" dir="ltr">${!isFinite(invSlope) || invSlope > 50 ? '+∞' : invSlope.toFixed(2)}</span>
+          </div>
+        `;
+
+        statusBanner.innerHTML = `
+          <div class="p-3 rounded-xl bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 font-bold text-xs flex items-center gap-2">
+            <span>🔄</span> <span>تماثل محوري بالنسبة لـ $y=x$ وتحقق العلاقة $(f^{-1})'(y_0) = \frac{1}{f'(x_0)}$</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = fn.desc;
+
+        // Canvas drawing
+        const originX = 70, originY = H - 55, scale = 64;
+        const toPxX = x => originX + x * scale;
+        const toPxY = y => originY - y * scale;
+
+        // Grid
+        ctx.strokeStyle = '#111827'; ctx.lineWidth = 1;
+        for (let i = -1; i <= 8; i++) {
+          ctx.beginPath(); ctx.moveTo(toPxX(i), 0); ctx.lineTo(toPxX(i), H); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(0, toPxY(i)); ctx.lineTo(W, toPxY(i)); ctx.stroke();
+        }
+
+        // Axes
+        ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(0, originY); ctx.lineTo(W, originY);
+        ctx.moveTo(originX, 0); ctx.lineTo(originX, H);
+        ctx.stroke();
+
+        // Bisector y = x
+        ctx.save();
+        ctx.strokeStyle = '#64748b'; ctx.setLineDash([6, 6]);
+        ctx.beginPath();
+        ctx.moveTo(toPxX(-0.5), toPxY(-0.5)); ctx.lineTo(toPxX(7), toPxY(7));
+        ctx.stroke();
+        ctx.restore();
+
+        // Cf (cyan)
+        ctx.strokeStyle = '#22d3ee'; ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let x = fn.minX; x <= fn.maxX; x += 0.02) {
+          const y = fn.f(x);
+          if (x === fn.minX) ctx.moveTo(toPxX(x), toPxY(y));
+          else ctx.lineTo(toPxX(x), toPxY(y));
+        }
+        ctx.stroke();
+
+        // Cf-1 (amber)
+        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let x = fn.minX; x <= fn.maxX; x += 0.02) {
+          const y = fn.f(x);
+          if (x === fn.minX) ctx.moveTo(toPxX(y), toPxY(x));
+          else ctx.lineTo(toPxX(y), toPxY(x));
+        }
+        ctx.stroke();
+
+        // Symmetry segment between M and M'
+        ctx.save();
+        ctx.strokeStyle = 'rgba(244, 114, 182, 0.5)'; ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(toPxX(xVal), toPxY(y0)); ctx.lineTo(toPxX(y0), toPxY(xVal));
+        ctx.stroke();
+        ctx.restore();
+
+        // Points
+        ctx.fillStyle = '#22d3ee';
+        ctx.beginPath(); ctx.arc(toPxX(xVal), toPxY(y0), 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath(); ctx.arc(toPxX(y0), toPxY(xVal), 6, 0, Math.PI * 2); ctx.fill();
       }
 
-      ctx.strokeStyle = '#334155';
-      ctx.lineWidth = 1.8;
-      ctx.beginPath();
-      ctx.moveTo(0, originY); ctx.lineTo(W, originY);
-      ctx.moveTo(originX, 0); ctx.lineTo(originX, H);
-      ctx.stroke();
-
-      ctx.save();
-      ctx.strokeStyle = '#64748b';
-      ctx.setLineDash([6, 6]);
-      ctx.beginPath();
-      ctx.moveTo(toPxX(-0.5), toPxY(-0.5));
-      ctx.lineTo(toPxX(7), toPxY(7));
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.strokeStyle = '#22d3ee';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      for (let x = fn.minX; x <= fn.maxX; x += 0.02) {
-        const y = fn.f(x);
-        if (x === fn.minX) ctx.moveTo(toPxX(x), toPxY(y));
-        else ctx.lineTo(toPxX(x), toPxY(y));
-      }
-      ctx.stroke();
-
-      ctx.strokeStyle = '#fbbf24';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      for (let x = fn.minX; x <= fn.maxX; x += 0.02) {
-        const y = fn.f(x);
-        if (x === fn.minX) ctx.moveTo(toPxX(y), toPxY(x));
-        else ctx.lineTo(toPxX(y), toPxY(x));
-      }
-      ctx.stroke();
-
-      ctx.save();
-      ctx.strokeStyle = 'rgba(244, 114, 182, 0.5)';
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(toPxX(x0), toPxY(y0));
-      ctx.lineTo(toPxX(y0), toPxY(x0));
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.fillStyle = '#22d3ee';
-      ctx.beginPath(); ctx.arc(toPxX(x0), toPxY(y0), 6, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#fbbf24';
-      ctx.beginPath(); ctx.arc(toPxX(y0), toPxY(x0), 6, 0, Math.PI * 2); ctx.fill();
+      renderMath(legend);
+      renderMath(metricsGrid);
+      renderMath(statusBanner);
+      renderMath(ruleBox);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
