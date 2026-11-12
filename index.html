@@ -3,366 +3,390 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>أكاديمية أويلر التفاعلية | Euler Interactive STEM & 2BAC Academy</title>
-  <meta name="description" content="المنصة التفاعلية الأولى للرياضيات والفيزياء والكيمياء للثانية باكالوريا (2BAC PC / SM / SVT) بمعيار د. الرياح والامتحان الوطني — محاكيات حية وتمارين تفاعلية." />
+  <title>أكاديمية أويلر للعلوم الدقيقة | Euler Academy — 2BAC Maroc</title>
+  <meta name="description" content="المنصة الأكاديمية المنظمة للرياضيات والفيزياء والكيمياء للسنة الثانية باكالوريا (2BAC PC / SVT / SM) وفق الإطار المرجعي للامتحان الوطني الموحد." />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
-    onload="renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}] });"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="./curriculum.js"></script>
   <style>
     body { font-family: 'Cairo', 'Inter', sans-serif; background-color: #060911; color: #f1f5f9; }
-    .glass { background: rgba(15, 23, 42, 0.78); backdrop-filter: blur(14px); border: 1px solid rgba(51, 65, 85, 0.6); }
-    .neon-cyan { box-shadow: 0 0 25px rgba(6, 182, 212, 0.18); }
+    .glass { background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(14px); border: 1px solid rgba(51, 65, 85, 0.65); }
     .katex { direction: ltr; display: inline-block; font-size: 1.05em; }
+    .katex-display { direction: ltr; margin: 0.75em 0; overflow-x: auto; overflow-y: hidden; }
   </style>
 </head>
-<body class="min-h-screen selection:bg-cyan-500 selection:text-slate-950">
+<body class="min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-950">
 
-  <!-- Top Status Ribbon -->
-  <div class="bg-gradient-to-r from-cyan-950 via-slate-900 to-amber-950 border-b border-slate-800 text-xs py-2 px-4 text-center text-cyan-200">
-    🏛️ <b>صرح أويلر التراكمي (Euler Interactive STEM Academy)</b> • معيار الصرامة المطلقة للثانية باكالوريا (2BAC PC / SM) • يُبنى طوبة فوق طوبة يومياً
+  <!-- Top Academic Bar -->
+  <div class="bg-slate-950 border-b border-slate-800/90 text-[11px] sm:text-xs py-2 px-4 text-center text-slate-400">
+    🎓 <b class="text-slate-200">أكاديمية أويلر للعلوم الدقيقة (Euler Academy)</b> • المنهاج الرسمي للثانية باكالوريا وفق الإطار المرجعي للامتحان الوطني (2BAC PC • SVT • SM)
   </div>
 
-  <!-- Navigation Header -->
+  <!-- Main Header -->
   <header class="sticky top-0 z-40 glass border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 text-slate-950 font-black flex items-center justify-center text-2xl shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <a href="#" onclick="showSubjectCatalog(currentSubjectKey); return false;" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-slate-950 font-black flex items-center justify-center text-xl shadow-md">
           ∑
         </div>
         <div>
-          <h1 class="font-extrabold text-lg sm:text-xl tracking-tight text-white">أكاديمية أويلر التفاعلية <span class="text-cyan-400 text-sm font-semibold">Euler Academy</span></h1>
-          <p class="text-[11px] text-slate-400">الرياضيات والفيزياء والكيمياء التفاعلية • معيار د. الرياح والامتحان الوطني</p>
+          <h1 class="font-extrabold text-base sm:text-lg text-white leading-tight">
+            أكاديمية أويلر <span class="text-cyan-400 text-xs sm:text-sm font-semibold font-sans">Euler Academy</span>
+          </h1>
+          <p class="text-[11px] text-slate-400">الرياضيات • الفيزياء • الكيمياء — السنة الثانية باكالوريا</p>
         </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <a href="#simulator" class="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm transition">
-          🔬 المختبر الحي
-        </a>
-        <a href="#curriculum" class="hidden sm:inline-flex px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm transition">
-          🧱 خريطة الطوبات (15)
-        </a>
-      </div>
+      </a>
+
+      <!-- Subject Selector Pills -->
+      <nav class="flex items-center gap-2 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800">
+        <button id="tab-math" onclick="showSubjectCatalog('math')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition">
+          📐 الرياضيات (12)
+        </button>
+        <button id="tab-physics" onclick="showSubjectCatalog('physics')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition">
+          ⚛️ الفيزياء (13)
+        </button>
+        <button id="tab-chemistry" onclick="showSubjectCatalog('chemistry')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition">
+          🧪 الكيمياء (9)
+        </button>
+      </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden py-14 sm:py-20 border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-      <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold mb-5">
-        ✨ الطوبة التراكمية #1 نشطة الآن • الاتصال، الاشتقاق، وهندسة الدالة العكسية
-      </span>
-      <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight mb-5">
-        لا تحفظ الرياضيات والفيزياء بصمت..<br/>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-amber-300">حرك المنحنيات والموجات بيدك وافهم جوهر البرهان</span>
-      </h2>
-      <p class="max-w-3xl mx-auto text-slate-400 text-sm sm:text-base leading-relaxed mb-8">
-        أول منصة مغربية وعربية تدمج **المحاكاة التفاعلية الحية (Interactive Canvas Labs)** مع **الصرامة البرهانية الكاملة للامتحان الوطني وفروض د. الرياح** باللغتين العربية والفرنسية، لضمان الصفر خطأ والـ 20/20.
-      </p>
-    </div>
-  </section>
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
 
-  <!-- Interactive Lab #1: Continuity, Derivability & Inverse Function Symmetry -->
-  <main id="simulator" class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-    <div class="glass rounded-3xl p-6 sm:p-8 neon-cyan mb-12">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-6 mb-8">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">المختبر التفاعلي الأول • Module 01 (2BAC Math)</span>
-          <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-            مختبر التماثل الهندسي لمنحنى الدالة $(C_f)$ والدالة العكسية $(C_{f^{-1}})$ وأنصاف المماسات
-          </h3>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <button onclick="setFunc(0)" id="btnF0" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 transition">
-            الدالة 1: $f(x) = x - 2\sqrt{x} + 2$
-          </button>
-          <button onclick="setFunc(1)" id="btnF1" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-            الدالة 2: $f(x) = \sqrt{x^2 - 2x}$ (نصف مماس عمودي)
-          </button>
-          <button onclick="setFunc(2)" id="btnF2" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-            الدالة 3: $f(x) = \frac{1}{4}x^3 + \frac{1}{2}x$
-          </button>
-        </div>
+    <!-- VIEW 1: SUBJECT & LESSONS CATALOG -->
+    <div id="catalogView">
+      <!-- Subject Banner -->
+      <div id="subjectBanner" class="glass rounded-3xl p-6 sm:p-8 mb-8 border border-slate-800">
+        <!-- Populated dynamically -->
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <!-- Interactive HTML5 Canvas -->
-        <div class="lg:col-span-7 bg-slate-950 rounded-2xl border border-slate-800 p-4">
-          <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 mb-3 gap-2">
-            <div class="flex items-center gap-4">
-              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> منحنى $(C_f)$</span>
-              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> منحنى $(C_{f^{-1}})$</span>
-              <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-slate-400 inline-block"></span> المنصف الأول $y=x$</span>
-            </div>
-            <span class="text-emerald-400 font-semibold">حرك المنزلق أسفله لملاحظة التماثل والمماسات 👇</span>
-          </div>
-
-          <canvas id="mathCanvas" width="680" height="500" class="w-full h-auto rounded-xl bg-[#050811] border border-slate-800/90 cursor-crosshair"></canvas>
-
-          <!-- Slider Control -->
-          <div class="mt-4 bg-slate-900/90 p-4 rounded-xl border border-slate-800">
-            <div class="flex justify-between text-xs font-bold mb-2">
-              <span class="text-cyan-300">أفصول النقطة المتنقلة $x_0 \in I$:</span>
-              <span id="xValDisplay" class="font-mono text-amber-300 text-sm">x₀ = 2.50</span>
-            </div>
-            <input id="xSlider" type="range" min="1.0" max="6.0" step="0.02" value="2.5" oninput="updateSim()" class="w-full accent-cyan-400 cursor-pointer" />
-          </div>
-        </div>
-
-        <!-- Live Analytical & Geometric Inspector -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5">
-            <h4 class="text-sm font-bold text-cyan-400 mb-3">📐 القراءة الهندسية والتحليلية اللحظية</h4>
-            <div class="grid grid-cols-2 gap-3 text-xs mb-4">
-              <div class="bg-slate-950 p-3 rounded-xl border border-cyan-500/30">
-                <span class="text-slate-400 block mb-1">النقطة $M \in (C_f)$:</span>
-                <span id="ptMOut" class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">M(2.50, 1.34)</span>
-              </div>
-              <div class="bg-slate-950 p-3 rounded-xl border border-amber-500/30">
-                <span class="text-slate-400 block mb-1">المماثلة $M' \in (C_{f^{-1}})$:</span>
-                <span id="ptMpOut" class="font-mono font-bold text-amber-300 text-sm" dir="ltr">M'(1.34, 2.50)</span>
-              </div>
-              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                <span class="text-slate-400 block mb-1">المشتقة $f'(x_0)$ (ميل المماس):</span>
-                <span id="dfOut" class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">f'(x₀) = 0.37</span>
-              </div>
-              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                <span class="text-slate-400 block mb-1">مشتقة العكسية $(f^{-1})'(y_0)$:</span>
-                <span id="dinvOut" class="font-mono font-bold text-pink-400 text-sm" dir="ltr">(f⁻¹)'(y₀) = 2.72</span>
-              </div>
-            </div>
-
-            <div id="funcRuleBox" class="text-xs text-slate-300 leading-relaxed bg-slate-950/80 p-4 rounded-xl border border-slate-800 space-y-2">
-              <!-- Populated dynamically by JS -->
-            </div>
-          </div>
-
-          <!-- Golden Exam Rules Box (Dr. Riah Standard) -->
-          <div class="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-5">
-            <h4 class="text-sm font-bold text-amber-300 mb-2">⚡ قاعدة الصرامة في التحرير للوطني (صفر خصم نقط)</h4>
-            <ul class="text-xs text-slate-300 space-y-2 leading-relaxed list-disc pr-4">
-              <li>
-                <b>شرط قابلية اشتقاق $f^{-1}$ في $y_0 = f(x_0)$:</b> يجب إثبات أمرين معاً: (1) أن $f$ قابلة للاشتقاق في $x_0$، و (2) أن <b>$f'(x_0) \neq 0$</b>! وحينها:
-                $$(f^{-1})'(y_0) = \frac{1}{f'(f^{-1}(y_0))} = \frac{1}{f'(x_0)}$$
-              </li>
-              <li>
-                <b>انعكاس أنصاف المماسات عبر $y=x$:</b> إذا كان لـ $(C_f)$ نصف مماس <b>أفقي</b> في $A(x_0, y_0)$ (حيث $f'(x_0)=0$)، فإن لـ $(C_{f^{-1}})$ نصف مماس <b>عمودي</b> في $A'(y_0, x_0)$ والعكس صحيح!
-              </li>
-            </ul>
-          </div>
-        </div>
+      <!-- Lessons Grid -->
+      <div id="lessonsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Populated dynamically -->
       </div>
     </div>
 
-    <!-- Interactive Dr. Riah Sparring Diagnostic Section -->
-    <section class="glass rounded-3xl p-6 sm:p-8 mb-12">
-      <div class="mb-6">
-        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">مختبر الترويض الفوري • National Exam & Dr. Riah Sparring</span>
-        <h3 class="text-2xl font-extrabold text-white mt-1">اختبر صرامتك البرهانية (3 أسئلة تشخيصية دقيقة)</h3>
+    <!-- VIEW 2: SINGLE LESSON WORKSPACE -->
+    <div id="lessonView" class="hidden space-y-8">
+      <!-- Back Breadcrumb -->
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <button onclick="showSubjectCatalog(currentSubjectKey)" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs sm:text-sm font-bold text-slate-200 transition">
+          <span>→</span> العودة إلى فهرس دروس المادة
+        </button>
+        <span id="lessonBreadcrumb" class="text-xs text-slate-400 font-mono"></span>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Q1 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
+      <!-- Lesson Header Card -->
+      <div id="lessonHeaderCard" class="glass rounded-3xl p-6 sm:p-8 border border-slate-800"></div>
+
+      <!-- Official Reference Framework Axes (المحاور المطالب بها) -->
+      <div class="glass rounded-3xl p-6 sm:p-8 border border-slate-800">
+        <div class="border-b border-slate-800 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <span class="text-xs font-bold text-cyan-400">التحدي 01 • فخ قابلية اشتقاق $f^{-1}$</span>
-            <p class="text-sm text-slate-200 font-semibold mt-2 mb-4 leading-relaxed">
-              لتكن $f(x) = x - 2\sqrt{x} + 2$ المعرفة على $I = [1, +\infty[$. نعلم أن $f(1)=1$ و $f'(1)=0$. هل الدالة العكسية $f^{-1}$ قابلة للاشتقاق على اليمين في $y_0 = 1$؟
-            </p>
+            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">الإطار المرجعي الرسمي للامتحان الوطني</span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1">المحاور والمهارات المطالب بها في هذا الدرس</h3>
           </div>
+          <span class="text-xs text-slate-400">مرتبة وفق التدرج البيداغوجي الرسمي</span>
+        </div>
+
+        <div id="lessonAxesContainer" class="space-y-6"></div>
+      </div>
+
+      <!-- Interactive Simulator Section (Shown when viewing Math Lesson 01) -->
+      <div id="math01SimulatorSection" class="hidden glass rounded-3xl p-6 sm:p-8 border border-cyan-500/30">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-5 mb-6">
           <div>
-            <button onclick="document.getElementById('ans1').classList.toggle('hidden')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-xs font-bold transition">
-              👁️ إظهار البرهان والتأويل الهندسي الكامل
+            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">المختبر البصري التفاعلي • الدرس 01</span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1">
+              محاكي الاتصال، الاشتقاق، وتماثل منحنى الدالة $(C_f)$ والدالة العكسية $(C_{f^{-1}})$
+            </h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="setFunc(0)" id="btnF0" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 transition">
+              $f_1(x) = x - 2\sqrt{x} + 2$
             </button>
-            <div id="ans1" class="hidden mt-3 p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 text-xs text-slate-300 leading-relaxed">
-              <b class="text-emerald-400">الجواب الحاسم: لا! $f^{-1}$ غير قابلة للاشتقاق على اليمين في $1$.</b><br/>
-              لأن $f'(1) = 1 - \frac{1}{\sqrt{1}} = 0$ (شرط $f'(x_0) \neq 0$ مختل!).<br/>
-              <b>التأويل الهندسي:</b> بما أن $(C_f)$ يقبل نصف مماس أفقي على يمين $A(1,1)$، فإن $(C_{f^{-1}})$ يقبل بالتماثل بالنسبة لـ $y=x$ <b>نصف مماس عمودي</b> موجه نحو الأعلى على يمين $A'(1,1)$.
+            <button onclick="setFunc(1)" id="btnF1" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+              $f_2(x) = \sqrt{x^2 - 2x}$
+            </button>
+            <button onclick="setFunc(2)" id="btnF2" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+              $f_3(x) = \frac{1}{4}x^3 + \frac{1}{2}x$
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-7 bg-slate-950 rounded-2xl border border-slate-800 p-4">
+            <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 mb-3 gap-2">
+              <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> $(C_f)$</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> $(C_{f^{-1}})$</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-slate-400 inline-block"></span> المنصف الأول $y=x$</span>
+              </div>
+              <span class="text-cyan-300 font-semibold">حرك النقطة $x_0$ لمعاينة الاتصال والتماثل</span>
+            </div>
+            <canvas id="mathCanvas" width="660" height="460" class="w-full h-auto rounded-xl bg-[#050811] border border-slate-800/90"></canvas>
+            <div class="mt-4 bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
+              <div class="flex justify-between text-xs font-bold mb-1.5">
+                <span class="text-slate-300">أفصول النقطة $x_0 \in I$:</span>
+                <span id="xValDisplay" class="font-mono text-cyan-300">x₀ = 2.50</span>
+              </div>
+              <input id="xSlider" type="range" min="1.0" max="6.0" step="0.02" value="2.5" oninput="updateSim()" class="w-full accent-cyan-400 cursor-pointer" />
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5">
+              <h4 class="text-sm font-bold text-cyan-400 mb-3">📐 القيم اللحظية والتأويل الهندسي</h4>
+              <div class="grid grid-cols-2 gap-3 text-xs mb-4">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                  <span class="text-slate-400 block mb-1">النقطة $M \in (C_f)$:</span>
+                  <span id="ptMOut" class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">M(2.50, 1.34)</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                  <span class="text-slate-400 block mb-1">النقطة $M' \in (C_{f^{-1}})$:</span>
+                  <span id="ptMpOut" class="font-mono font-bold text-amber-300 text-sm" dir="ltr">M'(1.34, 2.50)</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                  <span class="text-slate-400 block mb-1">العدد المشتق $f'(x_0)$:</span>
+                  <span id="dfOut" class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">0.37</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                  <span class="text-slate-400 block mb-1">مشتقة العكسية $(f^{-1})'(y_0)$:</span>
+                  <span id="dinvOut" class="font-mono font-bold text-pink-400 text-sm" dir="ltr">2.72</span>
+                </div>
+              </div>
+              <div id="funcRuleBox" class="text-xs text-slate-300 leading-relaxed bg-slate-950/80 p-4 rounded-xl border border-slate-800"></div>
             </div>
           </div>
         </div>
-
-        <!-- Q2 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-xs font-bold text-amber-400">التحدي 02 • حساب $(f^{-1})'(y_0)$ بدون صيغة $f^{-1}$</span>
-            <p class="text-sm text-slate-200 font-semibold mt-2 mb-4 leading-relaxed">
-              لتكن $f(x) = x^3 + x - 1$ تقابلاً من $\mathbb{R}$ نحو $\mathbb{R}$. أحسب العدد المشتق $(f^{-1})'(1)$ بدقة.
-            </p>
-          </div>
-          <div>
-            <button onclick="document.getElementById('ans2').classList.toggle('hidden')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-xs font-bold transition">
-              👁️ إظهار البرهان الكامل
-            </button>
-            <div id="ans2" class="hidden mt-3 p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 text-xs text-slate-300 leading-relaxed">
-              1. نبحث أولاً عن $x_0$ بحيث $f(x_0) = 1$:<br/>
-              نلاحظ أن $f(1) = 1^3 + 1 - 1 = 1 \implies f^{-1}(1) = 1$.<br/>
-              2. لدينا $f$ قابلة للاشتقاق في $1$ و $f'(x) = 3x^2 + 1 \implies f'(1) = 4 \neq 0$.<br/>
-              3. إذن $f^{-1}$ قابلة للاشتقاق في $1$ و:
-              $$(f^{-1})'(1) = \frac{1}{f'(1)} = \frac{1}{4}$$
-            </div>
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-xs font-bold text-pink-400">التحدي 03 • تحديد صيغة $f^{-1}(x)$ بدون خطأ إشارة</span>
-            <p class="text-sm text-slate-200 font-semibold mt-2 mb-4 leading-relaxed">
-              بالنسبة لـ $f(x) = x - 2\sqrt{x} + 2$ على $I = [1, +\infty[$، كيف نحدد $f^{-1}(x)$ لكل $x \in J = [1, +\infty[$؟
-            </p>
-          </div>
-          <div>
-            <button onclick="document.getElementById('ans3').classList.toggle('hidden')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-pink-500 hover:text-slate-950 text-xs font-bold transition">
-              👁️ إظهار طريقة المربع الكامل
-            </button>
-            <div id="ans3" class="hidden mt-3 p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 text-xs text-slate-300 leading-relaxed">
-              ليكن $y \in [1, +\infty[$ و $x \in [1, +\infty[$:<br/>
-              $$f(y) = x \iff (\sqrt{y} - 1)^2 + 1 = x \iff (\sqrt{y}-1)^2 = x - 1$$
-              وبما أن $y \ge 1$ فإن $\sqrt{y} - 1 \ge 0$ (هنا يقع 90% من التلاميذ في الفخ إذا كانت $y \in [0,1]$!)، إذن:<br/>
-              $$\sqrt{y} - 1 = \sqrt{x-1} \iff f^{-1}(x) = (1 + \sqrt{x-1})^2$$
-            </div>
-          </div>
-        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Cumulative Masterpiece Curriculum Grid (15 Bricks) -->
-    <section id="curriculum" class="py-6">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-amber-400">خارطة البناء التراكمية • The 15-Brick Masterpiece</span>
-          <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">مختبرات الأكاديمية (تُبنى تلقائياً طوبة فوق طوبة)</h3>
-        </div>
-        <span class="text-xs text-slate-400 mt-2 sm:mt-0">يضيف المحرك المستقل مختبراً تفاعلياً جديداً في كل دورة</span>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div class="bg-slate-900/95 border-2 border-cyan-500/60 rounded-2xl p-5">
-          <div class="flex justify-between items-center mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[11px] font-bold">🟢 الطوبة #1 • مكتملة ونشطة</span>
-            <span class="text-xs text-slate-400">الرياضيات</span>
-          </div>
-          <h4 class="font-bold text-white text-base mb-1">الاتصال، الاشتقاق، وهندسة الدالة العكسية $f^{-1}$</h4>
-          <p class="text-xs text-slate-400">محاكي التماثل بالنسبة لـ $y=x$، أنصاف المماسات، وحساب $(f^{-1})'(y_0)$.</p>
-        </div>
-
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
-          <div class="flex justify-between items-center mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[11px] font-bold">⏳ الطوبة #2 • الدورة القادمة</span>
-            <span class="text-xs text-slate-400">الفيزياء</span>
-          </div>
-          <h4 class="font-bold text-slate-200 text-base mb-1">الموجات الميكانيكية المتوالية والدورية</h4>
-          <p class="text-xs text-slate-400">محاكي حي لانتشار موجة على حبل، التأخر الزمني $\tau$، وطول الموجة $\lambda = v/N$.</p>
-        </div>
-
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
-          <div class="flex justify-between items-center mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[11px] font-bold">🧱 الطوبة #3 • مجدولة</span>
-            <span class="text-xs text-slate-400">الرياضيات</span>
-          </div>
-          <h4 class="font-bold text-slate-200 text-base mb-1">النهايات اللاجذرية المركبة والجذور من الرتبة $n$</h4>
-          <p class="text-xs text-slate-400">تفكيك أشكال عدم التعيين بالمرافق النوني والتعميل بمعيار د. الرياح.</p>
-        </div>
-
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
-          <div class="flex justify-between items-center mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[11px] font-bold">🧱 الطوبة #4 • مجدولة</span>
-            <span class="text-xs text-slate-400">الفيزياء</span>
-          </div>
-          <h4 class="font-bold text-slate-200 text-base mb-1">انتشار موجة ضوئية: الحيود والموشور</h4>
-          <p class="text-xs text-slate-400">محاكي بقعة الحيود $L = 2\lambda D/a$ وتبدد الضوء الأبيض عبر الموشور.</p>
-        </div>
-
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
-          <div class="flex justify-between items-center mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[11px] font-bold">🧱 الطوبة #5 • مجدولة</span>
-            <span class="text-xs text-slate-400">الكيمياء</span>
-          </div>
-          <h4 class="font-bold text-slate-200 text-base mb-1">التتبع الزمني لتحول كيميائي وسرعة التفاعل</h4>
-          <p class="text-xs text-slate-400">محاكي منحنى $x(t)$، مماس السرعة الحجمية $v(t)$، وزمن نصف التفاعل $t_{1/2}$.</p>
-        </div>
-
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
-          <div class="flex justify-between items-center mb-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[11px] font-bold">🧱 الطوبات #6 – #15</span>
-            <span class="text-xs text-slate-400">شامل 2BAC</span>
-          </div>
-          <h4 class="font-bold text-slate-200 text-base mb-1">النووي، RC/RL/RLC، المتتاليات، $\ln/\exp$، العقدية، الميكانيك</h4>
-          <p class="text-xs text-slate-400">تُبنى تباعاً في الدورات اليومية لتشكّل أضخم موسوعة تفاعلية للباكالوريا.</p>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <footer class="border-t border-slate-800/80 py-8 text-center text-xs text-slate-500">
-    أكاديمية أويلر التفاعلية (Euler Interactive STEM Academy) • صرح علمي تراكمي يُبنى يومياً بإتقان
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 py-6 mt-12 text-center text-xs text-slate-500">
+    أكاديمية أويلر للعلوم الدقيقة (Euler Academy) • الرياضيات والفيزياء والكيمياء للثانية باكالوريا
   </footer>
 
   <script>
+    let currentSubjectKey = 'math';
+
+    function renderMath(el) {
+      if (window.renderMathInElement && el) {
+        window.renderMathInElement(el, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function showSubjectCatalog(subjectKey) {
+      currentSubjectKey = subjectKey;
+      const subj = window.EULER_CURRICULUM[subjectKey];
+      if (!subj) return;
+
+      document.getElementById('catalogView').classList.remove('hidden');
+      document.getElementById('lessonView').classList.add('hidden');
+
+      // Update active subject tab
+      ['math', 'physics', 'chemistry'].forEach(k => {
+        const btn = document.getElementById('tab-' + k);
+        if (k === subjectKey) {
+          btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-500 text-slate-950 shadow transition';
+        } else {
+          btn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-300 hover:bg-slate-800 transition';
+        }
+      });
+
+      // Render Subject Banner
+      const activeCount = subj.lessons.filter(l => l.status === 'active').length;
+      document.getElementById('subjectBanner').innerHTML = `
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2.5 mb-2">
+              <span class="px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-bold">${subj.badge}</span>
+              <span class="text-xs text-slate-400 font-mono">${subj.titleFr}</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">مادة ${subj.titleAr} — الفهرس المنهجي الكامل (${subj.lessons.length} درساً)</h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-2 max-w-3xl leading-relaxed">${subj.description}</p>
+          </div>
+          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl px-5 py-4 text-center shrink-0">
+            <span class="block text-2xl font-black text-cyan-400">${subj.lessons.length}</span>
+            <span class="text-[11px] text-slate-400">درساً رسمياً في المقرر</span>
+          </div>
+        </div>
+      `;
+
+      // Render Lessons Grid
+      const grid = document.getElementById('lessonsGrid');
+      grid.innerHTML = subj.lessons.map(lesson => {
+        const isActive = lesson.status === 'active';
+        const statusBadge = isActive
+          ? `<span class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold">🟢 متاح للدراسة</span>`
+          : `<span class="px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 text-[11px] font-semibold">⏳ قيد الإعداد والتدقيق</span>`;
+
+        const metaTag = lesson.unit
+          ? lesson.unit
+          : `الدورة ${lesson.semester || 1}`;
+
+        return `
+          <div onclick="openLesson('${subjectKey}', '${lesson.id}')" class="cursor-pointer rounded-2xl p-5 transition flex flex-col justify-between ${isActive ? 'bg-slate-900/95 border-2 border-cyan-500/60 hover:border-cyan-400 shadow-lg' : 'bg-slate-900/60 border border-slate-800/90 hover:border-slate-700 hover:bg-slate-900'}">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-xs font-mono font-bold text-slate-400">الدرس ${lesson.num} • ${metaTag}</span>
+                ${statusBadge}
+              </div>
+              <h3 class="text-lg font-extrabold text-white mb-1">${lesson.titleAr}</h3>
+              <p class="text-xs font-mono text-cyan-400/90 mb-3" dir="ltr">${lesson.titleFr}</p>
+              <p class="text-xs text-slate-400 leading-relaxed mb-4">${lesson.summary}</p>
+            </div>
+            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+              <span class="text-slate-400">${(lesson.axes || []).length} محاور مرجعية</span>
+              <span class="font-bold ${isActive ? 'text-cyan-400' : 'text-slate-300'}">
+                ${isActive ? 'الدخول إلى الدرس والمحاور ←' : 'معاينة المحاور المطالب بها ←'}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      renderMath(document.getElementById('catalogView'));
+    }
+
+    function openLesson(subjectKey, lessonId) {
+      const subj = window.EULER_CURRICULUM[subjectKey];
+      if (!subj) return;
+      const lesson = subj.lessons.find(l => l.id === lessonId);
+      if (!lesson) return;
+
+      document.getElementById('catalogView').classList.add('hidden');
+      document.getElementById('lessonView').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      document.getElementById('lessonBreadcrumb').innerText = `${subj.titleFr} / Leçon ${lesson.num} : ${lesson.titleFr}`;
+
+      const isActive = lesson.status === 'active';
+      document.getElementById('lessonHeaderCard').innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <span class="px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-bold">
+            ${subj.titleAr} • الدرس ${lesson.num}
+          </span>
+          ${isActive
+            ? `<span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-bold">🟢 مفتوح للدراسة (${lesson.progressText || 'متاح'})</span>`
+            : `<span class="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold">⏳ قيد الصياغة والتدقيق العلمي</span>`
+          }
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-black text-white mb-1">${lesson.titleAr}</h2>
+        <p class="text-sm font-mono text-cyan-400 mb-4" dir="ltr">${lesson.titleFr}</p>
+        <p class="text-sm text-slate-300 leading-relaxed">${lesson.summary}</p>
+      `;
+
+      // Render Official Axes
+      const axesContainer = document.getElementById('lessonAxesContainer');
+      axesContainer.innerHTML = (lesson.axes || []).map((ax, idx) => {
+        const hasFullContent = Boolean(ax.contentHtml);
+        const reqListHtml = (ax.requirements || []).length > 0
+          ? `<div class="mt-3 bg-slate-950/90 border border-slate-800/90 rounded-xl p-4">
+               <p class="text-xs font-bold text-slate-300 mb-2">📌 المهارات والقدرات المطالب بها في الامتحان الوطني لهذا المحور:</p>
+               <ul class="text-xs text-slate-300 space-y-2 list-disc pr-5 leading-relaxed">
+                 ${ax.requirements.map(r => `<li>${r}</li>`).join('')}
+               </ul>
+             </div>`
+          : '';
+
+        return `
+          <div class="rounded-2xl border ${hasFullContent ? 'border-cyan-500/50 bg-slate-900/90' : 'border-slate-800 bg-slate-900/50'} p-5 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-bold text-cyan-400">${ax.num}</span>
+              ${hasFullContent
+                ? `<span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[11px] font-bold">✓ مكتمل بالبرهان الصارم</span>`
+                : `<span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 text-[11px]">محور مرجعي رسمي — قيد الإعداد التفصيلي</span>`
+              }
+            </div>
+            <h4 class="text-base sm:text-lg font-extrabold text-white">${ax.titleAr}</h4>
+            <p class="text-xs font-mono text-slate-400 mb-3" dir="ltr">${ax.titleFr}</p>
+            ${reqListHtml}
+            ${hasFullContent ? `<div class="mt-6 pt-6 border-t border-slate-800">${ax.contentHtml}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      // Toggle simulator for math-01
+      const simSection = document.getElementById('math01SimulatorSection');
+      if (lessonId === 'math-01') {
+        simSection.classList.remove('hidden');
+        setTimeout(() => setFunc(0), 50);
+      } else {
+        simSection.classList.add('hidden');
+      }
+
+      renderMath(document.getElementById('lessonView'));
+    }
+
+    // Simulator Logic for Math Lesson 01
     const funcs = [
       {
-        name: "f(x) = x - 2√x + 2 على I = [1, +∞[",
-        minX: 1.0,
-        maxX: 6.0,
-        defaultX: 2.8,
+        minX: 1.0, maxX: 6.0, defaultX: 2.8,
         f: x => x - 2 * Math.sqrt(x) + 2,
         df: x => 1 - 1 / Math.sqrt(x),
-        desc: `<b>الدالة 1:</b> $f(x) = x - 2\\sqrt{x} + 2$ على $I = [1, +\\infty[$.<br/>• تقبل <b>نصف مماس أفقي</b> في $A(1,1)$ لأن $f'_d(1) = 0$.<br/>• بالتماثل بالنسبة لـ $y=x$، يقبل منحنى $(C_{f^{-1}})$ <b>نصف مماس عمودي</b> على يمين $A'(1,1)$!`
+        desc: `<b>الدالة $f_1(x) = x - 2\\sqrt{x} + 2$ على $I = [1, +\\infty[$:</b><br/>• متصلة على $[1, +\\infty[$ وتقبل نصف مماس أفقي على يمين $A(1,1)$ لأن $f'_d(1) = 0$.<br/>• منحنى $(C_{f^{-1}})$ يقبل بالتالي نصف مماس عمودي موجه نحو الأعلى في $A'(1,1)$.`
       },
       {
-        name: "f(x) = √(x² - 2x) على I = [2, +∞[",
-        minX: 2.01,
-        maxX: 6.0,
-        defaultX: 3.2,
+        minX: 2.01, maxX: 6.0, defaultX: 3.2,
         f: x => Math.sqrt(Math.max(0, x * x - 2 * x)),
         df: x => (x - 1) / Math.sqrt(Math.max(0.0001, x * x - 2 * x)),
-        desc: `<b>الدالة 2 (كلاسيكية د. الرياح):</b> $f(x) = \\sqrt{x^2 - 2x}$ على $I = [2, +\\infty[$.<br/>• غير قابلة للاشتقاق على يمين $2$ وتقبل <b>نصف مماس عمودي</b> في $A(2,0)$.<br/>• منحنى $(C_{f^{-1}})$ يقبل بالتالي <b>نصف مماس أفقي</b> في $A'(0,2)$!`
+        desc: `<b>الدالة $f_2(x) = \\sqrt{x^2 - 2x}$ على $I = [2, +\\infty[$:</b><br/>• متصلة على $[2, +\\infty[$ وغير قابلة للاشتقاق على يمين $x_0 = 2$ (نصف مماس عمودي في $A(2,0)$).<br/>• منحنى $(C_{f^{-1}})$ يقبل نصف مماس أفقي في $A'(0,2)$.`
       },
       {
-        name: "f(x) = 0.25x³ + 0.5x على I = [0, 2.5]",
-        minX: 0.0,
-        maxX: 2.4,
-        defaultX: 1.5,
+        minX: 0.0, maxX: 2.4, defaultX: 1.5,
         f: x => 0.25 * Math.pow(x, 3) + 0.5 * x,
         df: x => 0.75 * x * x + 0.5,
-        desc: `<b>الدالة 3:</b> $f(x) = \\frac{1}{4}x^3 + \\frac{1}{2}x$.<br/>• قابلة للاشتقاق على $\\mathbb{R}$ ومشتقتها $f'(x) = \\frac{3}{4}x^2 + \\frac{1}{2} > 0$ قطعاً.<br/>• إذن $f^{-1}$ قابلة للاشتقاق على كامل المجال وميل مماسها في $M'$ هو مقلوب ميل المماس في $M$.`
+        desc: `<b>الدالة $f_3(x) = \\frac{1}{4}x^3 + \\frac{1}{2}x$:</b><br/>• متصلة وقابلة للاشتقاق على $\\mathbb{R}$، ومشتقتها $f'(x) > 0$ قطعاً.<br/>• تحقق: $(f^{-1})'(y_0) = \\frac{1}{f'(x_0)}$.`
       }
     ];
 
     let currentIdx = 0;
-    const canvas = document.getElementById('mathCanvas');
-    const ctx = canvas.getContext('2d');
-    const slider = document.getElementById('xSlider');
 
     function setFunc(idx) {
       currentIdx = idx;
       const fn = funcs[idx];
+      const slider = document.getElementById('xSlider');
+      if (!slider) return;
       slider.min = fn.minX;
       slider.max = fn.maxX;
       slider.value = fn.defaultX;
 
       [0, 1, 2].forEach(i => {
         const b = document.getElementById('btnF' + i);
-        if (i === idx) {
-          b.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 transition";
-        } else {
-          b.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+        if (b) {
+          b.className = i === idx
+            ? 'px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 transition'
+            : 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
         }
       });
 
-      document.getElementById('funcRuleBox').innerHTML = fn.desc;
-      if (window.renderMathInElement) {
-        renderMathInElement(document.getElementById('funcRuleBox'), {
-          delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]
-        });
+      const ruleBox = document.getElementById('funcRuleBox');
+      if (ruleBox) {
+        ruleBox.innerHTML = fn.desc;
+        renderMath(ruleBox);
       }
       updateSim();
     }
 
     function updateSim() {
+      const slider = document.getElementById('xSlider');
+      const canvas = document.getElementById('mathCanvas');
+      if (!slider || !canvas) return;
+      const ctx = canvas.getContext('2d');
       const fn = funcs[currentIdx];
       const x0 = parseFloat(slider.value);
       const y0 = fn.f(x0);
@@ -372,37 +396,22 @@
       document.getElementById('xValDisplay').innerText = `x₀ = ${x0.toFixed(2)}`;
       document.getElementById('ptMOut').innerText = `M(${x0.toFixed(2)}, ${y0.toFixed(2)})`;
       document.getElementById('ptMpOut').innerText = `M'(${y0.toFixed(2)}, ${x0.toFixed(2)})`;
-      document.getElementById('dfOut').innerText = slope > 50 ? `f'(x₀) → +∞` : `f'(x₀) = ${slope.toFixed(2)}`;
-      document.getElementById('dinvOut').innerText = !isFinite(invSlope) || invSlope > 50 ? `(f⁻¹)'(y₀) → +∞` : `(f⁻¹)'(y₀) = ${invSlope.toFixed(2)}`;
+      document.getElementById('dfOut').innerText = slope > 50 ? `+∞` : slope.toFixed(2);
+      document.getElementById('dinvOut').innerText = !isFinite(invSlope) || invSlope > 50 ? `+∞` : invSlope.toFixed(2);
 
-      drawGraph(fn, x0, y0, slope, invSlope);
-    }
-
-    function drawGraph(fn, x0, y0, slope, invSlope) {
-      const W = canvas.width;
-      const H = canvas.height;
+      const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
-
-      const originX = 75;
-      const originY = H - 60;
-      const scale = 68;
-
+      const originX = 70, originY = H - 55, scale = 64;
       const toPxX = x => originX + x * scale;
       const toPxY = y => originY - y * scale;
 
-      // Grid
       ctx.strokeStyle = '#111827';
       ctx.lineWidth = 1;
       for (let i = -1; i <= 8; i++) {
-        ctx.beginPath();
-        ctx.moveTo(toPxX(i), 0); ctx.lineTo(toPxX(i), H);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(0, toPxY(i)); ctx.lineTo(W, toPxY(i));
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(toPxX(i), 0); ctx.lineTo(toPxX(i), H); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, toPxY(i)); ctx.lineTo(W, toPxY(i)); ctx.stroke();
       }
 
-      // Axes
       ctx.strokeStyle = '#334155';
       ctx.lineWidth = 1.8;
       ctx.beginPath();
@@ -410,106 +419,53 @@
       ctx.moveTo(originX, 0); ctx.lineTo(originX, H);
       ctx.stroke();
 
-      // Axis numbers
-      ctx.fillStyle = '#64748b';
-      ctx.font = '11px Inter, sans-serif';
-      for (let i = 1; i <= 7; i++) {
-        ctx.fillText(i, toPxX(i) - 3, originY + 16);
-        ctx.fillText(i, originX - 18, toPxY(i) + 4);
-      }
-
-      // First bisector y = x
       ctx.save();
       ctx.strokeStyle = '#64748b';
       ctx.setLineDash([6, 6]);
-      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(toPxX(-0.5), toPxY(-0.5));
       ctx.lineTo(toPxX(7), toPxY(7));
       ctx.stroke();
       ctx.restore();
 
-      // Curve Cf (Cyan)
       ctx.strokeStyle = '#22d3ee';
       ctx.lineWidth = 3;
       ctx.beginPath();
       for (let x = fn.minX; x <= fn.maxX; x += 0.02) {
         const y = fn.f(x);
-        const px = toPxX(x), py = toPxY(y);
-        if (x === fn.minX) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
+        if (x === fn.minX) ctx.moveTo(toPxX(x), toPxY(y));
+        else ctx.lineTo(toPxX(x), toPxY(y));
       }
       ctx.stroke();
 
-      // Curve Cf^-1 (Amber) - parametric by swapping (y, x)
       ctx.strokeStyle = '#fbbf24';
       ctx.lineWidth = 3;
       ctx.beginPath();
       for (let x = fn.minX; x <= fn.maxX; x += 0.02) {
         const y = fn.f(x);
-        const px = toPxX(y), py = toPxY(x);
-        if (x === fn.minX) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
+        if (x === fn.minX) ctx.moveTo(toPxX(y), toPxY(x));
+        else ctx.lineTo(toPxX(y), toPxY(x));
       }
       ctx.stroke();
 
-      // Symmetry segment M <-> M'
       ctx.save();
-      ctx.strokeStyle = 'rgba(244, 114, 182, 0.55)';
+      ctx.strokeStyle = 'rgba(244, 114, 182, 0.5)';
       ctx.setLineDash([4, 4]);
-      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(toPxX(x0), toPxY(y0));
       ctx.lineTo(toPxX(y0), toPxY(x0));
       ctx.stroke();
       ctx.restore();
 
-      // Tangent at M on Cf
-      const span = 0.9;
-      ctx.strokeStyle = 'rgba(34, 211, 238, 0.55)';
-      ctx.lineWidth = 1.8;
-      ctx.beginPath();
-      if (slope > 50) {
-        ctx.moveTo(toPxX(x0), toPxY(y0));
-        ctx.lineTo(toPxX(x0), toPxY(y0 + 1.2));
-      } else {
-        ctx.moveTo(toPxX(x0 - span), toPxY(y0 - slope * span));
-        ctx.lineTo(toPxX(x0 + span), toPxY(y0 + slope * span));
-      }
-      ctx.stroke();
-
-      // Symmetric Tangent at M' on Cf^-1
-      ctx.strokeStyle = 'rgba(251, 191, 36, 0.55)';
-      ctx.lineWidth = 1.8;
-      ctx.beginPath();
-      if (!isFinite(invSlope) || invSlope > 50) {
-        ctx.moveTo(toPxX(y0), toPxY(x0));
-        ctx.lineTo(toPxX(y0), toPxY(x0 + 1.2));
-      } else {
-        ctx.moveTo(toPxX(y0 - span), toPxY(x0 - invSlope * span));
-        ctx.lineTo(toPxX(y0 + span), toPxY(x0 + invSlope * span));
-      }
-      ctx.stroke();
-
-      // Draw Point M
       ctx.fillStyle = '#22d3ee';
-      ctx.beginPath();
-      ctx.arc(toPxX(x0), toPxY(y0), 6, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#e0f2fe';
-      ctx.font = 'bold 12px Inter, sans-serif';
-      ctx.fillText(`M(${x0.toFixed(1)}, ${y0.toFixed(1)})`, toPxX(x0) + 10, toPxY(y0) - 8);
-
-      // Draw Point M'
+      ctx.beginPath(); ctx.arc(toPxX(x0), toPxY(y0), 6, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#fbbf24';
-      ctx.beginPath();
-      ctx.arc(toPxX(y0), toPxY(x0), 6, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#fef3c7';
-      ctx.fillText(`M'(${y0.toFixed(1)}, ${x0.toFixed(1)})`, toPxX(y0) + 10, toPxY(x0) + 16);
+      ctx.beginPath(); ctx.arc(toPxX(y0), toPxY(x0), 6, 0, Math.PI * 2); ctx.fill();
     }
 
-    window.addEventListener('DOMContentLoaded', () => setFunc(0));
+    window.addEventListener('DOMContentLoaded', () => {
+      showSubjectCatalog('math');
+    });
   </script>
 </body>
 </html>
