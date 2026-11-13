@@ -506,6 +506,60 @@ window.EULER_CURRICULUM = {
                     </div>
                   </details>
                 </div>
+
+                <!-- 8. Comprehensive National Exam Synthesis Problem -->
+                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-indigo-500/40 rounded-2xl p-6 shadow-xl">
+                  <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-bold">🌟 مسألة توليفية شاملة (المحوران 01 و 02)</span>
+                      <span class="text-xs text-slate-400 font-mono">Problème de Synthèse • Bac National</span>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 text-xs font-mono font-bold">1.50 نقطة</span>
+                  </div>
+                  <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                    نعتبر الدالة العددية $f$ المعرفة على $\\mathbb{R}$ بما يلي:
+                    $$f(x) = \\begin{cases} \\sqrt{\\dfrac{x}{x + 1}} & \\text{si } x > 0 \\\\ 0 & \\text{si } x = 0 \\\\ \\dfrac{\\sin(2x)}{2x + x^2} & \\text{si } x < 0 \\text{ et } x \\neq -2 \\\\ 1 & \\text{si } x = -2 \\end{cases}$$
+                    <b>1.</b> بين باستعمال مركب دالتين أن الدالة $f$ متصلة على المجال $]0, +\\infty[$.<br/>
+                    <b>2.</b> أ) احسب $\\lim_{x \\to 0^+} f(x)$ واستنتج أن $f$ متصلة على اليمين في $0$.<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;ب) احسب $\\lim_{x \\to 0^-} f(x)$. هل الدالة $f$ متصلة في النقطة $0$؟ علل جوابك.<br/>
+                    <b>3.</b> احسب نهاية الدالة $f$ عند $+\\infty$ واستنتج التأويل الهندسي للنتيجة.
+                  </p>
+                  <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden">
+                    <summary class="cursor-pointer px-4 py-3.5 text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center justify-between select-none">
+                      <span>📘 انقر هنا لمعاينة عناصر الإجابة والتحرير المنهجي الكامل مع سلم التنقيط</span>
+                      <span class="transform transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="px-5 pb-5 pt-3 border-t border-slate-800 text-xs text-slate-200 leading-relaxed space-y-4">
+                      <div>
+                        <b class="text-indigo-300 block mb-1">1. إثبات اتصال $f$ على $]0, +\\infty[$ بالمركب:</b>
+                        • نعتبر الدالة $u: x \\mapsto \\frac{x}{x+1}$. الدالة $u$ جذرية معرفة على $\\mathbb{R} \\setminus \\{-1\\}$، وبما أن $-1 \\notin ]0, +\\infty[$، فإن $u$ متصلة على $]0, +\\infty[$.<br/>
+                        • لكل $x > 0$: لدينا $x > 0$ و $x + 1 > 0$، إذن $u(x) > 0$. ومنه فإن $u(]0, +\\infty[) \\subset [0, +\\infty[$.<br/>
+                        • وبما أن دالة الجذر $t \\mapsto \\sqrt{t}$ متصلة على $[0, +\\infty[$، فإن الدالة المركبة $f = \\sqrt{u}$ <b>متصلة على المجال $]0, +\\infty[$</b>. <span class="text-emerald-400 font-mono">(0.50 ن)</span>
+                      </div>
+                      <div>
+                        <b class="text-indigo-300 block mb-1">2. أ) دراسة الاتصال على اليمين في $0$:</b>
+                        لدينا: $\\lim_{x \\to 0^+} \\frac{x}{x+1} = \\frac{0}{1} = 0$. وبما أن دالة الجذر متصلة في $0$، فإن:
+                        $$\\lim_{x \\to 0^+} f(x) = \\lim_{x \\to 0^+} \\sqrt{\\frac{x}{x+1}} = \\sqrt{0} = 0$$
+                        وبما أن $f(0) = 0$، فإن $\\lim_{x \\to 0^+} f(x) = f(0)$؛ ومنه فإن <b>الدالة $f$ متصلة على اليمين في النقطة $0$</b>. <span class="text-emerald-400 font-mono">(0.25 ن)</span>
+                      </div>
+                      <div>
+                        <b class="text-indigo-300 block mb-1">2. ب) دراسة الاتصال على اليسار في $0$ والاستنتاج:</b>
+                        لكل $x < 0$ (بجوار $0^-$): نكتب:
+                        $$\\frac{\\sin(2x)}{2x + x^2} = \\frac{\\sin(2x)}{x(2 + x)} = \\frac{\\sin(2x)}{2x} \\times \\frac{2}{2 + x}$$
+                        لدينا $\\lim_{x \\to 0^-} \\frac{\\sin(2x)}{2x} = 1$ (نهاية مثلثية اعتيادية) و $\\lim_{x \\to 0^-} \\frac{2}{2+x} = \\frac{2}{2} = 1$. إذن:
+                        $$\\lim_{x \\to 0^-} f(x) = 1 \\times 1 = 1$$
+                        بما أن $\\lim_{x \\to 0^-} f(x) = 1 \\neq f(0)$ (حيث $f(0)=0$)، فإن الدالة $f$ <b>غير متصلة على اليسار في $0$</b>.<br/>
+                        <b>الاستنتاج:</b> بما أن $\\lim_{x \\to 0^+} f(x) \\neq \\lim_{x \\to 0^-} f(x)$، فإن <b>الدالة $f$ غير متصلة في النقطة $0$</b>. <span class="text-emerald-400 font-mono">(0.50 ن)</span>
+                      </div>
+                      <div>
+                        <b class="text-indigo-300 block mb-1">3. حساب النهاية عند $+\\infty$ والتأويل الهندسي:</b>
+                        لدينا $\\lim_{x \\to +\\infty} \\frac{x}{x+1} = \\lim_{x \\to +\\infty} \\frac{x}{x} = 1$. وبما أن دالة الجذر المربع متصلة في $1$، فإن:
+                        $$\\lim_{x \\to +\\infty} f(x) = \\sqrt{1} = 1$$
+                        <b>التأويل الهندسي:</b> يقبل المنحنى $(C_f)$ مقارباً أفقياً (Asymptote horizontale) معادلته $y = 1$ بجوار $+\\infty$. <span class="text-emerald-400 font-mono">(0.25 ن)</span>
+                      </div>
+                    </div>
+                  </details>
+                </div>
               </div>
             `
           },
