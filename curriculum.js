@@ -1085,6 +1085,198 @@ window.EULER_CURRICULUM = {
                     </div>
                   </div>
                 </div>
+
+
+                <!-- 9. Synthesis Exam Problem: Master Standard (2.00 pts) -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">9. مسألة الامتحان الوطني التوليفية الكبرى</span>
+                    <span class="text-xs text-slate-400">Problème de Synthèse • معيار د. الرياح (2.00 نقطة)</span>
+                  </div>
+                  <h4 class="text-lg font-bold text-white mb-2">الدالة المساعدة $g(x)$، تأطير الجذر $\alpha$ بالتفرع، وتقنية استنتاج صيغة $f(\alpha)$</h4>
+                  <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                    هذا النموذج التوليفي يجسد المسألة النموذجية الأكثر تكراراً في الامتحانات الوطنية بالمغرب لمسلك العلوم الفيزيائية: دراسة إشارة دالة مساعدة من الدرجة الثالثة عبر مبرهنة القيم الوسيطية، ثم ربطها بمشتقة الدالة الرئيسية $f'(x)$، وحساب القيمة القصوية/الدنوية $f(\alpha)$ عبر التعويض الجبري.
+                  </p>
+
+                  <!-- Problem Statement Box -->
+                  <div class="bg-slate-950/80 p-5 rounded-xl border border-cyan-500/30 mb-5 space-y-4">
+                    <div>
+                      <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block mb-1.5">الجزء الأول (Partie 1): دراسة الدالة المساعدة $g$</span>
+                      <p class="text-xs text-slate-300">
+                        لتكن $g$ الدالة العددية المعرفة على المجال $I = [1, +\infty[$ بما يلي: $g(x) = x^3 - 3x - 4$.
+                      </p>
+                      <ol class="list-decimal list-inside text-xs text-slate-300 space-y-1 mt-2">
+                        <li>احسب مشتقة الدالة $g'(x)$ لكل $x \ge 1$، ثم بين أن $g$ تزايدية قطعاً على $[1, +\infty[$. <span class="font-mono text-cyan-400 text-[11px]">(0.25 ن)</span></li>
+                        <li>بين أن المعادلة $g(x) = 0$ تقبل حلاً وحيداً $\alpha$ على $[1, +\infty[$، وتحقق أن $2 < \alpha < 3$. <span class="font-mono text-cyan-400 text-[11px]">(0.25 ن)</span></li>
+                        <li>باستعمال خوارزمية التفرع الثنائي، أعطِ تأطيراً للعدد $\alpha$ سعته $0.25$. <span class="font-mono text-cyan-400 text-[11px]">(0.50 ن)</span></li>
+                        <li>استنتج إشارة $g(x)$ على المجال $[1, +\infty[$ حسب قيم $x$. <span class="font-mono text-cyan-400 text-[11px]">(0.25 ن)</span></li>
+                      </ol>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800">
+                      <span class="text-xs font-bold text-purple-400 uppercase tracking-wider block mb-1.5">الجزء الثاني (Partie 2): دراسة الدالة الرئيسية $f$ وتحديد $f(\alpha)$</span>
+                      <p class="text-xs text-slate-300">
+                        نعتبر الدالة $f$ المعرفة على $]1, +\infty[$ بما يلي: $f(x) = \frac{x^3 + 2}{x^2 - 1}$.
+                      </p>
+                      <ol class="list-decimal list-inside text-xs text-slate-300 space-y-1 mt-2">
+                        <li>بين أن $f$ قابلة للاشتقاق على $]1, +\infty[$ وأن: $f'(x) = \frac{x \cdot g(x)}{(x^2 - 1)^2}$ لكل $x > 1$. <span class="font-mono text-cyan-400 text-[11px]">(0.25 ن)</span></li>
+                        <li>استنتج منحى تغيرات الدالة $f$ على $]1, +\infty[$ وضع جدول تغيراتها. <span class="font-mono text-cyan-400 text-[11px]">(0.25 ن)</span></li>
+                        <li><strong>سؤال التميز الوطني:</strong> بين أن $f(\alpha) = \frac{3(\alpha + 2)}{\alpha^2 - 1}$، واستنتج أن $f(\alpha)$ هي القيمة الدنوية المطلقة لـ $f$ على $]1, +\infty[$. <span class="font-mono text-cyan-400 text-[11px]">(0.25 ن)</span></li>
+                      </ol>
+                    </div>
+                  </div>
+
+                  <!-- Collapsible Full Model Solution with Marking Scheme -->
+                  <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-950/40">
+                    <button onclick="const el = document.getElementById('ax3-synth-solution'); el.classList.toggle('hidden');" class="w-full text-right p-4 bg-slate-900/90 hover:bg-slate-800/90 text-xs font-bold text-cyan-400 flex items-center justify-between transition-colors">
+                      <span class="flex items-center gap-2"><span>📝</span> اضغط هنا لإظهار / إخفاء عناصر الإجابة الرسمية والتحرير البرهاني الصارم (2.00 نقطة)</span>
+                      <span class="text-slate-400 text-[11px]">معاينة عناصر الإجابة النموذجية ↧</span>
+                    </button>
+                    
+                    <div id="ax3-synth-solution" class="hidden p-5 border-t border-slate-800 space-y-5 text-xs text-slate-300">
+                      <!-- Solution Partie 1 -->
+                      <div class="space-y-3">
+                        <div class="text-cyan-400 font-bold border-b border-slate-800 pb-1 text-sm">عناصر إجابة الجزء الأول (Partie 1):</div>
+                        
+                        <!-- 1.1 -->
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                          <div class="flex justify-between font-bold text-amber-300 mb-1">
+                            <span>1. اشتقاق ورتابة $g$:</span>
+                            <span class="font-mono text-cyan-400">0.25 ن</span>
+                          </div>
+                          <p class="leading-relaxed">
+                            الدالة $g$ حدودية، إذن قابلة للاشتقاق على $\mathbb{R}$ وبالخصوص على $[1, +\infty[$. ولدينا لكل $x \ge 1$:
+                          </p>
+                          <div class="text-center text-cyan-300 font-mono my-1">
+                            $$g'(x) = (x^3 - 3x - 4)' = 3x^2 - 3 = 3(x^2 - 1) = 3(x - 1)(x + 1)$$
+                          </div>
+                          <p class="leading-relaxed">
+                            لكل $x > 1$، لدينا $x^2 - 1 > 0$، ومنه $g'(x) > 0$. وبما أن $g'(1) = 0$، فإن الدالة $g$ تزايدية قطعاً على المجال $[1, +\infty[$.
+                          </p>
+                        </div>
+
+                        <!-- 1.2 -->
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                          <div class="flex justify-between font-bold text-amber-300 mb-1">
+                            <span>2. وجود ووحدانية الحل $\alpha$:</span>
+                            <span class="font-mono text-cyan-400">0.25 ن</span>
+                          </div>
+                          <ul class="list-disc list-inside space-y-1">
+                            <li>الدالة $g$ متصلة وتزايدية قطعاً على $[1, +\infty[$.</li>
+                            <li>$g([1, +\infty[) = [g(1), \lim_{x \to +\infty} g(x)[ = [-6, +\infty[$، وبما أن $0 \in [-6, +\infty[$، فإن المعادلة $g(x) = 0$ تقبل حلاً وحيداً $\alpha \in [1, +\infty[$.</li>
+                            <li>لدينا: $g(2) = 2^3 - 3(2) - 4 = 8 - 6 - 4 = -2 < 0$.</li>
+                            <li>لدينا: $g(3) = 3^3 - 3(3) - 4 = 27 - 9 - 4 = 14 > 0$.</li>
+                          </ul>
+                          <p class="mt-1 text-emerald-300 font-semibold">بما أن $g(2) \times g(3) = -28 < 0$ و $g$ متصلة على $[2, 3]$، فحسب مبرهنة القيم الوسيطية: $2 < \alpha < 3$.</p>
+                        </div>
+
+                        <!-- 1.3 -->
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                          <div class="flex justify-between font-bold text-amber-300 mb-1">
+                            <span>3. خوارزمية التفرع الثنائي (سعة 0.25):</span>
+                            <span class="font-mono text-cyan-400">0.50 ن</span>
+                          </div>
+                          <p>• لدينا $\alpha \in ]2, 3[$ بسعة أولية $3 - 2 = 1$.</p>
+                          <p>• <strong>المرحلة 1:</strong> مركز القطعة $[2, 3]$ هو $m_1 = \frac{2+3}{2} = 2.5$.</p>
+                          <div class="text-center font-mono text-cyan-300 my-1">$$g(2.5) = (2.5)^3 - 3(2.5) - 4 = 15.625 - 7.5 - 4 = 4.125 > 0$$</div>
+                          <p>بما أن $g(2) < 0$ و $g(2.5) > 0$، فإن $\alpha \in ]2, 2.5[$ بسعة $0.5$.</p>
+                          <p>• <strong>المرحلة 2:</strong> مركز القطعة $[2, 2.5]$ هو $m_2 = \frac{2+2.5}{2} = 2.25$.</p>
+                          <div class="text-center font-mono text-cyan-300 my-1">$$g(2.25) = (2.25)^3 - 3(2.25) - 4 = 11.390625 - 6.75 - 4 = 0.640625 > 0$$</div>
+                          <p>بما أن $g(2) < 0$ و $g(2.25) > 0$، فإن:</p>
+                          <div class="p-2 bg-emerald-950/40 border border-emerald-600/40 rounded text-center text-emerald-300 font-mono font-bold my-1">
+                            $$2 < \alpha < 2.25$$ <span class="text-xs font-sans">(تأطير بسعة $2.25 - 2 = 0.25$)</span>
+                          </div>
+                        </div>
+
+                        <!-- 1.4 -->
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                          <div class="flex justify-between font-bold text-amber-300 mb-1">
+                            <span>4. إشارة $g(x)$ على $[1, +\infty[$:</span>
+                            <span class="font-mono text-cyan-400">0.25 ن</span>
+                          </div>
+                          <p>نعلم أن $g(\alpha) = 0$ و $g$ تزايدية قطعاً على $[1, +\infty[$:</p>
+                          <ul class="list-disc list-inside space-y-0.5">
+                            <li>لكل $x \in [1, \alpha]$: $x \le \alpha \implies g(x) \le g(\alpha) = 0 \implies g(x) \le 0$.</li>
+                            <li>لكل $x \in [\alpha, +\infty[$: $x \ge \alpha \implies g(x) \ge g(\alpha) = 0 \implies g(x) \ge 0$.</li>
+                          </ul>
+                          <div class="mt-2 text-center">
+                            <div class="inline-grid grid-cols-4 text-center font-mono text-xs border border-slate-700 rounded overflow-hidden">
+                              <div class="bg-slate-800 text-slate-300 px-3 py-1">x</div>
+                              <div class="bg-slate-900 text-slate-400 px-3 py-1">1</div>
+                              <div class="bg-slate-900 text-amber-300 px-3 py-1">$\alpha$</div>
+                              <div class="bg-slate-900 text-slate-400 px-3 py-1">$+\infty$</div>
+                              <div class="bg-slate-800 text-slate-300 px-3 py-1">g(x)</div>
+                              <div class="bg-slate-950 text-rose-400 font-bold px-3 py-1">$-$</div>
+                              <div class="bg-slate-950 text-emerald-400 font-bold px-3 py-1">$0$</div>
+                              <div class="bg-slate-950 text-cyan-400 font-bold px-3 py-1">$+$</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Solution Partie 2 -->
+                      <div class="space-y-3 pt-3 border-t border-slate-800">
+                        <div class="text-purple-400 font-bold border-b border-slate-800 pb-1 text-sm">عناصر إجابة الجزء الثاني (Partie 2):</div>
+
+                        <!-- 2.1 -->
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                          <div class="flex justify-between font-bold text-amber-300 mb-1">
+                            <span>1. اشتقاق $f$ وحساب $f'(x)$:</span>
+                            <span class="font-mono text-cyan-400">0.25 ن</span>
+                          </div>
+                          <p class="leading-relaxed">
+                            الدالة $f$ جذرية معرفة على $\mathbb{R} \setminus \{-1, 1\}$، إذن قابلة للاشتقاق على $]1, +\infty[$. ولدينا لكل $x > 1$:
+                          </p>
+                          <div class="text-center font-mono text-cyan-300 my-1">
+                            $$f'(x) = \frac{(x^3+2)'(x^2-1) - (x^3+2)(x^2-1)'}{(x^2-1)^2} = \frac{3x^2(x^2-1) - (x^3+2)(2x)}{(x^2-1)^2}$$
+                          </div>
+                          <div class="text-center font-mono text-cyan-300 my-1">
+                            $$f'(x) = \frac{3x^4 - 3x^2 - 2x^4 - 4x}{(x^2-1)^2} = \frac{x^4 - 3x^2 - 4x}{(x^2-1)^2} = \frac{x(x^3 - 3x - 4)}{(x^2-1)^2} = \frac{x \cdot g(x)}{(x^2-1)^2}$$
+                          </div>
+                        </div>
+
+                        <!-- 2.2 -->
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                          <div class="flex justify-between font-bold text-amber-300 mb-1">
+                            <span>2. منحنى التغيرات وجدول تغيرات $f$:</span>
+                            <span class="font-mono text-cyan-400">0.25 ن</span>
+                          </div>
+                          <p class="leading-relaxed">
+                            بما أن $x > 1$، فإن $x > 0$ والمقام $(x^2-1)^2 > 0$ قطعا. إذن إشارة $f'(x)$ هي <strong>نفس إشارة $g(x)$ تماماً</strong> على $]1, +\infty[$:
+                          </p>
+                          <ul class="list-disc list-inside space-y-0.5">
+                            <li>على المجال $]1, \alpha]$: لدينا $f'(x) \le 0$، إذن $f$ تناقصية قطعاً على $]1, \alpha]$.</li>
+                            <li>على المجال $[\alpha, +\infty[$: لدينا $f'(x) \ge 0$، إذن $f$ تزايدية قطعاً على $[\alpha, +\infty[$.</li>
+                          </ul>
+                        </div>
+
+                        <!-- 2.3 -->
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-purple-800/50">
+                          <div class="flex justify-between font-bold text-amber-300 mb-1">
+                            <span>3. صيغة التميز الوطني لـ $f(\alpha)$ والقيمة الدنوية:</span>
+                            <span class="font-mono text-cyan-400">0.25 ن</span>
+                          </div>
+                          <p class="leading-relaxed">
+                            نعلم أن $\alpha$ جذر للمعادلة $g(x) = 0$، أي أن: $g(\alpha) = 0 \iff \alpha^3 - 3\alpha - 4 = 0 \iff \mathbf{\alpha^3 = 3\alpha + 4}$.
+                          </p>
+                          <p class="leading-relaxed mt-1">
+                            نعوض $\alpha^3$ في عبارة $f(\alpha)$:
+                          </p>
+                          <div class="text-center font-mono text-purple-300 my-1 bg-slate-950 p-2 rounded border border-slate-800">
+                            $$f(\alpha) = \frac{\alpha^3 + 2}{\alpha^2 - 1} = \frac{(3\alpha + 4) + 2}{\alpha^2 - 1} = \frac{3\alpha + 6}{\alpha^2 - 1} = \frac{3(\alpha + 2)}{\alpha^2 - 1}$$
+                          </div>
+                          <p class="leading-relaxed mt-1">
+                            بما أن $f$ تناقصية على $]1, \alpha]$ وتزايدية على $[\alpha, +\infty[$، فإن $f(\alpha)$ هي <strong>القيمة الدنوية المطلقة (Minimum absolu)</strong> للدالة $f$ على $]1, +\infty[$، وبالتالي:
+                          </p>
+                          <div class="text-center font-mono text-emerald-300 my-1">
+                            $$\forall x \in ]1, +\infty[, \quad f(x) \ge f(\alpha) = \frac{3(\alpha + 2)}{\alpha^2 - 1}$$
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 `
           },

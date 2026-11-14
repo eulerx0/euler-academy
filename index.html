@@ -122,10 +122,10 @@
               <span class="text-xs text-slate-400 font-mono">Laboratoire Visuel Interactif</span>
             </div>
             <h3 class="text-xl sm:text-2xl font-extrabold text-white">
-              محاكي الاتصال في نقطة، الدوال المجزأة (القفزة)، مركب دالتين، والتماثل العكسي
+              محاكي الاتصال، الدوال المجزأة، مركب دالتين، مبرهنة القيم الوسيطية والتفرع الثنائي، والتماثل العكسي
             </h3>
           </div>
-          <!-- Mode Switcher Tabs (4 Modes) -->
+          <!-- Mode Switcher Tabs (5 Modes) -->
           <div class="flex flex-wrap gap-2 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800">
             <button onclick="setSimMode('continuity')" id="btnModeCont" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 shadow transition">
               1. الاتصال في نقطة
@@ -136,10 +136,36 @@
             <button onclick="setSimMode('composite')" id="btnModeComp" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">
               3. مركب دالتين والتضمن
             </button>
+            <button onclick="setSimMode('tvi')" id="btnModeTvi" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">
+              4. القيم الوسيطية والتفرع (TVI)
+            </button>
             <button onclick="setSimMode('reciprocal')" id="btnModeRecip" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">
-              4. الدالة العكسية والتماثل
+              5. الدالة العكسية والتماثل
             </button>
           </div>
+        </div>
+
+        <!-- Sub-selector for TVI & Dichotomy steps -->
+        <div id="tviSubButtons" class="hidden mb-4 flex flex-wrap gap-2 items-center bg-slate-950/70 p-3 rounded-2xl border border-slate-800/80">
+          <span class="text-xs text-slate-400 font-semibold px-2">خطوات التفرع الثنائي (Dichotomie):</span>
+          <button onclick="setTviStep(0)" id="btnTviStep0" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            المجال الأولي $n=0$ ($[0, 1]$)
+          </button>
+          <button onclick="setTviStep(1)" id="btnTviStep1" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            الخطوة $1$ (سعة $0.5$)
+          </button>
+          <button onclick="setTviStep(2)" id="btnTviStep2" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition">
+            الخطوة $2$ (سعة $0.25$)
+          </button>
+          <button onclick="setTviStep(3)" id="btnTviStep3" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            الخطوة $3$ (سعة $0.125$)
+          </button>
+          <button onclick="setTviStep(4)" id="btnTviStep4" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            الخطوة $4$ (سعة $0.0625$)
+          </button>
+          <button onclick="setTviStep(5)" id="btnTviStep5" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            الخطوة $5$ (سعة $0.03125$)
+          </button>
         </div>
 
         <!-- Sub-selector for reciprocal functions if mode is reciprocal -->
@@ -424,6 +450,24 @@
     // ==========================================
     let currentSimMode = 'continuity';
     let currentFuncIdx = 0;
+    let currentTviStep = 2;
+
+    function setTviStep(step) {
+      currentTviStep = Math.max(0, Math.min(5, step));
+      const slider = document.getElementById('xSlider');
+      if (slider && currentSimMode === 'tvi') {
+        slider.value = currentTviStep;
+      }
+      for (let i = 0; i <= 5; i++) {
+        const b = document.getElementById(`btnTviStep${i}`);
+        if (b) {
+          b.className = (i === currentTviStep)
+            ? 'px-2.5 py-1 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition'
+            : 'px-2.5 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+        }
+      }
+      updateSim();
+    }
 
     const funcs = [
       {
@@ -451,18 +495,21 @@
       const btnCont = document.getElementById('btnModeCont');
       const btnPiece = document.getElementById('btnModePiece');
       const btnComp = document.getElementById('btnModeComp');
+      const btnTvi = document.getElementById('btnModeTvi');
       const btnRecip = document.getElementById('btnModeRecip');
       const recipSub = document.getElementById('reciprocalSubButtons');
+      const tviSub = document.getElementById('tviSubButtons');
       const slider = document.getElementById('xSlider');
       const sliderLabel = document.getElementById('sliderLabel');
 
-      [btnCont, btnPiece, btnComp, btnRecip].forEach(b => {
+      [btnCont, btnPiece, btnComp, btnTvi, btnRecip].forEach(b => {
         if (b) b.className = 'px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition';
       });
+      if (recipSub) recipSub.classList.add('hidden');
+      if (tviSub) tviSub.classList.add('hidden');
 
       if (mode === 'continuity') {
         if (btnCont) btnCont.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 shadow transition';
-        if (recipSub) recipSub.classList.add('hidden');
         slider.min = -0.5;
         slider.max = 3.5;
         slider.step = 0.02;
@@ -470,7 +517,6 @@
         sliderLabel.innerHTML = 'أفصول النقطة $x_0$:';
       } else if (mode === 'piecewise') {
         if (btnPiece) btnPiece.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow transition';
-        if (recipSub) recipSub.classList.add('hidden');
         slider.min = 0.0;
         slider.max = 4.0;
         slider.step = 0.02;
@@ -478,12 +524,22 @@
         sliderLabel.innerHTML = 'أفصول النقطة $x$ (حرّك لاجتياز النقطة المفصلية $x_0=2$):';
       } else if (mode === 'composite') {
         if (btnComp) btnComp.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-purple-500 text-slate-950 shadow transition';
-        if (recipSub) recipSub.classList.add('hidden');
         slider.min = 0.0;
         slider.max = 2.5;
         slider.step = 0.02;
         slider.value = 1.6;
         sliderLabel.innerHTML = 'أفصول النقطة $x_0 \in I = [0, 2.5]$:';
+      } else if (mode === 'tvi') {
+        if (btnTvi) btnTvi.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 shadow transition';
+        if (tviSub) tviSub.classList.remove('hidden');
+        slider.min = 0;
+        slider.max = 5;
+        slider.step = 1;
+        slider.value = currentTviStep !== undefined ? currentTviStep : 2;
+        sliderLabel.innerHTML = 'خطوة التفرع الثنائي $n \in \{0, 1, 2, 3, 4, 5\}$ (السعة $\\frac{1}{2^n}$):';
+        setTviStep(slider.value);
+        renderMath(sliderLabel);
+        return;
       } else if (mode === 'reciprocal') {
         if (btnRecip) btnRecip.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 shadow transition';
         if (recipSub) recipSub.classList.remove('hidden');
@@ -806,6 +862,174 @@
         ctx.fillStyle = '#22d3ee';
         ctx.beginPath(); ctx.arc(toPxX(xVal), toPxY(gVal), 7, 0, Math.PI * 2); ctx.fill();
         ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
+
+      } else if (currentSimMode === 'tvi') {
+        // Mode 4: TVI & Live Dichotomy Visualizer for f(x) = x^3 + 3x - 1 on [0, 1]
+        const step = Math.round(parseFloat(slider.value));
+        currentTviStep = step;
+        const ampVal = 1 / Math.pow(2, step);
+        document.getElementById('xValDisplay').innerText = `n = ${step} (سعة ${ampVal.toFixed(4)})`;
+
+        for (let i = 0; i <= 5; i++) {
+          const b = document.getElementById(`btnTviStep${i}`);
+          if (b) {
+            b.className = (i === step)
+              ? 'px-2.5 py-1 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition'
+              : 'px-2.5 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+          }
+        }
+
+        const f = x => x * x * x + 3 * x - 1;
+        let a = 0.0, b = 1.0;
+        for (let k = 0; k < step; k++) {
+          const mid = (a + b) / 2;
+          const fa = f(a), fm = f(mid);
+          if (fa * fm <= 0) {
+            b = mid;
+          } else {
+            a = mid;
+          }
+        }
+        const m = (a + b) / 2;
+        const fa = f(a), fb = f(b), fm = f(m);
+        const amp = b - a;
+        const rootApprox = 0.322185;
+
+        legend.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> $(C_f): x^3+3x-1$</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500/40 border border-emerald-400 inline-block"></span> المجال $[a_n, b_n]$</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block"></span> المركز $m_n$</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span> الجذر $\\alpha$</span>
+          </div>
+          <span class="text-emerald-300 font-semibold">تأطير متسلسل بالتفرع الثنائي</span>
+        `;
+
+        metricsGrid.innerHTML = `
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">المجال النشط $[a_${step}, b_${step}]$:</span>
+            <span class="font-mono font-bold text-emerald-400 text-sm" dir="ltr">[${a.toFixed(4)}, ${b.toFixed(4)}]</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">سعة التأطير $\\frac{1}{2^n}$:</span>
+            <span class="font-mono font-bold text-cyan-300 text-sm" dir="ltr">${amp.toFixed(4)}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">مركز القطعة $m_${step}$:</span>
+            <span class="font-mono font-bold text-purple-300 text-sm" dir="ltr">${m.toFixed(4)}</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block mb-1">قيمة الدالة في المركز $f(m_${step})$:</span>
+            <span class="font-mono font-bold ${fm >= 0 ? 'text-cyan-300' : 'text-rose-400'} text-sm" dir="ltr">${fm >= 0 ? '+' : ''}${fm.toFixed(4)}</span>
+          </div>
+        `;
+
+        const nextHalf = (fa * fm <= 0) ? `النصف الأيسر $[a, m] = [${a.toFixed(3)}, ${m.toFixed(3)}]` : `النصف الأيمن $[m, b] = [${m.toFixed(3)}, ${b.toFixed(3)}]`;
+
+        statusBanner.innerHTML = `
+          <div class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center gap-2">
+            <span>✓</span> <span>مبرهنة TVI: $f(a_${step}) \\times f(b_${step}) < 0$ $\\implies$ الحل الوحيد $\\alpha \\approx ${rootApprox.toFixed(4)}$ محصور حتماً بالسعة ${amp.toFixed(4)}</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = `
+          <b>تحليل خوارزمية التفرع في الخطوة $n = ${step}$:</b><br/>
+          • $f(a_${step}) = ${fa.toFixed(4)} < 0$ و $f(b_${step}) = ${fb.toFixed(4)} > 0$.<br/>
+          • تم حساب صورة المركز: $f(m_${step}) = ${fm.toFixed(4)}$ (${fm >= 0 ? 'موجبة قطعا' : 'سالبة قطعا'}).<br/>
+          • بما أن $f(a_${step}) \\times f(m_${step}) ${fa * fm <= 0 ? '\\le 0' : '> 0'}$، فإن الخطوة الموالية ستحتفظ بـ <b>${nextHalf}</b>.<br/>
+          • السعة تقلصت من $1$ إلى $${amp.toFixed(4)}$ بنسبة اختزال بلغت $${Math.pow(2, step)}$ ضعفاً!
+        `;
+
+        // Canvas Drawing for TVI
+        const originX = 180, originY = 280, scaleX = 320, scaleY = 70;
+        const toPxX = x => originX + x * scaleX;
+        const toPxY = y => originY - y * scaleY;
+
+        // Grid lines
+        ctx.strokeStyle = '#111827'; ctx.lineWidth = 1;
+        for (let xg = -0.5; xg <= 1.5; xg += 0.25) {
+          ctx.beginPath(); ctx.moveTo(toPxX(xg), 0); ctx.lineTo(toPxX(xg), H); ctx.stroke();
+        }
+        for (let yg = -2; yg <= 4; yg += 1) {
+          ctx.beginPath(); ctx.moveTo(0, toPxY(yg)); ctx.lineTo(W, toPxY(yg)); ctx.stroke();
+        }
+
+        // Coordinate Axes
+        ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(0, originY); ctx.lineTo(W, originY); // Ox
+        ctx.moveTo(originX, 0); ctx.lineTo(originX, H); // Oy
+        ctx.stroke();
+
+        // Shaded Active Interval Zone [a, b]
+        const pxA = toPxX(a), pxB = toPxX(b);
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+        ctx.fillRect(pxA, 0, pxB - pxA, H);
+
+        // Interval boundary vertical dashed lines
+        ctx.save();
+        ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(pxA, 0); ctx.lineTo(pxA, H);
+        ctx.moveTo(pxB, 0); ctx.lineTo(pxB, H);
+        ctx.stroke();
+
+        // Center line x = m
+        const pxM = toPxX(m);
+        ctx.strokeStyle = '#c084fc'; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(pxM, 0); ctx.lineTo(pxM, H);
+        ctx.stroke();
+        ctx.restore();
+
+        // Plot Continuous Function Curve f(x)
+        ctx.strokeStyle = '#22d3ee'; ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        for (let x = -0.4; x <= 1.25; x += 0.01) {
+          const y = f(x);
+          if (x === -0.4) ctx.moveTo(toPxX(x), toPxY(y));
+          else ctx.lineTo(toPxX(x), toPxY(y));
+        }
+        ctx.stroke();
+
+        // Points A, B, and M
+        const pyA = toPxY(fa), pyB = toPxY(fb), pyM = toPxY(fm);
+        // Point A
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath(); ctx.arc(pxA, pyA, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Point B
+        ctx.fillStyle = '#10b981';
+        ctx.beginPath(); ctx.arc(pxB, pyB, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Point M
+        ctx.fillStyle = '#c084fc';
+        ctx.beginPath(); ctx.arc(pxM, pyM, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Mark Root alpha on Ox
+        const pxAlpha = toPxX(rootApprox);
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.arc(pxAlpha, originY, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#050811'; ctx.lineWidth = 2; ctx.stroke();
+
+        // Canvas Labels
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = '#f43f5e';
+        ctx.fillText(`A(${a.toFixed(2)}, ${fa.toFixed(2)})`, pxA + 6, pyA + 14);
+
+        ctx.fillStyle = '#10b981';
+        ctx.fillText(`B(${b.toFixed(2)}, ${fb.toFixed(2)})`, pxB - 75, pyB - 10);
+
+        ctx.fillStyle = '#c084fc';
+        ctx.fillText(`M(${m.toFixed(3)}, ${fm.toFixed(2)})`, pxM + 6, pyM - 8);
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText(`α ≈ 0.322`, pxAlpha - 25, originY + 18);
 
       } else if (currentSimMode === 'reciprocal') {
         // Mode 4: Reciprocal & Symmetry y = x
