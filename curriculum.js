@@ -1832,6 +1832,124 @@ window.EULER_CURRICULUM = {
                     </div>
                   </div>
                 </div>
+
+
+                <!-- 10. Derivability of the Inverse Function & Tangents -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">10. اشتقاق الدالة العكسية والتأويلات الهندسية</span>
+                    <span class="text-xs text-slate-400">Dérivabilité de f⁻¹ & Demi-tangentes</span>
+                  </div>
+                  <h4 class="text-lg font-bold text-white mb-2">مبرهنة قابلية اشتقاق الدالة العكسية والمماسات العمودية</h4>
+                  <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                    تُعتبر مبرهنة اشتقاق الدالة العكسية من أكثر الأسئلة استراتيجية في الامتحان الوطني، حيث تُمكّن من حساب العدد المشتق $(f^{-1})'(y_0)$ <strong>دون الحاجة إطلاقاً لتحديد الصيغة الصريحة للدالة العكسية</strong>:
+                  </p>
+
+                  <!-- 1. The Core Derivability Theorems -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-slate-950/70 p-4 rounded-xl border border-cyan-500/30">
+                      <div class="text-cyan-400 font-bold text-xs mb-1.5 flex items-center gap-2">
+                        <span>⚡</span> قابلية الاشتقاق في نقطة (En un point)
+                      </div>
+                      <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                        لتكن $f$ متصلة ورتيبة قطعاً على مجال $I$، وليكن $x_0 \\in I$ و $y_0 = f(x_0)$. إذا تحقق الشرطان:
+                      </p>
+                      <ul class="text-xs text-slate-200 space-y-1 list-disc list-inside mb-2">
+                        <li>$f$ قابلة للاشتقاق في النقطة $x_0$.</li>
+                        <li><strong>$f'(x_0) \\neq 0$</strong> (العدد المشتق غير منعدم).</li>
+                      </ul>
+                      <p class="text-xs text-emerald-300 font-semibold mb-1">
+                        فإن $f^{-1}$ قابلة للاشتقاق في النقطة $y_0 = f(x_0)$ ولدينا:
+                      </p>
+                      <div class="text-center font-mono text-cyan-300 p-2 bg-slate-900 rounded border border-slate-800 text-sm">
+                        $$(f^{-1})'(y_0) = \\frac{1}{f'(x_0)} = \\frac{1}{f'(f^{-1}(y_0))}$$
+                      </div>
+                    </div>
+
+                    <div class="bg-slate-950/70 p-4 rounded-xl border border-purple-500/30">
+                      <div class="text-purple-400 font-bold text-xs mb-1.5 flex items-center gap-2">
+                        <span>📈</span> قابلية الاشتقاق على مجال (Sur un intervalle)
+                      </div>
+                      <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                        إذا كانت الدالة $f$ قابلة للاشتقاق على مجال $I$ ومشتقتها <strong>لا تنعدم قطعا</strong> على هذا المجال ($orall x \\in I, f'(x) \\neq 0$):
+                      </p>
+                      <p class="text-xs text-emerald-300 font-semibold mb-1">
+                        فإن الدالة العكسية $f^{-1}$ قابلة للاشتقاق على المجال $J = f(I)$ ودالتها المشتقة تعطى بـ:
+                      </p>
+                      <div class="text-center font-mono text-purple-300 p-2 bg-slate-900 rounded border border-slate-800 text-xs space-y-1">
+                        <div>$$(f^{-1})' = \\frac{1}{f' \\circ f^{-1}}$$</div>
+                        <div class="text-[11px] text-slate-400">$$\\forall y \\in J, \\quad (f^{-1})'(y) = \\frac{1}{f'(f^{-1}(y))}$$</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 2. Critical Case: f'(x_0) = 0 and Vertical Tangents -->
+                  <div class="p-4 bg-slate-950/80 rounded-xl border border-rose-500/30 mb-4">
+                    <div class="text-rose-400 font-bold text-xs mb-1.5 flex items-center gap-2">
+                      <span>⚠️</span> الحالة الخاصة الكلاسيكية للامتحان الوطني (عندما $f'(x_0) = 0$):
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                      إذا كانت $f$ قابلة للاشتقاق في $x_0$ وكان $f'(x_0) = 0$ (أي أن المنحنى $(C_f)$ يقبل مماساً أفقياً في النقطة $M(x_0, f(x_0))$):
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs mt-2">
+                      <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-amber-300 font-bold block mb-1">النتيجة الجبرية:</span>
+                        <p class="leading-relaxed text-slate-300">
+                          الدالة العكسية $f^{-1}$ <strong>غير قابلة للاشتقاق</strong> في النقطة $y_0 = f(x_0)$ لأن القسمة على صفر غير معرفة في $\\mathbb{R}$.
+                        </p>
+                      </div>
+                      <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-cyan-300 font-bold block mb-1">التأويل الهندسي المبياني:</span>
+                        <p class="leading-relaxed text-slate-300">
+                          المنحنى $(C_{f^{-1}})$ يقبل <strong>مماساً عمودياً</strong> (أو نصف مماس عمودي) في النقطة $M'(y_0, x_0)$ معادلته الديكارتية: <span class="font-mono text-cyan-400 font-bold">x = y₀</span>.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. Worked Application Examples -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Example 1 -->
+                    <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="text-amber-400 font-bold text-xs">تطبيق 1: حساب $(f^{-1})'(y_0)$ بدون صيغة صريحة</span>
+                        <span class="text-[11px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded">0.75 ن</span>
+                      </div>
+                      <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                        لتكن $f(x) = x^3 + x - 1$ معرفة على $\\mathbb{R}$. بين أن $f^{-1}$ قابلة للاشتقاق في النقطة $y_0 = 1$ واحسب $(f^{-1})'(1)$.
+                      </p>
+                      <div class="text-xs text-slate-300 space-y-1.5 border-t border-slate-800 pt-2 leading-relaxed">
+                        <p>1. نلاحظ أن: $f(1) = 1^3 + 1 - 1 = 1 \\implies f^{-1}(1) = 1$.</p>
+                        <p>2. $f'(x) = 3x^2 + 1 > 0$ قطعا، ولدينا: $f'(1) = 3(1)^2 + 1 = 4$.</p>
+                        <p>3. بما أن $f$ قابلة للاشتقاق في $1$ و $f'(1) = 4 \\neq 0$، فإن $f^{-1}$ قابلة للاشتقاق في $1$ ولدينا:</p>
+                        <div class="p-1.5 bg-slate-900 rounded font-mono text-center text-emerald-300 font-bold">
+                          $$(f^{-1})'(1) = \\frac{1}{f'(1)} = \\frac{1}{4}$$
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Example 2 -->
+                    <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="text-amber-400 font-bold text-xs">تطبيق 2: تقنية تغيير المتغير لنصف المماس العمودي</span>
+                        <span class="text-[11px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded">0.75 ن</span>
+                      </div>
+                      <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                        لتكن $f$ متصلة وتزايدية على $[1, +\\infty[$ بحيث $f(1) = 0$ و $f'_d(1) = 0$. ادرس اشتقاق $f^{-1}$ على يمين $0$.
+                      </p>
+                      <div class="text-xs text-slate-300 space-y-1.5 border-t border-slate-800 pt-2 leading-relaxed">
+                        <p>نضع $y = f(x) \\iff x = f^{-1}(y)$. عندما $y \\to 0^+$ فإن $x \\to 1^+$:</p>
+                        <div class="text-center font-mono text-cyan-300 p-1.5 bg-slate-900 rounded">
+                          $$\\lim_{y \\to 0^+} \\frac{f^{-1}(y) - f^{-1}(0)}{y - 0} = \\lim_{x \\to 1^+} \\frac{x - 1}{f(x) - f(1)} = \\lim_{x \\to 1^+} \\frac{1}{\\frac{f(x) - f(1)}{x - 1}} = \\frac{1}{0^+} = +\\infty$$
+                        </div>
+                        <p class="text-purple-300 font-semibold">
+                          إذن $f^{-1}$ غير قابلة للاشتقاق على يمين $0$، و $(C_{f^{-1}})$ يقبل نصف مماس عمودي موجه نحو الأعلى في النقطة $(0, 1)$.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 `
           },

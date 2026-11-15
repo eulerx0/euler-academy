@@ -1122,10 +1122,49 @@
         ctx.stroke();
         ctx.restore();
 
+        // Draw dynamic tangent lines at M and M' (Visualizing reciprocal derivative)
+        ctx.save();
+        if (isFinite(slope) && Math.abs(slope) < 40) {
+          const dx = 1.0;
+          ctx.strokeStyle = 'rgba(34, 211, 238, 0.7)'; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(toPxX(xVal - dx), toPxY(y0 - slope * dx));
+          ctx.lineTo(toPxX(xVal + dx), toPxY(y0 + slope * dx));
+          ctx.stroke();
+        }
+        if (isFinite(invSlope) && Math.abs(invSlope) < 40) {
+          const dy = 1.0;
+          ctx.strokeStyle = 'rgba(251, 191, 36, 0.7)'; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(toPxX(y0 - dy), toPxY(xVal - invSlope * dy));
+          ctx.lineTo(toPxX(y0 + dy), toPxY(xVal + invSlope * dy));
+          ctx.stroke();
+        } else if (Math.abs(slope) < 1e-3) {
+          // Vertical tangent for f^{-1} when f'(x_0) = 0
+          ctx.strokeStyle = 'rgba(251, 191, 36, 0.85)'; ctx.lineWidth = 2.5; ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(toPxX(y0), 0);
+          ctx.lineTo(toPxX(y0), H);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // Points M and M'
         ctx.fillStyle = '#22d3ee';
         ctx.beginPath(); ctx.arc(toPxX(xVal), toPxY(y0), 6, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+
         ctx.fillStyle = '#fbbf24';
         ctx.beginPath(); ctx.arc(toPxX(y0), toPxY(xVal), 6, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Coordinates Labels
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = '#22d3ee';
+        ctx.fillText(`M(${xVal.toFixed(2)}, ${y0.toFixed(2)})`, toPxX(xVal) + 8, toPxY(y0) - 8);
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText(`M'(${y0.toFixed(2)}, ${xVal.toFixed(2)})`, toPxX(y0) + 8, toPxY(xVal) + 16);
       }
 
       renderMath(legend);
