@@ -20,7 +20,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
                     </div>
                     <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800/80">
                       <b class="text-amber-400 block mb-1">⚠️ شرط الانتماء الحاسم:</b>
-                      لا يمكن الحديث عن الاتصال في نقطة $x_0$ إلا إذا كانت $x_0 \\in D_f$ صراحة. إذا كانت النهاية $\\lim_{x \\to x_0} f(x) = \\ell$ منتهية لكن $x_0 \\notin D_f$، فالدالة <b>غير متصلة في $x_0$</b> بل تقبل <i>تمديداً بالاتصال</i>.
+                      لا يمكن الحديث عن الاتصال في نقطة $x_0$ إلا إذا كانت $x_0 \\in D_f$ صراحة. إذا كانت النهاية $\\lim_{x \\to x_0} f(x) = \\ell$ منتهية لكن $x_0 \\notin D_f$، فإن $f$ <b>غير معرفة وبالتالي غير متصلة في $x_0$</b> (إلا إذا أُضيف تعريف قيمة $f(x_0)$ بدالة مجزأة).
                     </div>
                   </div>
                 </div>
@@ -223,7 +223,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
                       <p>• تكون $g$ متصلة في $0$ إذا وفقط إذا كان: $\\lim_{x \\to 0} g(x) = g(0) = a$.</p>
                       <p>• نحسب النهاية: نكتب $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x} = \\lim_{x \\to 0} 3 \\times \\frac{\\sin(3x)}{3x}$.</p>
                       <p>• بوضع $X = 3x$، عندما $x \\to 0$ فإن $X \\to 0$. وبما أن $\\lim_{X \\to 0} \\frac{\\sin X}{X} = 1$، فإن $\\lim_{x \\to 0} g(x) = 3 \\times 1 = 3$.</p>
-                      <p class="text-emerald-400 font-bold">✓ إذن لكي تكون $g$ متصلة في $0$، يجب أن نختار: $a = 3$. (وهذا هو التمديد بالاتصال للدالة $x \\mapsto \\frac{\\sin 3x}{x}$ في $0$).</p>
+                      <p class="text-emerald-400 font-bold">✓ إذن لكي تكون $g$ متصلة في النقطة $0$، يجب أن نختار: $a = 3$ بحيث $\\lim_{x \\to 0} g(x) = g(0)$.</p>
                     </div>
                   </details>
                 </div>

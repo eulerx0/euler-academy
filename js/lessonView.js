@@ -117,6 +117,10 @@
 
     const myGen = ++activeLoadGeneration;
 
+    if (global.EulerCatalog && typeof global.EulerCatalog.setCurrentSubject === 'function') {
+      global.EulerCatalog.setCurrentSubject(subjectKey);
+    }
+
     // Update header tabs highlight to match current lesson's subject
     ['math', 'physics', 'chemistry'].forEach((k) => {
       const btn = document.getElementById('tab-' + k);

@@ -299,6 +299,13 @@
 
   global.EulerCatalog = {
     showSubjectCatalog,
-    getCurrentSubject: () => state.subjectKey
+    getCurrentSubject: () => state.subjectKey,
+    setCurrentSubject: (subjKey) => {
+      if (subjKey && state.subjectKey !== subjKey) {
+        state.subjectKey = subjKey;
+        state.filterValue = 'all';
+        state.searchQuery = '';
+      }
+    }
   };
 })(window);

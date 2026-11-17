@@ -364,8 +364,9 @@ async function runBrowserAudit() {
         }
       }
 
-      // Open phys-01
-      await page.evaluate(() => { window.location.hash = '#/lesson/phys-01'; });
+      // Cold deep-link open phys-01 in a fresh navigation to verify router + subject state sync
+      await page.goto('about:blank');
+      await page.goto(`${url}#/lesson/phys-01`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.evaluate(() => {
         document.querySelectorAll('details').forEach((d) => { d.open = true; });
@@ -373,6 +374,32 @@ async function runBrowserAudit() {
       await page.waitForTimeout(200);
       const physStats = await inspectDom('lesson-phys-01');
       if (physStats.katexCount < 90) issues.push(`[${vp.name}] phys-01 expected >=90 KaTeX nodes, got ${physStats.katexCount}`);
+
+      // Test all 3 phys-01 simulator modes + animation + polarity toggle
+      for (const pMode of ['transverse', 'longitudinal', 'superposition']) {
+        await page.click(`[data-phys-mode="${pMode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`phys-sim-${pMode}`);
+        if (pMode === 'transverse') {
+          await page.click('#physPlayBtn');
+          await page.waitForTimeout(250);
+          await page.click('#physPlayBtn');
+          await inspectDom('phys-sim-transverse-animated');
+        } else if (pMode === 'superposition') {
+          await page.click('[data-super-polar="same"]');
+          await page.waitForTimeout(100);
+          await inspectDom('phys-sim-superposition-same');
+          await page.click('[data-super-polar="opposite"]');
+        }
+      }
+
+      // Verify back button returns to Physics catalog (not Math!)
+      await page.click('#btnBackToCatalog');
+      await page.waitForTimeout(250);
+      const backBannerText = await page.textContent('#subjectBanner');
+      if (!backBannerText.includes('الفيزياء')) {
+        issues.push(`[${vp.name}] back button from deep-linked phys-01 did not return to physics catalog`);
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);

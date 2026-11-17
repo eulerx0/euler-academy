@@ -85,7 +85,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                     <span class="text-xs text-slate-400 font-mono">Composée de deux fonctions</span>
                   </div>
                   <div class="bg-slate-950 border border-pink-500/30 rounded-xl p-4 my-3 text-xs text-slate-200 leading-relaxed">
-                    <p class="font-bold text-pink-300 mb-2">📌 المبرهنة الأساسية الحادية (مبرهنة الاتصال بالتركيب):</p>
+                    <p class="font-bold text-pink-300 mb-2">📌 المبرهنة الأساسية الحاسمة (مبرهنة الاتصال بالتركيب):</p>
                     لتكن $f$ دالة معرفة على مجال $I$، و $g$ دالة معرفة على مجال $J$. إذا كانت:
                     <ol class="list-decimal pr-5 space-y-1.5 my-2 font-mono text-cyan-300">
                       <li>$f$ متصلة على المجال $I$</li>
