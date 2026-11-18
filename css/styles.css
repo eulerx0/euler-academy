@@ -116,16 +116,14 @@ svg {
     border-color: #e5e7eb !important;
   }
 
-  #svgCardWaveTypes > div > div,
-  #svgCardWaveShift > div {
+  [id^="svgCard"] [class*="bg-[#050811]"] {
     background: #0f172a !important;
     color: #f8fafc !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  #svgCardWaveTypes > div > div span,
-  #svgCardWaveShift > div span {
+  [id^="svgCard"] [class*="bg-[#050811]"] span {
     color: #f8fafc !important;
   }
 }
