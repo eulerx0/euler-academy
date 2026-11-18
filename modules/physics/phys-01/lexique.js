@@ -8,5 +8,10 @@ window.EulerAcademy.registerLexique('phys-01', [
   { ar: 'انضغاط وتمدد:', fr: 'Compression et dilatation' },
   { ar: 'تخامد الوسع:', fr: 'Atténuation d’amplitude' },
   { ar: 'جبهة ومؤخرة الموجة:', fr: 'Front et queue d’onde' },
+  { ar: 'سرعة الانتشار:', fr: 'Célérité d’une onde (v)' },
+  { ar: 'التصوير المتتالي:', fr: 'Chronophotographie' },
+  { ar: 'توتر الحبل:', fr: 'Tension de la corde (F)' },
+  { ar: 'الكتلة الطولية:', fr: 'Masse linéique (μ = m/L)' },
+  { ar: 'المرونة والقصور:', fr: 'Élasticité et inertie' },
   { ar: 'التأخر الزمني:', fr: 'Retard temporel (τ)' }
 ]);

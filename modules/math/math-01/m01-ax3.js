@@ -663,7 +663,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                         <!-- 2.2 -->
                         <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
                           <div class="flex justify-between font-bold text-amber-300 mb-1">
-                            <span>2. منحنى التغيرات وجدول تغيرات $f$:</span>
+                            <span>2. منحى التغيرات وجدول تغيرات $f$:</span>
                             <span class="font-mono text-cyan-400">0.25 ن</span>
                           </div>
                           <p class="leading-relaxed">

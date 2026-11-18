@@ -211,6 +211,13 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                       $$\\left[\\frac{F}{\\mu}\\right] = \\frac{M \\cdot L \\cdot T^{-2}}{M \\cdot L^{-1}} = L^2 \\cdot T^{-2} \\implies \\left[\\sqrt{\\frac{F}{\\mu}}\\right] = L \\cdot T^{-1} = [v]$$
                       • <b>خلاصة عملية:</b> تزداد $v$ بزيادة توتر الحبل $F$ (شده أكثر)، وتنخفض عند استعمال حبل أغلظ/أثقل ($\\mu$ أكبر). كما ترتفع سرعة الصوت في الغازات كلما ارتفعت <b>درجة الحرارة</b> ($v_{\\text{air}}(0^\\circ\\text{C}) \\approx 331\\text{ m/s}$ و $v_{\\text{air}}(20^\\circ\\text{C}) \\approx 340\\text{ m/s}$).
                     </div>
+
+                    <div class="bg-slate-950 p-4 rounded-xl border border-purple-500/30">
+                      <b class="text-purple-400 block mb-1">📊 الاستغلال المبياني في الامتحان الوطني (Exploitation graphique — $x_F(t)$ و $v^2(F)$):</b>
+                      ترد كثيراً في البكالوريا مبيانات خطية تطلب تحديد $v$ أو $\\mu$ انطلاقاً من المعامل الموجه $k$ (<i>coefficient directeur</i>):<br/>
+                      • <b>منحنى تقدم الجبهة $x_F = f(t)$:</b> دالة خطية معادلتها $x_F = v \\cdot t$، ومعاملها الموجه يساوي مباشرة سرعة الانتشار: $v = \\frac{\\Delta x_F}{\\Delta t}$.<br/>
+                      • <b>منحنى مربع السرعة بدلالة التوتر $v^2 = f(F)$:</b> من العلاقة $v = \\sqrt{\\frac{F}{\\mu}} \\iff v^2 = \\left(\\frac{1}{\\mu}\\right) F$، تكون الدالة خطية معاملها الموجه $k = \\frac{\\Delta(v^2)}{\\Delta F} = \\frac{1}{\\mu} \\implies \\mu = \\frac{1}{k}$.
+                    </div>
                   </div>
                 </div>
 

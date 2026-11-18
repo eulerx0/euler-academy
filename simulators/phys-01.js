@@ -1,6 +1,6 @@
 /**
- * Euler Academy — Interactive 3-Mode Wave Laboratory for Physics Lesson 01
- * (Onde transversale, Onde longitudinale sur ressort, Superposition d'ondes)
+ * Euler Academy — Interactive 4-Mode Wave Laboratory for Physics Lesson 01
+ * (Onde transversale, Onde longitudinale sur ressort, Superposition d'ondes, Célérité F & μ)
  */
 (function (global) {
   'use strict';
@@ -10,10 +10,10 @@
   const MODES_META = [
     { id: 'transverse', label: '1. موجة مستعرضة (انتقال الطاقة)', activeCls: 'bg-cyan-500 text-slate-950 shadow' },
     { id: 'longitudinal', label: '2. موجة طولية (نابض وانضغاط)', activeCls: 'bg-amber-500 text-slate-950 shadow' },
-    { id: 'superposition', label: '3. تراكب موجتين متقابلتين', activeCls: 'bg-purple-500 text-slate-950 shadow' }
+    { id: 'superposition', label: '3. تراكب موجتين متقابلتين', activeCls: 'bg-purple-500 text-slate-950 shadow' },
+    { id: 'tension', label: '4. السرعة وعوامل الحبل ($F$ و $\\mu$)', activeCls: 'bg-emerald-500 text-slate-950 shadow' }
   ];
 
-  // Smooth compact-support pulse in [ -halfW, +halfW ]
   function pulseShape(u, halfW) {
     if (Math.abs(u) >= halfW) return 0;
     return 0.5 * (1 + Math.cos((Math.PI * u) / halfW));
@@ -38,6 +38,8 @@
       mode: 'transverse',
       t: 1.65,
       v: 2.0,
+      tensionF: 2.0,
+      muG: 80,
       superOpposite: true,
       playing: false,
       lastFrameTs: 0,
@@ -55,7 +57,7 @@
               <span class="text-xs text-slate-400 font-mono">Simulateur d’Ondes Mécaniques</span>
             </div>
             <h3 class="text-xl sm:text-2xl font-extrabold text-white">
-              محاكي انتشار الموجات الميكانيكية (المستعرضة، الطولية، وتراكب موجتين)
+              محاكي انتشار الموجات الميكانيكية (المستعرضة، الطولية، التراكب، وعوامل السرعة $v$)
             </h3>
           </div>
           <div class="flex flex-wrap gap-2 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800">
@@ -89,26 +91,43 @@
                     ▶ تشغيل الانتشار
                   </button>
                   <button type="button" id="physResetBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">
-                    ↺ إعادة ($t = 0$)
+                    ↺ إعادة
                   </button>
                 </div>
-                <span class="text-[11px] text-slate-400">نقطة المراقبة الثابتة: <b class="text-emerald-300 font-mono" dir="ltr">x_M = 3.00 m</b></span>
+                <span id="physProbeLabel" class="text-[11px] text-slate-400">نقطة المراقبة الثابتة: <b class="text-emerald-300 font-mono" dir="ltr">x_M = 3.00 m</b></span>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <div class="flex justify-between text-xs font-bold mb-1">
-                    <span class="text-slate-300">اللحظة الزمنية $t$:</span>
+                    <span id="physTimeTitle" class="text-slate-300">اللحظة الزمنية $t$:</span>
                     <span id="physTimeDisplay" class="font-mono text-cyan-300" dir="ltr">t = 1.65 s</span>
                   </div>
                   <input id="physTimeSlider" type="range" min="0.0" max="3.0" step="0.01" value="1.65" class="w-full accent-cyan-400 cursor-pointer" />
                 </div>
-                <div>
+                <div id="physSpeedWrap">
                   <div class="flex justify-between text-xs font-bold mb-1">
                     <span class="text-slate-300">سرعة الانتشار $v$:</span>
                     <span id="physSpeedDisplay" class="font-mono text-amber-300" dir="ltr">v = 2.0 m/s</span>
                   </div>
                   <input id="physSpeedSlider" type="range" min="1.0" max="3.5" step="0.1" value="2.0" class="w-full accent-amber-400 cursor-pointer" />
+                </div>
+              </div>
+
+              <div id="physTensionWrap" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-800/80">
+                <div>
+                  <div class="flex justify-between text-xs font-bold mb-1">
+                    <span class="text-slate-300">توتر الحبل $F$ (مرونة الوسط):</span>
+                    <span id="physTensionDisplay" class="font-mono text-amber-300" dir="ltr">F = 2.0 N</span>
+                  </div>
+                  <input id="physTensionSlider" type="range" min="0.4" max="3.6" step="0.2" value="2.0" class="w-full accent-amber-400 cursor-pointer" />
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-bold mb-1">
+                    <span class="text-slate-300">الكتلة الطولية $\\mu$ (قصور الحبل):</span>
+                    <span id="physMuDisplay" class="font-mono text-cyan-300" dir="ltr">μ = 80 g/m</span>
+                  </div>
+                  <input id="physMuSlider" type="range" min="40" max="100" step="5" value="80" class="w-full accent-cyan-400 cursor-pointer" />
                 </div>
               </div>
             </div>
@@ -132,6 +151,9 @@
     const H = canvas.height;
 
     const superSub = hostEl.querySelector('#physSuperSub');
+    const speedWrap = hostEl.querySelector('#physSpeedWrap');
+    const tensionWrap = hostEl.querySelector('#physTensionWrap');
+    const probeLabel = hostEl.querySelector('#physProbeLabel');
     const legend = hostEl.querySelector('#physSimLegend');
     const metricsGrid = hostEl.querySelector('#physMetricsGrid');
     const statusBanner = hostEl.querySelector('#physStatusBanner');
@@ -139,13 +161,18 @@
 
     const timeSlider = hostEl.querySelector('#physTimeSlider');
     const speedSlider = hostEl.querySelector('#physSpeedSlider');
+    const tensionSlider = hostEl.querySelector('#physTensionSlider');
+    const muSlider = hostEl.querySelector('#physMuSlider');
     const timeDisplay = hostEl.querySelector('#physTimeDisplay');
     const speedDisplay = hostEl.querySelector('#physSpeedDisplay');
+    const tensionDisplay = hostEl.querySelector('#physTensionDisplay');
+    const muDisplay = hostEl.querySelector('#physMuDisplay');
     const playBtn = hostEl.querySelector('#physPlayBtn');
     const resetBtn = hostEl.querySelector('#physResetBtn');
 
     function syncStaticModeChrome() {
       if (state.mode === 'transverse') {
+        probeLabel.innerHTML = 'نقطة المراقبة الثابتة: <b class="text-emerald-300 font-mono" dir="ltr">x_M = 3.00 m</b>';
         legend.innerHTML = `
           <div class="flex flex-wrap items-center gap-3">
             <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-cyan-400 inline-block"></span> الحبل المشدود</span>
@@ -175,6 +202,7 @@
           • لاحظ كيف يتطابق سهم حركة $M$ في اللحظة المختارة مع <b>تقنية الإزاحة الزمنية</b> ($t \\to t + \\delta t$).
         `;
       } else if (state.mode === 'longitudinal') {
+        probeLabel.innerHTML = 'اللفة المرجعية: <b class="text-rose-300 font-mono" dir="ltr">x_M = 3.00 m</b>';
         legend.innerHTML = `
           <div class="flex flex-wrap items-center gap-3">
             <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-amber-400 inline-block"></span> منطقة انضغاط</span>
@@ -202,7 +230,8 @@
           • تهتز اللفة الحمراء $M$ (أو جزيئة الهواء) <b>ذهاباً وإياباً على نفس استقامة الانتشار</b>، ثم تعود لتستقر في موضع توازنها $x_M = 3.00\\text{ m}$.<br/>
           • يُظهر المنحنى السفلي دالة الانزياح الأفقي $u(x,t)$: حيث ينحدر المنحنى تتقارب اللفات (<b>انضغاط</b>)، وحيث يصعد تتباعد اللفات (<b>تمدد</b>).
         `;
-      } else {
+      } else if (state.mode === 'superposition') {
+        probeLabel.innerHTML = 'مركز الالتقاء: <b class="text-purple-300 font-mono" dir="ltr">x_M = 3.00 m</b>';
         legend.innerHTML = `
           <div class="flex flex-wrap items-center gap-3">
             <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-cyan-400 inline-block"></span> الموجة 1 ($\\rightarrow$)</span>
@@ -230,6 +259,36 @@
           • جرب وضع <b>التشويهين المتعاكسين</b> وأوقف المحاكي قرب لحظة التطابق التام $t_c = \\frac{2.4}{v}$: سيبدو الحبل لحظياً أفقياً تماماً ($y_{\\text{tot}} = 0$)، لكن نقط المنتصف تملك طاقة حركية غير منعدمة تجعل الموجتين تواصلان مسارهما بعد الالتقاء!<br/>
           • جرب وضع <b>بنفس الإشارة</b> لملاحظة تضاعف الوسع ($+4\\text{ cm}$) لحظة الالتقاء.
         `;
+      } else {
+        probeLabel.innerHTML = 'لقطة المرجع: <b class="text-cyan-300 font-mono" dir="ltr">t_1 = 0.20 s</b>';
+        legend.innerHTML = `
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="flex items-center gap-1.5"><span class="w-4 border-t-2 border-dashed border-cyan-400 inline-block"></span> اللقطة $t_1 = 0.20\\text{ s}$</span>
+            <span class="flex items-center gap-1.5"><span class="w-4 h-0.5 bg-emerald-400 inline-block"></span> اللقطة $t_2$</span>
+            <span class="flex items-center gap-1.5"><span class="w-4 h-0.5 bg-amber-400 inline-block"></span> المسافة $d$ والتوتر $F$</span>
+          </div>
+          <span class="text-emerald-300 font-semibold">$v = \\sqrt{F/\\mu} = d / \\Delta t$</span>
+        `;
+
+        metricsGrid.innerHTML = [
+          metricCard('السرعة المحسوبة $v = \\sqrt{F/\\mu}$:', 'mVal_v', '5.00 m/s', 'text-emerald-400'),
+          metricCard('الكتلة الطولية $\\mu$ (SI):', 'mVal_mu', '0.080 kg/m', 'text-cyan-300'),
+          metricCard('المدة $\\Delta t = t_2 - t_1$:', 'mVal_dt', '0.50 s', 'text-amber-300'),
+          metricCard('المسافة بين اللقطتين $d$:', 'mVal_d', '2.50 m', 'text-amber-300')
+        ].join('');
+
+        statusBanner.innerHTML = `
+          <div class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center gap-2">
+            <span>🎸</span> <span>كلما زاد التوتر $F$ (شدّ الحبل) ارتفعت $v$، وكلما زادت الكتلة الطولية $\\mu$ (سُمك الحبل) انخفضت $v$.</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = `
+          <b>التحقق الفيزيائي من عوامل السرعة والتصوير المتتالي:</b><br/>
+          • اضبط $F = 0.5\\text{ N}$ (أو $0.4\\text{ N}$) ولاحظ كيف تتباطأ الموجة وتقل المسافة $d$ لنفس المدة $\\Delta t$.<br/>
+          • ضاعف التوتر <b>أربع مرات</b> (مثلاً من $0.8\\text{ N}$ إلى $3.2\\text{ N}$ مع ثبات $\\mu$): تتضاعف السرعة <b>مرتين</b> ($v' = 2v$) وتضاعف المسافة $d$!<br/>
+          • راقب تغير <b>سُمك الحبل المرسوم</b> في اللوحة تلقائياً مع تغير $\\mu$ (القصور).
+        `;
       }
 
       api.renderMath(legend);
@@ -246,6 +305,8 @@
       const v = state.v;
       timeDisplay.textContent = `t = ${t.toFixed(2)} s`;
       speedDisplay.textContent = `v = ${v.toFixed(1)} m/s`;
+      if (tensionDisplay) tensionDisplay.textContent = `F = ${state.tensionF.toFixed(1)} N`;
+      if (muDisplay) muDisplay.textContent = `μ = ${state.muG} g/m`;
 
       if (state.mode === 'transverse') {
         const halfW = 0.65;
@@ -259,20 +320,16 @@
         c.drawGrid(ctx, plane, { xMin: 0, xMax: 6, xStep: 0.5, yMin: -1, yMax: 3, yStep: 1 });
         c.drawAxes(ctx, plane);
 
-        // X Axis ticks
         for (let i = 0; i <= 6; i++) {
           c.drawLabel(ctx, `${i}m`, plane.toPxX(i) - 8, plane.originY + 18, { color: '#64748b', font: '11px monospace' });
         }
 
-        // Fixed equilibrium dashed guide for M
         c.drawLine(ctx, plane, xM, -0.8, xM, 2.6, { color: 'rgba(52, 211, 153, 0.35)', dash: [4, 4] });
         c.drawLabel(ctx, 'M_eq (3.0m)', plane.toPxX(xM) - 34, plane.toPxY(-0.95), { color: '#34d399', font: 'bold 11px monospace' });
 
-        // Plot rope curve
         const fTrans = (x) => amp * pulseShape(x - xCenter, halfW);
         c.plotCurve(ctx, plane, fTrans, 0, 6.0, { color: '#22d3ee', lineWidth: 3.5 });
 
-        // Front F and Queue Q markers
         if (xF >= 0 && xF <= 6.0) {
           c.drawPoint(ctx, plane, xF, 0, { fill: '#fbbf24', radius: 5 });
           c.drawLabel(ctx, `F(${xF.toFixed(2)}m)`, plane.toPxX(xF) + 6, plane.originY - 8, { color: '#fbbf24' });
@@ -282,10 +339,9 @@
           c.drawLabel(ctx, 'Q', plane.toPxX(xQ) - 14, plane.originY - 8, { color: '#94a3b8' });
         }
 
-        // Particle M and vertical velocity arrow
         const yM = fTrans(xM);
         const slopeX = amp * pulseDeriv(xM - xCenter, halfW);
-        const vySign = -v * slopeX; // dy_M / dt = -v * dy / dx
+        const vySign = -v * slopeX;
 
         if (Math.abs(vySign) > 0.15) {
           const arrowDir = vySign > 0 ? 0.65 : -0.65;
@@ -295,11 +351,9 @@
         c.drawPoint(ctx, plane, xM, yM, { fill: '#34d399', radius: 7 });
         c.drawLabel(ctx, `M(3.0, ${yM.toFixed(2)})`, plane.toPxX(xM) + 10, plane.toPxY(yM) - 8, { color: '#34d399' });
 
-        // Propagation velocity vector at top
         c.drawHalfTangentArrow(ctx, plane, 4.3, 2.8, 5.5, 2.8, '#fbbf24');
         c.drawLabel(ctx, `v = ${v.toFixed(1)} m/s`, plane.toPxX(4.45), plane.toPxY(2.96), { color: '#fbbf24' });
 
-        // Update telemetry text only
         const elT = hostEl.querySelector('#mVal_t');
         const elXf = hostEl.querySelector('#mVal_xf');
         const elYm = hostEl.querySelector('#mVal_ym');
@@ -321,12 +375,11 @@
         }
       } else if (state.mode === 'longitudinal') {
         const halfW = 0.72;
-        const ampU = 0.18; // max horizontal displacement in meters
+        const ampU = 0.18;
         const xF = v * t;
         const xCenter = xF - halfW;
         const xM = 3.0;
 
-        // Top spring box & bottom u(x) graph box
         const springPlane = c.createPlane(W, H, { originX: 56, originY: 120, scaleX: 95, scaleY: 45 });
         const plotPlane = c.createPlane(W, H, { originX: 56, originY: 318, scaleX: 95, scaleY: 310 });
 
@@ -336,11 +389,9 @@
           c.drawLabel(ctx, `${i}m`, plotPlane.toPxX(i) - 8, plotPlane.originY + 18, { color: '#64748b', font: '11px monospace' });
         }
 
-        // Fixed equilibrium reference line across both spring & plot
         c.drawLine(ctx, springPlane, xM, -1.8, xM, 5.0, { color: 'rgba(244, 63, 94, 0.35)', dash: [4, 4] });
         c.drawLabel(ctx, 'x_M = 3.0m', springPlane.toPxX(xM) - 30, 32, { color: '#fb7185', font: 'bold 11px monospace' });
 
-        // Render slinky spring turns smoothly with Compression & Dilatation coloring
         const nTurns = 44;
         const stepsPerTurn = 16;
         const uFn = (x0) => ampU * pulseShape(x0 - xCenter, halfW);
@@ -351,8 +402,8 @@
           const xMid = 0.5 * (xStart + xEnd);
           const duDx = ampU * pulseDeriv(xMid - xCenter, halfW);
           let coilColor = '#94a3b8';
-          if (duDx < -0.06) coilColor = '#fbbf24'; // Compression
-          else if (duDx > 0.06) coilColor = '#22d3ee'; // Dilatation
+          if (duDx < -0.06) coilColor = '#fbbf24';
+          else if (duDx > 0.06) coilColor = '#22d3ee';
 
           ctx.save();
           ctx.strokeStyle = k === 22 ? '#fb7185' : coilColor;
@@ -372,12 +423,9 @@
           ctx.restore();
         }
 
-        // Target coil marker M (turn k=22 at x0 = 3.0m)
         const uM = uFn(xM);
-        const xMActual = xM + uM;
-        c.drawPoint(ctx, springPlane, xMActual, 0, { fill: '#fb7185', radius: 6 });
+        c.drawPoint(ctx, springPlane, xM + uM, 0, { fill: '#fb7185', radius: 6 });
 
-        // Plot longitudinal displacement curve u(x) at bottom
         c.drawLabel(ctx, 'u(x, t) [m]', plotPlane.originX + 8, plotPlane.originY - 115, { color: '#94a3b8' });
         c.plotCurve(ctx, plotPlane, uFn, 0, 6.0, { color: '#fbbf24', lineWidth: 3 });
         c.drawPoint(ctx, plotPlane, xM, uM, { fill: '#fb7185', radius: 5.5 });
@@ -402,8 +450,7 @@
             elDir.className = 'font-mono font-bold text-slate-300 text-xs';
           }
         }
-      } else {
-        // Mode 3: Superposition of two opposing pulses
+      } else if (state.mode === 'superposition') {
         const halfW = 0.60;
         const amp = 2.0;
         const x1c = 0.6 + v * t;
@@ -421,14 +468,10 @@
           c.drawLabel(ctx, `${i}m`, plane.toPxX(i) - 8, plane.originY + 18, { color: '#64748b', font: '11px monospace' });
         }
 
-        // Ghost component waves
         c.plotCurve(ctx, plane, y1Fn, 0, 6.0, { color: 'rgba(34, 211, 238, 0.55)', lineWidth: 2, dash: [5, 4] });
         c.plotCurve(ctx, plane, y2Fn, 0, 6.0, { color: 'rgba(251, 191, 36, 0.55)', lineWidth: 2, dash: [5, 4] });
-
-        // Solid net string
         c.plotCurve(ctx, plane, yTotFn, 0, 6.0, { color: '#34d399', lineWidth: 3.8 });
 
-        // Direction arrows above centers if inside [0, 6]
         if (x1c >= 0.4 && x1c <= 5.6) {
           c.drawHalfTangentArrow(ctx, plane, x1c - 0.35, 2.35, x1c + 0.35, 2.35, '#22d3ee');
         }
@@ -449,6 +492,68 @@
         if (elY1) elY1.textContent = `${y1M >= 0 ? '+' : ''}${y1M.toFixed(2)} cm`;
         if (elY2) elY2.textContent = `${y2M >= 0 ? '+' : ''}${y2M.toFixed(2)} cm`;
         if (elTot) elTot.textContent = `${yTotM >= 0 ? '+' : ''}${yTotM.toFixed(2)} cm`;
+      } else {
+        // Mode 4: String Tension F & Linear Mass Density μ -> v = sqrt(F/μ)
+        const muKg = state.muG / 1000.0;
+        const vCalc = Math.sqrt(state.tensionF / muKg);
+        const t1 = 0.20;
+        const dt = Math.max(0, t - t1);
+        const xF1 = vCalc * t1;
+        const xF2 = vCalc * t;
+        const dDist = xF2 - xF1;
+        const halfW = 0.45;
+        const amp = 2.0;
+
+        const plane = c.createPlane(W, H, { originX: 52, originY: 255, scaleX: 68, scaleY: 56 });
+        c.drawGrid(ctx, plane, { xMin: 0, xMax: 8, xStep: 1, yMin: -1, yMax: 3, yStep: 1 });
+        c.drawAxes(ctx, plane);
+
+        for (let i = 0; i <= 8; i++) {
+          c.drawLabel(ctx, `${i}m`, plane.toPxX(i) - 8, plane.originY + 18, { color: '#64748b', font: '11px monospace' });
+        }
+
+        const fSnap1 = (x) => amp * pulseShape(x - (xF1 - halfW), halfW);
+        const fSnap2 = (x) => amp * pulseShape(x - (xF2 - halfW), halfW);
+        const ropeThick = 2.0 + state.muG / 30.0;
+
+        // Reference snapshot at t1 = 0.20s
+        c.plotCurve(ctx, plane, fSnap1, 0, 7.6, { color: 'rgba(34, 211, 238, 0.7)', lineWidth: 2.4, dash: [6, 4] });
+        if (xF1 <= 7.6) {
+          c.drawPoint(ctx, plane, xF1, 0, { fill: '#22d3ee', radius: 4.5 });
+          c.drawLabel(ctx, `F₁(${xF1.toFixed(2)}m)`, plane.toPxX(xF1) - 18, plane.originY + 34, { color: '#22d3ee', font: 'bold 10px monospace' });
+        }
+
+        // Current rope wave at t2 = t (width scales dynamically with mu)
+        c.plotCurve(ctx, plane, fSnap2, 0, 7.6, { color: '#34d399', lineWidth: ropeThick });
+        if (xF2 <= 7.6) {
+          c.drawPoint(ctx, plane, xF2, 0, { fill: '#34d399', radius: 5.5 });
+          c.drawLabel(ctx, `F₂(${xF2.toFixed(2)}m)`, plane.toPxX(xF2) - 18, plane.originY - 10, { color: '#34d399', font: 'bold 10px monospace' });
+        }
+
+        // Distance bracket d = xF2 - xF1
+        const visF1 = Math.min(xF1, 7.6);
+        const visF2 = Math.min(xF2, 7.6);
+        if (visF2 > visF1 + 0.15) {
+          c.drawLine(ctx, plane, visF1, 0, visF1, 2.7, { color: 'rgba(34,211,238,0.45)', dash: [3, 3] });
+          c.drawLine(ctx, plane, visF2, 0, visF2, 2.7, { color: 'rgba(52,211,153,0.45)', dash: [3, 3] });
+          c.drawHalfTangentArrow(ctx, plane, visF1, 2.65, visF2, 2.65, '#fbbf24');
+          const midPx = plane.toPxX(0.5 * (visF1 + visF2));
+          c.drawLabel(ctx, `d = ${dDist.toFixed(2)} m`, midPx - 35, plane.toPxY(2.85), { color: '#fbbf24', font: 'bold 11px monospace' });
+        }
+
+        // Tension force arrow at right extremity of string
+        const arrowLen = 0.4 + state.tensionF * 0.25;
+        c.drawHalfTangentArrow(ctx, plane, 7.6, 0, 7.6 + arrowLen, 0, '#fbbf24');
+        c.drawLabel(ctx, `F=${state.tensionF.toFixed(1)}N`, plane.toPxX(7.65), plane.originY - 12, { color: '#fbbf24', font: 'bold 10px monospace' });
+
+        const elV = hostEl.querySelector('#mVal_v');
+        const elMu = hostEl.querySelector('#mVal_mu');
+        const elDt = hostEl.querySelector('#mVal_dt');
+        const elD = hostEl.querySelector('#mVal_d');
+        if (elV) elV.textContent = `${vCalc.toFixed(2)} m/s`;
+        if (elMu) elMu.textContent = `${muKg.toFixed(3)} kg/m`;
+        if (elDt) elDt.textContent = `${dt.toFixed(2)} s`;
+        if (elD) elD.textContent = `${dDist.toFixed(2)} m`;
       }
     }
 
@@ -471,9 +576,10 @@
       const dt = Math.min(0.05, (ts - state.lastFrameTs) / 1000);
       state.lastFrameTs = ts;
 
+      const minT = parseFloat(timeSlider.min);
       const maxT = parseFloat(timeSlider.max);
-      state.t += dt * 0.75;
-      if (state.t > maxT) state.t = 0;
+      state.t += dt * (state.mode === 'tension' ? 0.35 : 0.75);
+      if (state.t > maxT) state.t = minT;
       timeSlider.value = state.t.toFixed(2);
       drawFrame();
       state.rafId = global.requestAnimationFrame(stepAnim);
@@ -498,13 +604,25 @@
           : 'px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition';
       });
 
+      superSub.classList.add('hidden');
+      speedWrap.classList.remove('hidden');
+      tensionWrap.classList.add('hidden');
+
       if (mode === 'superposition') {
         superSub.classList.remove('hidden');
+        timeSlider.min = '0.0';
         timeSlider.max = '2.5';
         state.t = 1.20;
         timeSlider.value = '1.20';
+      } else if (mode === 'tension') {
+        speedWrap.classList.add('hidden');
+        tensionWrap.classList.remove('hidden');
+        timeSlider.min = '0.20';
+        timeSlider.max = '1.00';
+        state.t = 0.70;
+        timeSlider.value = '0.70';
       } else {
-        superSub.classList.add('hidden');
+        timeSlider.min = '0.0';
         timeSlider.max = '3.2';
         state.t = 1.65;
         timeSlider.value = '1.65';
@@ -539,8 +657,9 @@
 
     resetBtn.addEventListener('click', () => {
       stopAnim();
-      state.t = 0;
-      timeSlider.value = '0.00';
+      const resetVal = parseFloat(timeSlider.min);
+      state.t = resetVal;
+      timeSlider.value = resetVal.toFixed(2);
       drawFrame();
     });
 
@@ -552,6 +671,16 @@
 
     speedSlider.addEventListener('input', () => {
       state.v = parseFloat(speedSlider.value);
+      drawFrame();
+    });
+
+    tensionSlider.addEventListener('input', () => {
+      state.tensionF = parseFloat(tensionSlider.value);
+      drawFrame();
+    });
+
+    muSlider.addEventListener('input', () => {
+      state.muG = parseFloat(muSlider.value);
       drawFrame();
     });
 

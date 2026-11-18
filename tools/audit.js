@@ -373,10 +373,10 @@ async function runBrowserAudit() {
       });
       await page.waitForTimeout(200);
       const physStats = await inspectDom('lesson-phys-01');
-      if (physStats.katexCount < 90) issues.push(`[${vp.name}] phys-01 expected >=90 KaTeX nodes, got ${physStats.katexCount}`);
+      if (physStats.katexCount < 250) issues.push(`[${vp.name}] phys-01 expected >=250 KaTeX nodes, got ${physStats.katexCount}`);
 
-      // Test all 3 phys-01 simulator modes + animation + polarity toggle
-      for (const pMode of ['transverse', 'longitudinal', 'superposition']) {
+      // Test all 4 phys-01 simulator modes + animation + polarity & tension controls
+      for (const pMode of ['transverse', 'longitudinal', 'superposition', 'tension']) {
         await page.click(`[data-phys-mode="${pMode}"]`);
         await page.waitForTimeout(150);
         await inspectDom(`phys-sim-${pMode}`);
@@ -390,6 +390,21 @@ async function runBrowserAudit() {
           await page.waitForTimeout(100);
           await inspectDom('phys-sim-superposition-same');
           await page.click('[data-super-polar="opposite"]');
+        } else if (pMode === 'tension') {
+          await page.evaluate(() => {
+            const fEl = document.getElementById('physTensionSlider');
+            const mEl = document.getElementById('physMuSlider');
+            fEl.value = '0.8';
+            fEl.dispatchEvent(new Event('input'));
+            mEl.value = '50';
+            mEl.dispatchEvent(new Event('input'));
+          });
+          await page.waitForTimeout(100);
+          const vTxt = await page.textContent('#mVal_v');
+          if (!vTxt.includes('4.00 m/s')) {
+            issues.push(`[${vp.name}] phys-sim-tension expected 4.00 m/s, got ${vTxt}`);
+          }
+          await inspectDom('phys-sim-tension-updated');
         }
       }
 
