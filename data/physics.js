@@ -15,7 +15,7 @@ window.EulerAcademy.registerSubject({
       "num": "01",
       "unit": "الجزء 1: الموجات (Ondes)",
       "status": "active",
-      "progressText": "المحوران 01 و 02 مكتملان بالتحرير النموذجي والرسوم التوضيحية + المختبر التفاعلي (4 أنماط — 67%)",
+      "progressText": "جميع المحاور الـ 3 مكتملة بالتحرير النموذجي والرسوم التوضيحية + المختبر التفاعلي (100%)",
       "titleAr": "الموجات الميكانيكية المتوالية",
       "titleFr": "Ondes mécaniques progressives",
       "summary": "تعريف الموجة الميكانيكية، الموجة المستعرضة والطولية، سرعة الانتشار $v = d/\\Delta t$، والتأخر الزمني $\\tau = SM/v$.",
@@ -55,7 +55,13 @@ window.EulerAcademy.registerSubject({
           "id": "p01-ax3",
           "num": "المحور 03",
           "titleAr": "مفهوم التأخر الزمني $\\tau = \\frac{SM}{v}$ والعلاقة الاستطالية $y_M(t) = y_S(t - \\tau)$",
-          "titleFr": "Retard temporel et relation d’élongation"
+          "titleFr": "Retard temporel et relation d’élongation",
+          "status": "completed",
+          "requirements": [
+            "تعريف وحساب التأخر الزمني $\\tau = \\frac{SM}{v}$ بين منبع $S$ ونقطة $M$ أو بين نقطتين $M_1$ و $M_2$.",
+            "إثبات واستغلال العلاقة الاستطالية $y_M(t) = y_S(t - \\tau)$ لحساب الاستطالات وتحديد لحظتي بداية وسكون نقطة.",
+            "استنتاج المنحنى الزمني $y_M(t)$ انطلاقاً من مظهر الحبل $y(x)$ للتشويهات المتماثلة وغير المتماثلة مع مراعاة انعكاس الجبهة."
+          ]
         }
       ]
     },
