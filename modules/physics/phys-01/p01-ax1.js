@@ -2,7 +2,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
 
               <div class="space-y-6">
                 <!-- 1. Official Definitions -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/15 text-amber-300 text-xs font-bold">1. التعاريف الرسمية للموجة الميكانيكية المتوالية (Définitions officielles)</span>
                     <span class="text-xs text-slate-400 font-mono">الإطار المرجعي 2BAC PC</span>
@@ -39,7 +39,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                 </div>
 
                 <!-- 2. Transverse vs Longitudinal Waves -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">2. أصناف الموجات الميكانيكية: المستعرضة والطولية (Transversales vs Longitudinales)</span>
                     <span class="text-xs text-slate-400 font-mono">Classification des ondes</span>
@@ -65,13 +65,13 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                     </div>
                   </div>
 
-                  <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-4" id="svgCardWaveTypes">
+                  <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-2.5 sm:p-4" id="svgCardWaveTypes">
       <div class="text-xs font-bold text-slate-300 mb-3 flex flex-wrap items-center justify-between gap-2">
         <span>📐 رسم تخطيطي مقارنة: الموجة المستعرضة والموجة الطولية</span>
         <span class="text-[11px] font-mono text-amber-400">Ondes transversales vs longitudinales</span>
       </div>
       <div class="space-y-3">
-        <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-3">
+        <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-2 sm:p-3">
           <div class="flex flex-wrap items-center justify-between text-[11px] font-bold mb-1 gap-2">
             <span class="text-cyan-400">1. موجة مستعرضة (حبل مشدود): اتجاه التشويه عمودي (⊥) على اتجاه الانتشار</span>
             <span class="text-emerald-400 font-mono">Transversale</span>
@@ -102,7 +102,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
           </svg>
         </div>
 
-        <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-3">
+        <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-2 sm:p-3">
           <div class="flex flex-wrap items-center justify-between text-[11px] font-bold mb-1 gap-2">
             <span class="text-amber-400">2. موجة طولية (نابض بلفات غير متصلة): اتجاه التشويه موازٍ (//) لاتجاه الانتشار</span>
             <span class="text-emerald-400 font-mono">Longitudinale</span>
@@ -174,7 +174,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                 </div>
 
                 <!-- 3. General Properties of Wave Propagation -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 text-xs font-bold">3. الخواص العامة لانتشار موجة ميكانيكية (Propriétés générales)</span>
                     <span class="text-xs text-slate-400 font-mono">طاقة، أبعاد، وتراكب</span>
@@ -214,7 +214,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                 </div>
 
                 <!-- 4. Snapshot Graph Reading & Motion Direction -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">4. القراءة البيانية لمظهر الوسط وحركة نقطة منه (Aspect & Cinématique)</span>
                     <span class="text-xs text-slate-400 font-mono">تقنية الإزاحة الزمنية</span>
@@ -223,12 +223,12 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                     يمثل <b>مظهر الحبل عند لحظة ثابتة $t_1$</b> صورةً فوتوغرافية لمنحنى الاستطالة بدلالة الفاصلة المكانية $x$ (أي $y = f(x)$). يجب التمييز دوماً بين <b>جبهة/مقدمة الموجة ($F$)</b> التي يبدأ عندها وصول التشويه، و<b>مؤخرة الموجة ($Q$)</b> التي ينتهي عندها التشويه.
                   </p>
 
-                  <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-4" id="svgCardWaveShift">
+                  <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-2.5 sm:p-4" id="svgCardWaveShift">
       <div class="text-xs font-bold text-slate-300 mb-2 flex flex-wrap items-center justify-between gap-2">
         <span>📈 تقنية الإزاحة الزمنية لتحديد منحى حركة النقط على مظهر الحبل</span>
         <span class="text-[11px] font-mono text-cyan-400">Méthode du décalage temporel</span>
       </div>
-      <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-3">
+      <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-2 sm:p-3">
         <div class="flex flex-wrap items-center justify-between gap-3 text-[11px] font-bold mb-2 pb-2 border-b border-slate-800/60">
           <div class="flex flex-wrap items-center gap-4">
             <span class="flex items-center gap-1.5 text-cyan-300"><span class="inline-block w-5 h-0.5 bg-cyan-400"></span> مظهر الحبل في t₁</span>

@@ -15,13 +15,15 @@ window.EulerAcademy.registerSubject({
       "num": "01",
       "unit": "الجزء 1: الموجات (Ondes)",
       "status": "active",
-      "progressText": "جميع المحاور الـ 3 مكتملة بالتحرير النموذجي والرسوم التوضيحية + المختبر التفاعلي (100%)",
+      "progressText": "جميع المحاور الـ 3 مكتملة + المختبر التفاعلي (5 أنماط) + الفرض المحروس الشامل N°1 (100%)",
       "titleAr": "الموجات الميكانيكية المتوالية",
       "titleFr": "Ondes mécaniques progressives",
       "summary": "تعريف الموجة الميكانيكية، الموجة المستعرضة والطولية، سرعة الانتشار $v = d/\\Delta t$، والتأخر الزمني $\\tau = SM/v$.",
       "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°1 (20/20)",
       "simulator": {
-        "navLabel": "🌊 المختبر البصري للموجات (4 أنماط)",
+        "navLabel": "🌊 المختبر البصري للموجات (5 أنماط)",
         "script": "./simulators/phys-01.js"
       },
       "axes": [

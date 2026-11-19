@@ -2,7 +2,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
 
               <div class="space-y-6">
                 <!-- 1. Official Formula & Definition of Célérité -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/15 text-amber-300 text-xs font-bold">1. المفهوم الرسمي لسرعة الانتشار والصيغة الأساسية (Célérité d’une onde)</span>
                     <span class="text-xs text-slate-400 font-mono">الإطار المرجعي 2BAC PC</span>
@@ -30,7 +30,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                 </div>
 
                 <!-- 2. Experimental Measurement Techniques in Exams -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">2. تقنيات حساب وقياس $v$ في الامتحان الوطني (Méthodes de mesure)</span>
                     <span class="text-xs text-slate-400 font-mono">كاميرا • راسم التذبذب • السونار</span>
@@ -42,12 +42,12 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                       نقيس المسافة $d$ بين <b>نقطتين متماثلتين</b> من التشويه في لحظتين $t_1$ و $t_2$ (مثل جبهة الموجة $F_1 \\to F_2$). وإذا صُوّر الحدث بكاميرا ترددها $N$ صورة في الثانية ($\\text{images/s}$)، فإن المدة الفاصلة بين كل صورتين متتاليتين هي $\\Delta t_0 = \\frac{1}{N}$، وعند مرور $k$ مجالات بين اللقطتين يكون: $\\Delta t = k \\cdot \\Delta t_0 = \\frac{k}{N}$.
                     </div>
 
-                    <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-4" id="svgCardSpeedSnapshots">
+                    <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-2.5 sm:p-4" id="svgCardSpeedSnapshots">
       <div class="text-xs font-bold text-slate-300 mb-2 flex flex-wrap items-center justify-between gap-2">
         <span>📸 قياس سرعة الانتشار $v$ من لقطتين متتاليتين ($t_1$ و $t_2$)</span>
         <span class="text-[11px] font-mono text-amber-400">d = x(F₂) − x(F₁)</span>
       </div>
-      <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-3">
+      <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-2 sm:p-3">
         <div class="flex flex-wrap items-center justify-between gap-3 text-[11px] font-bold mb-2 pb-2 border-b border-slate-800/60">
           <div class="flex flex-wrap items-center gap-4">
             <span class="flex items-center gap-1.5 text-cyan-300"><span class="inline-block w-5 border-t-2 border-dashed border-cyan-400"></span> موضع الموجة عند t₁</span>
@@ -103,12 +103,12 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                       $$\\Delta t = n_{\\text{div}} \\times S_h \\implies v = \\frac{d}{n_{\\text{div}} \\times S_h}$$
                     </div>
 
-                    <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-4" id="svgCardOscilloscope">
+                    <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-2.5 sm:p-4" id="svgCardOscilloscope">
       <div class="text-xs font-bold text-slate-300 mb-2 flex flex-wrap items-center justify-between gap-2">
         <span>🖥️ قراءة التأخر على شاشة راسم التذبذب (موجة فوق صوتية بين $R_1$ و $R_2$)</span>
         <span class="text-[11px] font-mono text-cyan-400">Δt = n_div × S_h</span>
       </div>
-      <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-3">
+      <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-2 sm:p-3">
         <div class="flex flex-wrap items-center justify-between gap-3 text-[11px] font-bold mb-2 pb-2 border-b border-slate-800/60">
           <div class="flex flex-wrap items-center gap-4">
             <span class="flex items-center gap-1.5 text-cyan-300"><span class="inline-block w-5 h-0.5 bg-cyan-400"></span> المدخل CH1 (المستقبل R₁)</span>

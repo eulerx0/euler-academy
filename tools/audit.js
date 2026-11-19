@@ -370,13 +370,14 @@ async function runBrowserAudit() {
       await page.waitForTimeout(700);
       await page.evaluate(() => {
         document.querySelectorAll('details').forEach((d) => { d.open = true; });
+        document.querySelectorAll('[onclick*="classList.toggle"]').forEach((b) => b.click());
       });
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const physStats = await inspectDom('lesson-phys-01');
-      if (physStats.katexCount < 250) issues.push(`[${vp.name}] phys-01 expected >=250 KaTeX nodes, got ${physStats.katexCount}`);
+      if (physStats.katexCount < 600) issues.push(`[${vp.name}] phys-01 expected >=600 KaTeX nodes, got ${physStats.katexCount}`);
 
-      // Test all 4 phys-01 simulator modes + animation + polarity & tension controls
-      for (const pMode of ['transverse', 'longitudinal', 'superposition', 'tension']) {
+      // Test all 5 phys-01 simulator modes + animation + polarity, tension & delay controls
+      for (const pMode of ['transverse', 'longitudinal', 'superposition', 'tension', 'delay']) {
         await page.click(`[data-phys-mode="${pMode}"]`);
         await page.waitForTimeout(150);
         await inspectDom(`phys-sim-${pMode}`);
@@ -405,6 +406,22 @@ async function runBrowserAudit() {
             issues.push(`[${vp.name}] phys-sim-tension expected 4.00 m/s, got ${vTxt}`);
           }
           await inspectDom('phys-sim-tension-updated');
+        } else if (pMode === 'delay') {
+          await page.click('[data-delay-shape="sym"]');
+          await page.waitForTimeout(100);
+          await inspectDom('phys-sim-delay-sym');
+          await page.click('[data-delay-shape="asym"]');
+          await page.evaluate(() => {
+            const xEl = document.getElementById('physXmSlider');
+            xEl.value = '3.0';
+            xEl.dispatchEvent(new Event('input'));
+          });
+          await page.waitForTimeout(100);
+          const tauTxt = await page.textContent('#mVal_tau');
+          if (!tauTxt.includes('1.50 s')) {
+            issues.push(`[${vp.name}] phys-sim-delay expected 1.50 s, got ${tauTxt}`);
+          }
+          await inspectDom('phys-sim-delay-updated');
         }
       }
 

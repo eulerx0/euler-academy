@@ -1,6 +1,6 @@
 /**
- * Euler Academy — Interactive 4-Mode Wave Laboratory for Physics Lesson 01
- * (Onde transversale, Onde longitudinale sur ressort, Superposition d'ondes, Célérité F & μ)
+ * Euler Academy — Interactive 5-Mode Wave Laboratory for Physics Lesson 01
+ * (Onde transversale, Onde longitudinale sur ressort, Superposition d'ondes, Célérité F & μ, Retard temporel τ & y_M(t))
  */
 (function (global) {
   'use strict';
@@ -11,7 +11,8 @@
     { id: 'transverse', label: '1. موجة مستعرضة (انتقال الطاقة)', activeCls: 'bg-cyan-500 text-slate-950 shadow' },
     { id: 'longitudinal', label: '2. موجة طولية (نابض وانضغاط)', activeCls: 'bg-amber-500 text-slate-950 shadow' },
     { id: 'superposition', label: '3. تراكب موجتين متقابلتين', activeCls: 'bg-purple-500 text-slate-950 shadow' },
-    { id: 'tension', label: '4. السرعة وعوامل الحبل ($F$ و $\\mu$)', activeCls: 'bg-emerald-500 text-slate-950 shadow' }
+    { id: 'tension', label: '4. السرعة وعوامل الحبل ($F$ و $\\mu$)', activeCls: 'bg-emerald-500 text-slate-950 shadow' },
+    { id: 'delay', label: '5. التأخر الزمني $\\tau$ و $y_M(t)$', activeCls: 'bg-rose-500 text-slate-950 shadow' }
   ];
 
   function pulseShape(u, halfW) {
@@ -22,6 +23,22 @@
   function pulseDeriv(u, halfW) {
     if (Math.abs(u) >= halfW) return 0;
     return -0.5 * (Math.PI / halfW) * Math.sin((Math.PI * u) / halfW);
+  }
+
+  // Source signal y_S(u) for Mode 5 (duration dtS = 0.60 s, amplitude = 2.0 cm)
+  function sourceSignal(u, isAsym) {
+    const dtS = 0.60;
+    if (u <= 0 || u >= dtS) return 0;
+    const amp = 2.0;
+    if (!isAsym) {
+      return amp * Math.sin((Math.PI * u) / dtS);
+    }
+    // Asymmetric pulse: steep leading front [0 .. 0.12s], gentle trailing ramp [0.12 .. 0.60s]
+    const tPeak = 0.12;
+    if (u <= tPeak) {
+      return amp * (u / tPeak);
+    }
+    return amp * (1 - (u - tPeak) / (dtS - tPeak));
   }
 
   function metricCard(labelHtml, valId, initVal, valueCls = 'text-cyan-300') {
@@ -40,6 +57,8 @@
       v: 2.0,
       tensionF: 2.0,
       muG: 80,
+      xM: 2.5,
+      delayAsym: true,
       superOpposite: true,
       playing: false,
       lastFrameTs: 0,
@@ -47,22 +66,22 @@
     };
 
     hostEl.innerHTML = `
-      <div class="glass rounded-3xl p-6 sm:p-8 border border-amber-500/30">
+      <div class="glass rounded-3xl p-5 sm:p-8 border border-amber-500/30">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-5 mb-6">
           <div>
             <div class="flex items-center gap-2 mb-1.5">
               <span class="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider">
                 المختبر البصري التفاعلي • الفيزياء الدرس 01
               </span>
-              <span class="text-xs text-slate-400 font-mono">Simulateur d’Ondes Mécaniques</span>
+              <span class="text-xs text-slate-400 font-mono">Simulateur d’Ondes Mécaniques (5 Modes)</span>
             </div>
             <h3 class="text-xl sm:text-2xl font-extrabold text-white">
-              محاكي انتشار الموجات الميكانيكية (المستعرضة، الطولية، التراكب، وعوامل السرعة $v$)
+              محاكي انتشار الموجات الميكانيكية (المستعرضة، الطولية، التراكب، عوامل السرعة $v$، والتأخر الزمني $\\tau$)
             </h3>
           </div>
           <div class="flex flex-wrap gap-2 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800">
             ${MODES_META.map((m) => `
-              <button type="button" data-phys-mode="${m.id}" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">
+              <button type="button" data-phys-mode="${m.id}" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">
                 ${m.label}
               </button>
             `).join('')}
@@ -76,6 +95,16 @@
           </button>
           <button type="button" data-super-polar="same" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
             بنفس الإشارة ($+2\\text{ cm}$ و $+2\\text{ cm}$ — تضاعف الوسع)
+          </button>
+        </div>
+
+        <div id="physDelaySub" class="hidden mb-4 flex flex-wrap gap-2 items-center bg-slate-950/70 p-3 rounded-2xl border border-slate-800/80">
+          <span class="text-xs text-slate-400 font-semibold px-2">شكل التشويه المنبعث من المنبع $S$:</span>
+          <button type="button" data-delay-shape="asym" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-500 text-slate-950 transition">
+            غير متماثل (واجهة أمامية حادة — انعكاس الجبهة أفقياً بين $y(x)$ و $y_M(t)$!)
+          </button>
+          <button type="button" data-delay-shape="sym" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            متماثل (نبضة جيبية متناظرة)
           </button>
         </div>
 
@@ -112,6 +141,14 @@
                   </div>
                   <input id="physSpeedSlider" type="range" min="1.0" max="3.5" step="0.1" value="2.0" class="w-full accent-amber-400 cursor-pointer" />
                 </div>
+              </div>
+
+              <div id="physXmWrap" class="hidden pt-2 border-t border-slate-800/80">
+                <div class="flex justify-between text-xs font-bold mb-1">
+                  <span class="text-slate-300">أفصول النقطة المدروسة $x_M = SM$:</span>
+                  <span id="physXmDisplay" class="font-mono text-emerald-300" dir="ltr">x_M = 2.50 m</span>
+                </div>
+                <input id="physXmSlider" type="range" min="1.5" max="4.5" step="0.25" value="2.5" class="w-full accent-emerald-400 cursor-pointer" />
               </div>
 
               <div id="physTensionWrap" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-800/80">
@@ -151,8 +188,10 @@
     const H = canvas.height;
 
     const superSub = hostEl.querySelector('#physSuperSub');
+    const delaySub = hostEl.querySelector('#physDelaySub');
     const speedWrap = hostEl.querySelector('#physSpeedWrap');
     const tensionWrap = hostEl.querySelector('#physTensionWrap');
+    const xmWrap = hostEl.querySelector('#physXmWrap');
     const probeLabel = hostEl.querySelector('#physProbeLabel');
     const legend = hostEl.querySelector('#physSimLegend');
     const metricsGrid = hostEl.querySelector('#physMetricsGrid');
@@ -163,10 +202,12 @@
     const speedSlider = hostEl.querySelector('#physSpeedSlider');
     const tensionSlider = hostEl.querySelector('#physTensionSlider');
     const muSlider = hostEl.querySelector('#physMuSlider');
+    const xmSlider = hostEl.querySelector('#physXmSlider');
     const timeDisplay = hostEl.querySelector('#physTimeDisplay');
     const speedDisplay = hostEl.querySelector('#physSpeedDisplay');
     const tensionDisplay = hostEl.querySelector('#physTensionDisplay');
     const muDisplay = hostEl.querySelector('#physMuDisplay');
+    const xmDisplay = hostEl.querySelector('#physXmDisplay');
     const playBtn = hostEl.querySelector('#physPlayBtn');
     const resetBtn = hostEl.querySelector('#physResetBtn');
 
@@ -259,7 +300,7 @@
           • جرب وضع <b>التشويهين المتعاكسين</b> وأوقف المحاكي قرب لحظة التطابق التام $t_c = \\frac{2.4}{v}$: سيبدو الحبل لحظياً أفقياً تماماً ($y_{\\text{tot}} = 0$)، لكن نقط المنتصف تملك طاقة حركية غير منعدمة تجعل الموجتين تواصلان مسارهما بعد الالتقاء!<br/>
           • جرب وضع <b>بنفس الإشارة</b> لملاحظة تضاعف الوسع ($+4\\text{ cm}$) لحظة الالتقاء.
         `;
-      } else {
+      } else if (state.mode === 'tension') {
         probeLabel.innerHTML = 'لقطة المرجع: <b class="text-cyan-300 font-mono" dir="ltr">t_1 = 0.20 s</b>';
         legend.innerHTML = `
           <div class="flex flex-wrap items-center gap-3">
@@ -289,6 +330,36 @@
           • ضاعف التوتر <b>أربع مرات</b> (مثلاً من $0.8\\text{ N}$ إلى $3.2\\text{ N}$ مع ثبات $\\mu$): تتضاعف السرعة <b>مرتين</b> ($v' = 2v$) وتضاعف المسافة $d$!<br/>
           • راقب تغير <b>سُمك الحبل المرسوم</b> في اللوحة تلقائياً مع تغير $\\mu$ (القصور).
         `;
+      } else {
+        // Mode 5: Temporal Delay τ = SM/v & Spatial y(x) vs Temporal y_M(t)
+        probeLabel.innerHTML = `النقطة المدروسة: <b class="text-emerald-300 font-mono" dir="ltr">x_M = ${state.xM.toFixed(2)} m</b>`;
+        legend.innerHTML = `
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="flex items-center gap-1.5"><span class="w-4 h-0.5 bg-cyan-400 inline-block"></span> فوق: مظهر الحبل $y(x)$</span>
+            <span class="flex items-center gap-1.5"><span class="w-4 border-t-2 border-dashed border-cyan-400 inline-block"></span> تحت: المنبع $y_S(t)$</span>
+            <span class="flex items-center gap-1.5"><span class="w-4 h-0.5 bg-amber-400 inline-block"></span> تحت: $y_M(t) = y_S(t - \\tau)$</span>
+          </div>
+          <span class="text-rose-300 font-semibold">$\\tau = SM / v$</span>
+        `;
+
+        metricsGrid.innerHTML = [
+          metricCard('التأخر الزمني $\\tau = x_M / v$:', 'mVal_tau', '1.25 s', 'text-rose-400'),
+          metricCard('مجال حركة $M$ $[\\tau, \\tau + \\Delta t_S]$:', 'mVal_interval', '[1.25, 1.85] s', 'text-amber-300'),
+          metricCard('اللحظة المقابلة في المنبع $t - \\tau$:', 'mVal_tminus', '+0.15 s', 'text-cyan-300'),
+          metricCard('استطالة $y_M(t) = y_S(t - \\tau)$:', 'mVal_ym', '+1.88 cm', 'text-emerald-400')
+        ].join('');
+
+        statusBanner.innerHTML = `
+          <div class="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 font-bold text-xs flex items-center gap-2">
+            <span>⏱️</span> <span>تعيد النقطة $M$ نفس حركة المنبع $S$ بتأخر $\\tau = \\frac{x_M}{v}$، مع <b>انعكاس الجبهة أفقياً</b> بين $y(x)$ و $y_M(t)$!</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = `
+          <b>المقارنة البصرية الحاسمة في الامتحان الوطني ($y(x)$ مقابل $y_M(t)$):</b><br/>
+          • <b>في الأعلى (مظهر الحبل $y(x)$):</b> في الشكل غير المتماثل، تقع الواجهة الحادة <b>يميناً</b> لأنها جبهة الموجة الأمامية $F$.<br/>
+          • <b>في الأسفل (المنحنى الزمني $y_M(t)$):</b> لأن الجبهة $F$ هي التي تصل إلى $M$ <b>أولاً</b> عند اللحظة $t = \\tau$، تظهر الواجهة الحادة <b>يساراً</b> في بداية اهتزاز $M$، بينما تغادر المؤخرة المائلة $Q$ أخيراً عند $\\tau + \\Delta t_S$!
+        `;
       }
 
       api.renderMath(legend);
@@ -307,6 +378,7 @@
       speedDisplay.textContent = `v = ${v.toFixed(1)} m/s`;
       if (tensionDisplay) tensionDisplay.textContent = `F = ${state.tensionF.toFixed(1)} N`;
       if (muDisplay) muDisplay.textContent = `μ = ${state.muG} g/m`;
+      if (xmDisplay) xmDisplay.textContent = `x_M = ${state.xM.toFixed(2)} m`;
 
       if (state.mode === 'transverse') {
         const halfW = 0.65;
@@ -492,7 +564,7 @@
         if (elY1) elY1.textContent = `${y1M >= 0 ? '+' : ''}${y1M.toFixed(2)} cm`;
         if (elY2) elY2.textContent = `${y2M >= 0 ? '+' : ''}${y2M.toFixed(2)} cm`;
         if (elTot) elTot.textContent = `${yTotM >= 0 ? '+' : ''}${yTotM.toFixed(2)} cm`;
-      } else {
+      } else if (state.mode === 'tension') {
         // Mode 4: String Tension F & Linear Mass Density μ -> v = sqrt(F/μ)
         const muKg = state.muG / 1000.0;
         const vCalc = Math.sqrt(state.tensionF / muKg);
@@ -554,6 +626,94 @@
         if (elMu) elMu.textContent = `${muKg.toFixed(3)} kg/m`;
         if (elDt) elDt.textContent = `${dt.toFixed(2)} s`;
         if (elD) elD.textContent = `${dDist.toFixed(2)} m`;
+      } else {
+        // Mode 5: Temporal Delay τ = x_M / v & Spatial y(x) vs Temporal y_M(t) = y_S(t - τ)
+        const dtS = 0.60;
+        const xM = state.xM;
+        const tau = xM / v;
+        const xF = v * t;
+        const xQ = Math.max(0, v * (t - dtS));
+        const isAsym = state.delayAsym;
+
+        // Top plane: Spatial rope aspect y(x) at time t
+        const topPlane = c.createPlane(W, H, { originX: 54, originY: 146, scaleX: 95, scaleY: 36 });
+        c.drawGrid(ctx, topPlane, { xMin: 0, xMax: 6, xStep: 0.5, yMin: -0.5, yMax: 2.5, yStep: 1 });
+        c.drawAxes(ctx, topPlane);
+        for (let i = 0; i <= 6; i++) {
+          c.drawLabel(ctx, `${i}m`, topPlane.toPxX(i) - 8, topPlane.originY + 16, { color: '#64748b', font: '10px monospace' });
+        }
+        c.drawLabel(ctx, '1) Aspect spatial de la corde y(x) à t', 62, 22, { color: '#22d3ee', font: 'bold 11px monospace' });
+
+        const yRope = (x) => (x < 0 ? 0 : sourceSignal(t - x / v, isAsym));
+        c.plotCurve(ctx, topPlane, yRope, 0, 6.0, { color: '#22d3ee', lineWidth: 3.2 });
+
+        // Vertical guide at x_M & point M on rope
+        c.drawLine(ctx, topPlane, xM, -0.4, xM, 2.3, { color: 'rgba(52, 211, 153, 0.45)', dash: [4, 3] });
+        const yNow = sourceSignal(t - tau, isAsym);
+        c.drawPoint(ctx, topPlane, xM, yNow, { fill: '#34d399', radius: 6 });
+        c.drawLabel(ctx, `M(x_M=${xM.toFixed(2)}m)`, topPlane.toPxX(xM) - 36, topPlane.toPxY(2.35), { color: '#34d399', font: 'bold 10px monospace' });
+
+        if (xF > 0 && xF <= 6.0) {
+          c.drawPoint(ctx, topPlane, xF, 0, { fill: '#fbbf24', radius: 4.5 });
+          c.drawLabel(ctx, 'F', topPlane.toPxX(xF) + 4, topPlane.originY - 6, { color: '#fbbf24', font: 'bold 10px monospace' });
+        }
+        if (t > dtS && xQ <= 6.0) {
+          c.drawPoint(ctx, topPlane, xQ, 0, { fill: '#94a3b8', radius: 4 });
+          c.drawLabel(ctx, 'Q', topPlane.toPxX(xQ) - 12, topPlane.originY - 6, { color: '#94a3b8', font: 'bold 10px monospace' });
+        }
+
+        // Divider between top and bottom plots
+        ctx.save();
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(20, 188);
+        ctx.lineTo(W - 20, 188);
+        ctx.stroke();
+        ctx.restore();
+
+        // Bottom plane: Temporal graphs y_S(t) and y_M(t) = y_S(t - τ)
+        const botPlane = c.createPlane(W, H, { originX: 54, originY: 342, scaleX: 162, scaleY: 36 });
+        c.drawGrid(ctx, botPlane, { xMin: 0, xMax: 3.5, xStep: 0.5, yMin: -0.5, yMax: 2.5, yStep: 1 });
+        c.drawAxes(ctx, botPlane);
+        for (let k = 0; k <= 7; k++) {
+          const tk = k * 0.5;
+          c.drawLabel(ctx, `${tk.toFixed(1)}s`, botPlane.toPxX(tk) - 12, botPlane.originY + 16, { color: '#64748b', font: '10px monospace' });
+        }
+        c.drawLabel(ctx, '2) Élongations temporelles y_S(t) et y_M(t) = y_S(t - τ)', 62, 210, { color: '#fbbf24', font: 'bold 11px monospace' });
+
+        // Source curve y_S(t')
+        c.plotCurve(ctx, botPlane, (tp) => sourceSignal(tp, isAsym), 0, 3.5, { color: 'rgba(34, 211, 238, 0.75)', lineWidth: 2.3, dash: [5, 4] });
+        c.drawLabel(ctx, 'y_S(t)', botPlane.toPxX(0.25) - 14, botPlane.toPxY(2.15), { color: '#22d3ee', font: 'bold 10px monospace' });
+
+        // Delayed point M curve y_M(t') = y_S(t' - τ)
+        c.plotCurve(ctx, botPlane, (tp) => sourceSignal(tp - tau, isAsym), 0, 3.5, { color: '#fbbf24', lineWidth: 3.2 });
+        if (tau + 0.3 <= 3.45) {
+          c.drawLabel(ctx, 'y_M(t)', botPlane.toPxX(tau + 0.25) - 14, botPlane.toPxY(2.15), { color: '#fbbf24', font: 'bold 10px monospace' });
+        }
+
+        // Delay arrow +τ from 0 to τ
+        if (tau <= 3.4) {
+          c.drawHalfTangentArrow(ctx, botPlane, 0.02, 1.35, tau - 0.02, 1.35, '#c084fc');
+          const midT = 0.5 * tau;
+          c.drawLabel(ctx, `+τ = ${tau.toFixed(2)}s`, botPlane.toPxX(midT) - 28, botPlane.toPxY(1.52), { color: '#c084fc', font: 'bold 10px monospace' });
+        }
+
+        // Live time cursor t on bottom temporal graph
+        if (t <= 3.5) {
+          c.drawLine(ctx, botPlane, t, -0.4, t, 2.3, { color: 'rgba(52, 211, 153, 0.55)', dash: [3, 3] });
+          c.drawPoint(ctx, botPlane, t, yNow, { fill: '#34d399', radius: 6 });
+        }
+
+        const elTau = hostEl.querySelector('#mVal_tau');
+        const elInt = hostEl.querySelector('#mVal_interval');
+        const elTm = hostEl.querySelector('#mVal_tminus');
+        const elYm = hostEl.querySelector('#mVal_ym');
+        const tMinus = t - tau;
+        if (elTau) elTau.textContent = `${tau.toFixed(2)} s`;
+        if (elInt) elInt.textContent = `[${tau.toFixed(2)}, ${(tau + dtS).toFixed(2)}] s`;
+        if (elTm) elTm.textContent = `${tMinus >= 0 ? '+' : ''}${tMinus.toFixed(2)} s`;
+        if (elYm) elYm.textContent = `+${yNow.toFixed(2)} cm`;
       }
     }
 
@@ -600,13 +760,15 @@
       hostEl.querySelectorAll('[data-phys-mode]').forEach((btn) => {
         const meta = MODES_META.find((m) => m.id === btn.dataset.physMode);
         btn.className = btn.dataset.physMode === mode && meta
-          ? `px-3.5 py-2 rounded-xl text-xs font-bold ${meta.activeCls} transition`
-          : 'px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition';
+          ? `px-3 py-2 rounded-xl text-xs font-bold ${meta.activeCls} transition`
+          : 'px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition';
       });
 
       superSub.classList.add('hidden');
+      delaySub.classList.add('hidden');
       speedWrap.classList.remove('hidden');
       tensionWrap.classList.add('hidden');
+      xmWrap.classList.add('hidden');
 
       if (mode === 'superposition') {
         superSub.classList.remove('hidden');
@@ -621,6 +783,13 @@
         timeSlider.max = '1.00';
         state.t = 0.70;
         timeSlider.value = '0.70';
+      } else if (mode === 'delay') {
+        delaySub.classList.remove('hidden');
+        xmWrap.classList.remove('hidden');
+        timeSlider.min = '0.0';
+        timeSlider.max = '3.4';
+        state.t = 1.40;
+        timeSlider.value = '1.40';
       } else {
         timeSlider.min = '0.0';
         timeSlider.max = '3.2';
@@ -643,11 +812,24 @@
       drawFrame();
     }
 
+    function setDelayShape(isAsym) {
+      state.delayAsym = isAsym;
+      hostEl.querySelectorAll('[data-delay-shape]').forEach((btn) => {
+        const active = (btn.dataset.delayShape === 'asym') === isAsym;
+        btn.className = active
+          ? 'px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-500 text-slate-950 transition'
+          : 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+      });
+      drawFrame();
+    }
+
     hostEl.addEventListener('click', (e) => {
       const mBtn = e.target.closest('[data-phys-mode]');
       if (mBtn) return setPhysMode(mBtn.dataset.physMode);
       const sBtn = e.target.closest('[data-super-polar]');
       if (sBtn) return setSuperPolarity(sBtn.dataset.superPolar === 'opposite');
+      const dBtn = e.target.closest('[data-delay-shape]');
+      if (dBtn) return setDelayShape(dBtn.dataset.delayShape === 'asym');
     });
 
     playBtn.addEventListener('click', () => {
@@ -684,7 +866,15 @@
       drawFrame();
     });
 
-    hostEl._physSimApi = { setPhysMode, setSuperPolarity, drawFrame };
+    xmSlider.addEventListener('input', () => {
+      state.xM = parseFloat(xmSlider.value);
+      if (state.mode === 'delay') {
+        probeLabel.innerHTML = `النقطة المدروسة: <b class="text-emerald-300 font-mono" dir="ltr">x_M = ${state.xM.toFixed(2)} m</b>`;
+      }
+      drawFrame();
+    });
+
+    hostEl._physSimApi = { setPhysMode, setSuperPolarity, setDelayShape, drawFrame };
     api.renderMath(hostEl);
     setPhysMode('transverse');
   }
