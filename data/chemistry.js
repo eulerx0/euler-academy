@@ -15,11 +15,15 @@ window.EulerAcademy.registerSubject({
       "num": "01",
       "unit": "الجزء 1: التحولات السريعة والبطيئة",
       "status": "active",
-      "progressText": "المحور 01 مكتمل بالتحرير النموذجي والرسوم التوضيحية + المعجم الأكاديمي (50%)",
+      "progressText": "المحور 01 مكتمل + المعجم الأكاديمي + المختبر البصري (نمطان) (50%)",
       "titleAr": "التحولات السريعة والتحولات البطيئة",
       "titleFr": "Transformations rapides et transformations lentes",
       "summary": "تفاعلات الأكسدة-اختزال، المزدوجات المؤكسد/مختزل، التمييز بين التحولات السريعة والبطيئة، والعوامل الحركية (درجة الحرارة والتركيز البدئي).",
       "hasLexique": true,
+      "simulator": {
+        "navLabel": "🧪 المختبر البصري للتفاعلات (نمطان)",
+        "script": "./simulators/chem-01.js"
+      },
       "axes": [
         {
           "id": "c01-ax1",

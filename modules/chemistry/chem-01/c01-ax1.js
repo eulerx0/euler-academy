@@ -236,8 +236,50 @@ window.EulerAcademy.registerAxis('chem-01', 'c01-ax1', `
                           <td class="p-2.5 font-mono border border-slate-800" dir="ltr">$\\text{H}_2\\text{O}_2 + 2\\,\\text{H}_3\\text{O}^+ + 2\\,e^- = 4\\,\\text{H}_2\\text{O}$</td>
                           <td class="p-2.5 border border-slate-800">الماء الأوكسيجيني كمؤكسد</td>
                         </tr>
+                        <tr>
+                          <td class="p-2.5 font-mono text-cyan-300 border border-slate-800" dir="ltr">$\\text{H}_3\\text{O}^+ / \\text{H}_2$</td>
+                          <td class="p-2.5 font-mono border border-slate-800" dir="ltr">$2\\,\\text{H}^+ + 2\\,e^- = \\text{H}_2$</td>
+                          <td class="p-2.5 font-mono border border-slate-800" dir="ltr">$2\\,\\text{H}_3\\text{O}^+ + 2\\,e^- = \\text{H}_2 + 2\\,\\text{H}_2\\text{O}$</td>
+                          <td class="p-2.5 border border-slate-800">تفاعل الأحماض مع الفلزات (تصاعد $\\text{H}_2$)</td>
+                        </tr>
+                        <tr>
+                          <td class="p-2.5 font-mono text-sky-300 border border-slate-800" dir="ltr">$\\text{Cu}^{2+} / \\text{Cu}$</td>
+                          <td class="p-2.5 font-mono border border-slate-800" dir="ltr">$\\text{Cu}^{2+} + 2\\,e^- = \\text{Cu}$</td>
+                          <td class="p-2.5 font-mono text-slate-400 border border-slate-800" dir="ltr">لا تحتاج $\\text{H}^+$ أو $\\text{H}_2\\text{O}$</td>
+                          <td class="p-2.5 border border-slate-800">أزرق ($\\text{Cu}^{2+}$) / راسب أحمر آجوري ($\\text{Cu}$)</td>
+                        </tr>
+                        <tr>
+                          <td class="p-2.5 font-mono text-slate-300 border border-slate-800" dir="ltr">$\\text{Zn}^{2+} / \\text{Zn}$</td>
+                          <td class="p-2.5 font-mono border border-slate-800" dir="ltr">$\\text{Zn}^{2+} + 2\\,e^- = \\text{Zn}$</td>
+                          <td class="p-2.5 font-mono text-slate-400 border border-slate-800" dir="ltr">لا تحتاج $\\text{H}^+$ أو $\\text{H}_2\\text{O}$</td>
+                          <td class="p-2.5 border border-slate-800">تآكل فلز الزنك الرمادي في الوسط الحمضي</td>
+                        </tr>
+                        <tr>
+                          <td class="p-2.5 font-mono text-slate-300 border border-slate-800" dir="ltr">$\\text{Al}^{3+} / \\text{Al}$</td>
+                          <td class="p-2.5 font-mono border border-slate-800" dir="ltr">$\\text{Al}^{3+} + 3\\,e^- = \\text{Al}$</td>
+                          <td class="p-2.5 font-mono text-slate-400 border border-slate-800" dir="ltr">يتبادل $3$ إلكترونات (انتبه عند التوحيد!)</td>
+                          <td class="p-2.5 border border-slate-800">تآكل فلز الألمنيوم وتكون أيونات عديمة اللون</td>
+                        </tr>
                       </tbody>
                     </table>
+                  </div>
+
+                  <!-- Subsection 3.2: Tableau d'avancement & Ions spectateurs -->
+                  <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-200 leading-relaxed">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-cyan-500/30">
+                      <b class="text-cyan-400 block mb-1.5">📊 استثمار جدول التقدم وحساب $x_{\\max}$ (مفتاح الدرسين 01 و 02):</b>
+                      لتفاعل عام $a\\,\\text{Ox}_1 + b\\,\\text{Réd}_2 \\longrightarrow c\\,\\text{Réd}_1 + d\\,\\text{Ox}_2$ بكميتين بدئيتين $n_0(\\text{Ox}_1)$ و $n_0(\\text{Réd}_2)$:<br/>
+                      • عند لحظة $t$ (التقدم $x$): $n(\\text{Ox}_1) = n_0(\\text{Ox}_1) - a\\,x$ و $n(\\text{Réd}_2) = n_0(\\text{Réd}_2) - b\\,x$.<br/>
+                      • <b>المتفاعل المحد والتقدم الأقصى:</b>
+                      $$x_{\\max} = \\min\\!\\left(\\frac{n_0(\\text{Ox}_1)}{a} \\;,\\; \\frac{n_0(\\text{Réd}_2)}{b}\\right)$$
+                      • إذا تساوت النسبتان: المزيج <b>ستوكيومتري</b> ويختفي المتفاعلان معاً عند نهاية التحول.
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-amber-500/30">
+                      <b class="text-amber-400 block mb-1.5">👁️ الأيونات المتفرجة (Ions spectateurs — تجنب الخلط القاتل):</b>
+                      لا تُدرج أبداً في المعادلة الحصيلة لتفاعل الأكسدة-اختزال الأيوناتُ التي لا يتغير عدد تأكسدها ولا تشارك في تبادل الإلكترونات، ومن أشهرها:<br/>
+                      • أيونات البوتاسيوم والصوديوم $\\text{K}^+, \\text{Na}^+$ (من $\\text{KMnO}_4, \\text{KI}, \\text{K}_2\\text{S}_2\\text{O}_8, \\text{K}_2\\text{Cr}_2\\text{O}_7$).<br/>
+                      • أيونات الكلورور $\\text{Cl}^-$ (في حمض الكلوريدريك $\\text{H}_3\\text{O}^+ + \\text{Cl}^-$) وأيونات الكبريتات $\\text{SO}_4^{2-}$ (عند التحميض بحمض الكبريتيك $2\\,\\text{H}_3\\text{O}^+ + \\text{SO}_4^{2-}$)!
+                    </div>
                   </div>
                 </div>
 
@@ -334,6 +376,35 @@ window.EulerAcademy.registerAxis('chem-01', 'c01-ax1', `
                       • $n_0(\\text{S}_2\\text{O}_8^{2-}) = C_2 \\cdot V_2 = 0.10 \\times 50 \\times 10^{-3} = 5.0 \\times 10^{-3}\\text{ mol} = 5.0\\text{ mmol}$.<br/>
                       • بمقارنة النسبتين الستوكيومتريتين: $\\frac{n_0(\\text{I}^-)}{2} = \\frac{10}{2} = 5.0\\text{ mmol}$ و $\\frac{n_0(\\text{S}_2\\text{O}_8^{2-})}{1} = 5.0\\text{ mmol}$؛ النسبتان متساويتان!<br/>
                       إذن <b>المزيج البدئي في نسب ستوكيومترية</b> والتقدم الأقصى هو $x_{\\max} = 5.0 \\times 10^{-3}\\text{ mol} = 5.0\\text{ mmol}$. <span class="text-emerald-400 font-mono">(0.75 ن)</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Application 3 -->
+                  <div class="bg-slate-950 p-3 sm:p-5 rounded-2xl border border-slate-800 mt-5">
+                    <div class="flex items-center justify-between mb-2">
+                      <h6 class="text-xs font-bold text-amber-400">تطبيق 3: تفاعل فلز الألمنيوم مع محلول حمض الكلوريدريك وتكوّن غاز $\\text{H}_2$</h6>
+                      <span class="text-[11px] text-slate-400 font-mono">1.50 نقطة</span>
+                    </div>
+                    <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+                      نُدخل قطعة من فلز الألمنيوم $\\text{Al}(\\text{s})$ كتلتها $m = 0.54\\text{ g}$ في حوجلة تحتوي على حجم $V = 100\\text{ mL}$ من محلول حمض الكلوريدريك $(\\text{H}_3\\text{O}^+(\\text{aq}) + \\text{Cl}^-(\\text{aq}))$ تركيزه المولي $C = 0.30\\text{ mol}\\cdot\\text{L}^{-1}$. تُعطى المزدوجتان $\\text{Al}^{3+}/\\text{Al}$ و $\\text{H}_3\\text{O}^+/\\text{H}_2$، والكتلة المولية $M(\\text{Al}) = 27.0\\text{ g}\\cdot\\text{mol}^{-1}$ والحجم المولي في شروط التجربة $V_m = 24.0\\text{ L}\\cdot\\text{mol}^{-1}$.
+                      <br/><b>1.</b> اكتب نصفي المعادلتين الإلكترونيين ثم المعادلة الحصيلة للتفاعل الحاصل، محدداً الأيون المتفرج. <span class="text-emerald-400 font-mono">(0.75 ن)</span>
+                      <br/><b>2.</b> حدّد المتفاعل المحد وقيمة التقدم الأقصى $x_{\\max}$، ثم استنتج حجم غاز ثنائي الهيدروجين $\\text{H}_2$ المتكوّن عند نهاية التحول. <span class="text-emerald-400 font-mono">(0.75 ن)</span>
+                    </p>
+                    <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/20 text-xs text-slate-200 space-y-2.5 leading-relaxed">
+                      <p class="font-bold text-cyan-300">💡 عناصر الإجابة النموذجية وسلم التنقيط:</p>
+                      <p><b>1. المعادلات والأيون المتفرج:</b><br/>
+                      • الأكسدة ($\\times 2$): $\\text{Al}(\\text{s}) = \\text{Al}^{3+}(\\text{aq}) + 3\\,e^-$.<br/>
+                      • الاختزال ($\\times 3$): $2\\,\\text{H}_3\\text{O}^+(\\text{aq}) + 2\\,e^- = \\text{H}_2(\\text{g}) + 2\\,\\text{H}_2\\text{O}(\\ell)$.<br/>
+                      • لتوحيد عدد الإلكترونات ($6\\,e^-$) نضرب الأولى في $2$ والثانية في $3$ ونجمع:
+                      $$2\\,\\text{Al}(\\text{s}) + 6\\,\\text{H}_3\\text{O}^+(\\text{aq}) \\longrightarrow 2\\,\\text{Al}^{3+}(\\text{aq}) + 3\\,\\text{H}_2(\\text{g}) + 6\\,\\text{H}_2\\text{O}(\\ell)$$
+                      • الأيون المتفرج الذي لا يتدخل في التفاعل هو <b>أيون الكلورور $\\text{Cl}^-(\\text{aq})$</b>. <span class="text-emerald-400 font-mono">(0.75 ن)</span></p>
+                      <p><b>2. المتفاعل المحد، $x_{\\max}$، وحجم غاز $\\text{H}_2$:</b><br/>
+                      • $n_0(\\text{Al}) = \\frac{m}{M(\\text{Al})} = \\frac{0.54}{27.0} = 2.0 \\times 10^{-2}\\text{ mol} = 20\\text{ mmol}$.<br/>
+                      • $n_0(\\text{H}_3\\text{O}^+) = C \\cdot V = 0.30 \\times 0.100 = 3.0 \\times 10^{-2}\\text{ mol} = 30\\text{ mmol}$.<br/>
+                      • اختبار النسبتين: $\\frac{n_0(\\text{Al})}{2} = 10\\text{ mmol}$ و $\\frac{n_0(\\text{H}_3\\text{O}^+)}{6} = \\frac{30}{6} = 5.0\\text{ mmol}$. بما أن $5.0 < 10$، فإن <b>أيونات $\\text{H}_3\\text{O}^+$ هي المتفاعل المحد</b> والتقدم الأقصى هو $x_{\\max} = 5.0\\text{ mmol} = 5.0 \\times 10^{-3}\\text{ mol}$.<br/>
+                      • من المعادلة: $n_f(\\text{H}_2) = 3\\,x_{\\max} = 15\\text{ mmol} = 1.5 \\times 10^{-2}\\text{ mol}$، ومنه:
+                      $$V(\\text{H}_2) = n_f(\\text{H}_2) \\cdot V_m = 1.5 \\times 10^{-2} \\times 24.0 = 0.36\\text{ L} = 360\\text{ mL}$$
+                      <span class="text-emerald-400 font-mono">(0.75 ن)</span></p>
                     </div>
                   </div>
                 </div>

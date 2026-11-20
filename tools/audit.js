@@ -55,13 +55,36 @@ function checkTextIntegrity(label, text, errors) {
   if (doubleCount % 2 !== 0) errors.push(`${label}: unbalanced $$ count (${doubleCount})`);
   if (singleCount % 2 !== 0) errors.push(`${label}: unbalanced $ count (${singleCount})`);
 
-  // 3. Common unescaped LaTeX inside math segments
-  const mathSegments = text.match(/\$\$[\s\S]*?\$\$|\$[^$]+\$/g) || [];
+  // 3. Common unescaped LaTeX & zero Arabic chars inside math segments
+  const mathSegments = [];
+  let scanIdx = 0;
+  const cleanedText = text.replace(/\\\$/g, '__ESC_DOLLAR__');
+  while (scanIdx < cleanedText.length) {
+    if (cleanedText.slice(scanIdx, scanIdx + 2) === '$$') {
+      const end = cleanedText.indexOf('$$', scanIdx + 2);
+      if (end !== -1) {
+        mathSegments.push(cleanedText.slice(scanIdx, end + 2));
+        scanIdx = end + 2;
+        continue;
+      }
+    } else if (cleanedText[scanIdx] === '$' && cleanedText[scanIdx + 1] !== '{') {
+      const end = cleanedText.indexOf('$', scanIdx + 1);
+      if (end !== -1 && !cleanedText.slice(scanIdx, end).includes('\n')) {
+        mathSegments.push(cleanedText.slice(scanIdx, end + 1));
+        scanIdx = end + 1;
+        continue;
+      }
+    }
+    scanIdx += 1;
+  }
   const missingSlashRe = /(^|[^\\a-zA-Z])(frac\{|sqrt[\[{]|infty\b|mathbb\{|forall\b|implies\b|iff\b|times\b|vec\{|text\{)/;
   for (const seg of mathSegments) {
     const m = seg.match(missingSlashRe);
     if (m) {
       errors.push(`${label}: suspect missing backslash "${m[2]}" in ${JSON.stringify(seg.slice(0, 80))}`);
+    }
+    if (/[\u0600-\u06FF]/.test(seg)) {
+      errors.push(`${label}: Arabic character found inside math delimiters: ${JSON.stringify(seg.slice(0, 80))}`);
     }
   }
 
@@ -303,13 +326,49 @@ async function runBrowserAudit() {
           }
 
           const overflow = document.documentElement.scrollWidth > window.innerWidth + 1;
-          return { katexCount, katexErrors, hasBadTokens, unrendered, overflow };
+
+          // Check visible SVGs inside lessonView for text clipping or text-to-text overlaps
+          const svgIssues = [];
+          const lessonView = document.getElementById('lessonView');
+          if (lessonView && !lessonView.classList.contains('hidden')) {
+            lessonView.querySelectorAll('svg').forEach((svg, idx) => {
+              const sr = svg.getBoundingClientRect();
+              if (sr.width === 0 || sr.height === 0) return;
+              const texts = Array.from(svg.querySelectorAll('text')).map((t) => {
+                const r = t.getBoundingClientRect();
+                const info = {
+                  txt: t.textContent.trim(),
+                  l: r.left - sr.left,
+                  r: r.right - sr.left,
+                  t: r.top - sr.top,
+                  b: r.bottom - sr.top
+                };
+                if (info.l < -2 || info.r > sr.width + 2 || info.t < -2 || info.b > sr.height + 2) {
+                  svgIssues.push(`svg[${idx}] clipped text ${JSON.stringify(info.txt)}`);
+                }
+                return info;
+              });
+              for (let i = 0; i < texts.length; i++) {
+                for (let j = i + 1; j < texts.length; j++) {
+                  const a = texts[i], b = texts[j];
+                  const ix = Math.max(0, Math.min(a.r, b.r) - Math.max(a.l, b.l));
+                  const iy = Math.max(0, Math.min(a.b, b.b) - Math.max(a.t, b.t));
+                  if (ix > 2 && iy > 2) {
+                    svgIssues.push(`svg[${idx}] overlap (${JSON.stringify(a.txt)} vs ${JSON.stringify(b.txt)})`);
+                  }
+                }
+              }
+            });
+          }
+
+          return { katexCount, katexErrors, hasBadTokens, unrendered, overflow, svgIssues };
         });
 
         if (res.katexErrors.length > 0) issues.push(`[${vp.name}] ${label}: KaTeX errors: ${JSON.stringify(res.katexErrors)}`);
         if (res.hasBadTokens) issues.push(`[${vp.name}] ${label}: found undefined/NaN in visible text`);
         if (res.unrendered.length > 0) issues.push(`[${vp.name}] ${label}: unrendered $ tokens: ${JSON.stringify(res.unrendered)}`);
         if (res.overflow) issues.push(`[${vp.name}] ${label}: horizontal overflow detected`);
+        if (res.svgIssues.length > 0) issues.push(`[${vp.name}] ${label}: SVG layout issues: ${JSON.stringify(res.svgIssues)}`);
         return res;
       };
 
@@ -433,7 +492,7 @@ async function runBrowserAudit() {
         issues.push(`[${vp.name}] back button from deep-linked phys-01 did not return to physics catalog`);
       }
 
-      // Cold deep-link open chem-01 to verify Chemistry modules, Lexique & KaTeX
+      // Cold deep-link open chem-01 to verify Chemistry modules, Lexique, Simulator & KaTeX
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/chem-01`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
@@ -442,7 +501,35 @@ async function runBrowserAudit() {
       });
       await page.waitForTimeout(200);
       const chemStats = await inspectDom('lesson-chem-01');
-      if (chemStats.katexCount < 100) issues.push(`[${vp.name}] chem-01 expected >=100 KaTeX nodes, got ${chemStats.katexCount}`);
+      if (chemStats.katexCount < 200) issues.push(`[${vp.name}] chem-01 expected >=200 KaTeX nodes, got ${chemStats.katexCount}`);
+
+      // Test both chem-01 simulator modes, reactions, sliders and animation
+      for (const cMode of ['redox-beaker', 'metal-acid']) {
+        await page.click(`[data-chem-mode="${cMode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`chem-sim-${cMode}`);
+        if (cMode === 'redox-beaker') {
+          await page.click('[data-chem-rxn="permanganate"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem-sim-permanganate');
+          await page.click('#chemPlayBtn');
+          await page.waitForTimeout(200);
+          await page.click('#chemPlayBtn');
+          await page.click('[data-chem-rxn="iodide"]');
+        } else if (cMode === 'metal-acid') {
+          await page.evaluate(() => {
+            const p = document.getElementById('chemProgSlider');
+            p.value = '1.00';
+            p.dispatchEvent(new Event('input'));
+          });
+          await page.waitForTimeout(100);
+          const vH2 = await page.textContent('#cVal_vh2');
+          if (!vH2.includes('192.0 mL')) {
+            issues.push(`[${vp.name}] chem-sim-metal-acid expected 192.0 mL at full progress, got ${vH2}`);
+          }
+          await inspectDom('chem-sim-metal-acid-updated');
+        }
+      }
 
       await page.click('#btnBackToCatalog');
       await page.waitForTimeout(250);
