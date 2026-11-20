@@ -433,6 +433,24 @@ async function runBrowserAudit() {
         issues.push(`[${vp.name}] back button from deep-linked phys-01 did not return to physics catalog`);
       }
 
+      // Cold deep-link open chem-01 to verify Chemistry modules, Lexique & KaTeX
+      await page.goto('about:blank');
+      await page.goto(`${url}#/lesson/chem-01`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(700);
+      await page.evaluate(() => {
+        document.querySelectorAll('details').forEach((d) => { d.open = true; });
+      });
+      await page.waitForTimeout(200);
+      const chemStats = await inspectDom('lesson-chem-01');
+      if (chemStats.katexCount < 100) issues.push(`[${vp.name}] chem-01 expected >=100 KaTeX nodes, got ${chemStats.katexCount}`);
+
+      await page.click('#btnBackToCatalog');
+      await page.waitForTimeout(250);
+      const chemBackBanner = await page.textContent('#subjectBanner');
+      if (!chemBackBanner.includes('الكيمياء')) {
+        issues.push(`[${vp.name}] back button from deep-linked chem-01 did not return to chemistry catalog`);
+      }
+
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
       if (failedRequests.length) issues.push(`[${vp.name}] failed local requests: ${JSON.stringify(failedRequests)}`);
