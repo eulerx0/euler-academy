@@ -503,8 +503,11 @@ async function runBrowserAudit() {
       const chemStats = await inspectDom('lesson-chem-01');
       if (chemStats.katexCount < 200) issues.push(`[${vp.name}] chem-01 expected >=200 KaTeX nodes, got ${chemStats.katexCount}`);
 
-      // Test both chem-01 simulator modes, reactions, sliders and animation
-      for (const cMode of ['redox-beaker', 'metal-acid']) {
+      // Test both toggle-all-solutions button & all 3 chem-01 simulator modes
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(150);
+      await inspectDom('lesson-chem-01-solutions-open');
+      for (const cMode of ['redox-beaker', 'metal-acid', 'dosage-redox']) {
         await page.click(`[data-chem-mode="${cMode}"]`);
         await page.waitForTimeout(150);
         await inspectDom(`chem-sim-${cMode}`);
@@ -528,6 +531,19 @@ async function runBrowserAudit() {
             issues.push(`[${vp.name}] chem-sim-metal-acid expected 192.0 mL at full progress, got ${vH2}`);
           }
           await inspectDom('chem-sim-metal-acid-updated');
+        } else if (cMode === 'dosage-redox') {
+          await page.evaluate(() => {
+            const vEl = document.getElementById('chemDosageVSlider');
+            vEl.value = '12.0';
+            vEl.dispatchEvent(new Event('input'));
+          });
+          await page.waitForTimeout(100);
+          const veTxt = await page.textContent('#cVal_ve');
+          const eqTxt = await page.textContent('#cVal_eqstate');
+          if (!veTxt.includes('12.0 mL') || !eqTxt.includes('V = V_E')) {
+            issues.push(`[${vp.name}] chem-sim-dosage expected V_E = 12.0 mL at equivalence, got ${veTxt} / ${eqTxt}`);
+          }
+          await inspectDom('chem-sim-dosage-equivalence');
         }
       }
 

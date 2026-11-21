@@ -115,7 +115,7 @@ window.EulerAcademy.registerExam('math-01', `
 
           <!-- Collapsible Master Solution & Marking Scheme -->
           <div class="border border-amber-500/30 rounded-2xl overflow-hidden bg-slate-950/90 mt-6">
-            <button onclick="const el = document.getElementById('ds1-master-solution'); el.classList.toggle('hidden');" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
+            <button onclick="window.EulerAcademy.toggleCollapsible('ds1-master-solution', this);" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
               <span class="flex items-center gap-2">
                 <span>🏆</span>
                 <span>اضغط هنا لعرض عناصر الإجابة الرسمية والحل البرهاني الكامل وسلم التنقيط (20 / 20)</span>
@@ -159,7 +159,7 @@ window.EulerAcademy.registerExam('math-01', `
                   <p><strong>2. قيمة $a$ لضمان الاتصال في $1$:</strong> الدالة $f$ معرفة على $]-\\infty, 1]$ بالحدودية $x^3 + ax + \\frac{1}{2}$ المتصلة على $\\mathbb{R}$ وبالخصوص على يسار $1$، إذن $\\lim_{x \\to 1^-} f(x) = f(1) = 1^3 + a(1) + \\frac{1}{2} = a + \\frac{3}{2}$.</p>
                   <p>تكون $f$ متصلة في $1$ إذا وفقط إذا كان $\\lim_{x \\to 1^+} f(x) = \\lim_{x \\to 1^-} f(x) = f(1) \\iff \\frac{1}{2} = a + \\frac{3}{2} \\iff a = -1$.</p>
                   <p><strong>3. الاتصال على المجالات و TVI:</strong></p>
-                  <p>• على $]1, +\\infty[$: الدالة $x \\mapsto \\sqrt{x^2+3} - 2$ متصلة، والدالة $x \\mapsto x - 1$ متصلة ولا تنعدم على $]1, +\\infty[$، إذن $f$ متصلة كخارج دالتين متصلتين.</p>
+                  <p>• على $]1, +\\infty[$: الدالة $x \\mapsto \\sqrt{x^2+3} - 2$ متصلة لأن $x \\mapsto x^2 + 3$ حدودية متصلة وموجبة قطعاً على $]1, +\\infty[$ (بما أن $x^2 + 3 \\ge 3 > 0$)، والدالة $x \\mapsto x - 1$ متصلة ولا تنعدم على $]1, +\\infty[$، إذن $f$ متصلة كخارج دالتين متصلتين.</p>
                   <p>• على $]-\\infty, 1]$: الدالة $f(x) = x^3 - x + 1/2$ حدودية، إذن متصلة على $\\mathbb{R}$ وبالخصوص على $]-\\infty, 1]$.</p>
                   <p>• بما أن $f$ متصلة في $1$ ومتصلة على $]-\\infty, 1]$ وعلى $[1, +\\infty[$، فإنها متصلة على $\\mathbb{R}$ كاملاً.</p>
                   <p>• تطبيق مبرهنة القيم الوسيطية (TVI) على القطعة $[-2, -1]$: الدالة $f$ متصلة على $[-2, -1]$ لأنها حدودية على $]-\\infty, 1]$. ولدينا $f(-2) = (-2)^3 - (-2) + \\frac{1}{2} = -\\frac{11}{2} = -5.5 < 0$ و $f(-1) = (-1)^3 - (-1) + \\frac{1}{2} = \\frac{1}{2} > 0$. بما أن $f(-2) \\times f(-1) < 0$، فإن المعادلة $f(x) = 0$ تقبل حلاً على الأقل في المجال المفتوح $]-2, -1[$.</p>

@@ -149,7 +149,7 @@ window.EulerAcademy.registerSubject({
       "status": "upcoming",
       "titleAr": "النوى والكتلة والطاقة",
       "titleFr": "Noyaux, masse et énergie",
-      "summary": "علاقة تكافؤ الكتلة-الطاقة لأينشتاين $E = \\Delta m \\cdot c^2$، النقص الكتلي، طاقة الربط للنويدة $\\mathcal{E}_l/A$، منحنى أستون، والانشطار والاندماج النووي.",
+      "summary": "علاقة تكافؤ الكتلة-الطاقة لأينشتاين $E = \\Delta m \\cdot c^2$، النقص الكتلي، طاقة الربط للنويدة $\\xi = E_l/A$، منحنى أستون، والانشطار والاندماج النووي.",
       "axes": [
         {
           "id": "p05-ax1",

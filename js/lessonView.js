@@ -189,6 +189,9 @@
           ` : ''}
         </div>
         <div class="flex items-center gap-2">
+          <button type="button" id="btnToggleAllSolutions" data-expanded="false" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-cyan-300 transition">
+            👁️ إظهار كل الحلول
+          </button>
           <button type="button" id="btnPrintLesson" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-slate-200 transition">
             🖨️ طباعة / PDF
           </button>
@@ -203,6 +206,25 @@
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
+
+    const toggleAllBtn = document.getElementById('btnToggleAllSolutions');
+    if (toggleAllBtn) {
+      toggleAllBtn.addEventListener('click', () => {
+        const nextOpen = toggleAllBtn.dataset.expanded !== 'true';
+        toggleAllBtn.dataset.expanded = String(nextOpen);
+        toggleAllBtn.textContent = nextOpen ? '🙈 طي كل الحلول' : '👁️ إظهار كل الحلول';
+
+        const lessonRoot = document.getElementById('lessonView');
+        if (!lessonRoot) return;
+        lessonRoot.querySelectorAll('details').forEach((d) => {
+          d.open = nextOpen;
+        });
+        lessonRoot.querySelectorAll('[id$="-master-solution"]').forEach((sol) => {
+          sol.classList.toggle('hidden', !nextOpen);
+        });
+        if (nextOpen) api.renderMath(lessonRoot);
+      });
+    }
 
     const printBtn = document.getElementById('btnPrintLesson');
     if (printBtn) printBtn.addEventListener('click', () => global.print());

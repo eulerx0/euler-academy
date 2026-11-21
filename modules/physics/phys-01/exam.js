@@ -171,7 +171,7 @@ window.EulerAcademy.registerExam('phys-01', `
 
           <!-- Collapsible Master Solution & Marking Scheme -->
           <div class="border border-amber-500/30 rounded-2xl overflow-hidden bg-slate-950/90 mt-6">
-            <button onclick="const el = document.getElementById('phys1-master-solution'); el.classList.toggle('hidden');" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
+            <button onclick="window.EulerAcademy.toggleCollapsible('phys1-master-solution', this);" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
               <span class="flex items-center gap-2">
                 <span>🏆</span>
                 <span>إظهار / إخفاء عناصر الإجابة النموذجية وسلم التنقيط الرسمي المفصل (20 / 20 نقطة)</span>

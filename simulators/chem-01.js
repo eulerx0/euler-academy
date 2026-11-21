@@ -1,6 +1,6 @@
 /**
- * Euler Academy — Interactive 2-Mode Chemical Reaction Laboratory for Chemistry Lesson 01
- * (1. Oxydo-réduction & Stœchiométrie en bécher, 2. Réaction Métal-Acide & Volume de H₂ dégagé)
+ * Euler Academy — Interactive 3-Mode Chemical Reaction Laboratory for Chemistry Lesson 01
+ * (1. Oxydo-réduction & Stœchiométrie en bécher, 2. Réaction Métal-Acide & H₂ dégagé, 3. Dosage colorimétrique MnO₄⁻ / Fe²⁺)
  */
 (function (global) {
   'use strict';
@@ -8,8 +8,9 @@
   const C = () => global.EulerCanvas;
 
   const MODES_META = [
-    { id: 'redox-beaker', label: '1. مختبر الأكسدة-اختزال واللون ($x$ و $x_{\\max}$)', activeCls: 'bg-emerald-500 text-slate-950 shadow' },
-    { id: 'metal-acid', label: '2. تفاعل الزنك مع الحمض ($\\text{H}_2$ المتصاعد)', activeCls: 'bg-cyan-500 text-slate-950 shadow' }
+    { id: 'redox-beaker', label: '1. الأكسدة-اختزال واللون ($x_{\\max}$)', activeCls: 'bg-emerald-500 text-slate-950 shadow' },
+    { id: 'metal-acid', label: '2. الزنك والحمض ($\\text{H}_2$ المتصاعد)', activeCls: 'bg-cyan-500 text-slate-950 shadow' },
+    { id: 'dosage-redox', label: '3. المعايرة اللونية ($\\text{MnO}_4^-$ و $V_E$)', activeCls: 'bg-purple-500 text-slate-950 shadow' }
   ];
 
   function metricCard(labelHtml, valId, initVal, valueCls = 'text-emerald-300') {
@@ -32,7 +33,6 @@
 
   function drawBeaker(ctx, bx, by, bw, bh, liquidRatio, fillColor, rimColor) {
     ctx.save();
-    // Liquid inside beaker
     const liqH = (bh - 18) * liquidRatio;
     const liqY = by + bh - liqH;
     ctx.fillStyle = fillColor;
@@ -40,7 +40,6 @@
     ctx.roundRect(bx + 3, liqY, bw - 6, liqH - 3, [0, 0, 10, 10]);
     ctx.fill();
 
-    // Liquid top meniscus line
     ctx.strokeStyle = 'rgba(255,255,255,0.28)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -48,7 +47,6 @@
     ctx.lineTo(bx + bw - 4, liqY);
     ctx.stroke();
 
-    // Graduations on glass
     ctx.strokeStyle = 'rgba(148,163,184,0.45)';
     ctx.lineWidth = 1;
     for (let k = 1; k <= 4; k++) {
@@ -59,7 +57,6 @@
       ctx.stroke();
     }
 
-    // Outer beaker glass outline
     ctx.strokeStyle = rimColor || '#94a3b8';
     ctx.lineWidth = 2.6;
     ctx.beginPath();
@@ -78,12 +75,14 @@
   function mount(hostEl, api) {
     const state = {
       mode: 'redox-beaker',
-      rxn: 'iodide', // 'iodide' | 'permanganate'
-      progFrac: 0.55, // 0..1 of x_max
-      n1: 10.0,       // mmol (I- or H2C2O4)
-      n2: 6.0,        // mmol (S2O8^2- or MnO4-)
-      mZn: 0.654,     // g -> 10.0 mmol
-      nH3O: 16.0,     // mmol
+      rxn: 'iodide',
+      progFrac: 0.55,
+      n1: 10.0,
+      n2: 6.0,
+      mZn: 0.654,
+      nH3O: 16.0,
+      dosageV: 6.0,   // mL of MnO4- added [0..20]
+      dosageC1: 0.12, // mol/L of Fe2+ [0.08..0.16]
       playing: false,
       lastFrameTs: 0,
       rafId: null
@@ -97,10 +96,10 @@
               <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
                 المختبر البصري التفاعلي • الكيمياء الدرس 01
               </span>
-              <span class="text-xs text-slate-400 font-mono">Simulateur d’Oxydo-réduction</span>
+              <span class="text-xs text-slate-400 font-mono">Simulateur d’Oxydo-réduction (3 Modes)</span>
             </div>
             <h3 class="text-xl sm:text-2xl font-extrabold text-white">
-              محاكي تفاعلات الأكسدة-اختزال، جدول التقدم، وتطور كميات المادة ($n_i = f(x)$)
+              محاكي تفاعلات الأكسدة-اختزال، جدول التقدم، والمعايرة اللونية ($V_E$)
             </h3>
           </div>
           <div class="flex flex-wrap gap-2 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800">
@@ -140,7 +139,7 @@
                 <span id="chemEqLabel" class="text-[11px] text-emerald-300 font-mono" dir="ltr">x = 2.75 mmol / x_max = 5.00 mmol</span>
               </div>
 
-              <div>
+              <div id="chemProgWrap">
                 <div class="flex justify-between text-xs font-bold mb-1">
                   <span class="text-slate-300">التقدم التفاعلي النسبي $x / x_{\\max}$:</span>
                   <span id="chemProgDisplay" class="font-mono text-emerald-300" dir="ltr">55%</span>
@@ -181,6 +180,23 @@
                   <input id="chemH3oSlider" type="range" min="6" max="28" step="1" value="16" class="w-full accent-cyan-400 cursor-pointer" />
                 </div>
               </div>
+
+              <div id="chemDosageSliders" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-800/80">
+                <div>
+                  <div class="flex justify-between text-xs font-bold mb-1">
+                    <span class="text-slate-300">الحجم المضاف من البرمنغنات $V$:</span>
+                    <span id="chemDosageVDisplay" class="font-mono text-purple-300" dir="ltr">V = 6.0 mL</span>
+                  </div>
+                  <input id="chemDosageVSlider" type="range" min="0" max="20" step="0.2" value="6.0" class="w-full accent-purple-400 cursor-pointer" />
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-bold mb-1">
+                    <span class="text-slate-300">التركيز $C_1$ لمحلول الحديد II:</span>
+                    <span id="chemDosageC1Display" class="font-mono text-emerald-300" dir="ltr">C₁ = 0.12 mol/L</span>
+                  </div>
+                  <input id="chemDosageC1Slider" type="range" min="0.08" max="0.16" step="0.01" value="0.12" class="w-full accent-emerald-400 cursor-pointer" />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -202,8 +218,10 @@
     const H = canvas.height;
 
     const rxnSub = hostEl.querySelector('#chemRxnSub');
+    const progWrap = hostEl.querySelector('#chemProgWrap');
     const redoxSliders = hostEl.querySelector('#chemRedoxSliders');
     const metalSliders = hostEl.querySelector('#chemMetalSliders');
+    const dosageSliders = hostEl.querySelector('#chemDosageSliders');
     const n1Label = hostEl.querySelector('#chemN1Label');
     const n2Label = hostEl.querySelector('#chemN2Label');
     const legend = hostEl.querySelector('#chemSimLegend');
@@ -217,11 +235,15 @@
     const n2Slider = hostEl.querySelector('#chemN2Slider');
     const mZnSlider = hostEl.querySelector('#chemMznSlider');
     const h3oSlider = hostEl.querySelector('#chemH3oSlider');
+    const dosageVSlider = hostEl.querySelector('#chemDosageVSlider');
+    const dosageC1Slider = hostEl.querySelector('#chemDosageC1Slider');
     const progDisplay = hostEl.querySelector('#chemProgDisplay');
     const n1Display = hostEl.querySelector('#chemN1Display');
     const n2Display = hostEl.querySelector('#chemN2Display');
     const mZnDisplay = hostEl.querySelector('#chemMznDisplay');
     const h3oDisplay = hostEl.querySelector('#chemH3oDisplay');
+    const dosageVDisplay = hostEl.querySelector('#chemDosageVDisplay');
+    const dosageC1Display = hostEl.querySelector('#chemDosageC1Display');
     const playBtn = hostEl.querySelector('#chemPlayBtn');
     const resetBtn = hostEl.querySelector('#chemResetBtn');
 
@@ -267,7 +289,7 @@
           • حرّك المنزلقين حتى تتطابق النسبتان المتكافئتان (مثلاً في تفاعل اليودور: $n_0(\\text{I}^-) = 12\\text{ mmol}$ و $n_0(\\text{S}_2\\text{O}_8^{2-}) = 6.0\\text{ mmol}$ لأن $\\frac{12}{2} = \\frac{6}{1}$) ستلاحظ في المخطط اختفاء المتفاعلين معاً عند $x = x_{\\max}$!<br/>
           • الأيونات $\\text{K}^+$ و $\\text{SO}_4^{2-}$ (الناتجة عن التحميض) متفرجة ولا تدخل في الموازنة.
         `;
-      } else {
+      } else if (state.mode === 'metal-acid') {
         legend.innerHTML = `
           <div class="flex flex-wrap items-center gap-3">
             <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-300 inline-block"></span> فلز الزنك $\\text{Zn}(\\text{s})$</span>
@@ -293,6 +315,34 @@
           <b>منهجية الامتحان الوطني لتفاعلات فلز-حمض:</b><br/>
           • إذا كان فلز الزنك $\\text{Zn}$ في <b>وفرة</b> (مثلاً $m_0 = 0.80\\text{ g} \\approx 12.2\\text{ mmol}$ مع $n_0(\\text{H}_3\\text{O}^+) = 16\\text{ mmol}$)، يتوقف تصاعد الغاز رغم بقاء قطعة الزنك غير ذائبة جزئياً!<br/>
           • تذكر أن $\\text{Cl}^-$ في حمض الكلوريدريك $(\\text{H}_3\\text{O}^+ + \\text{Cl}^-)$ <b>أيون متفرج</b>.
+        `;
+      } else {
+        // Mode 3: Volumetric Colorimetric Redox Titration MnO4- + 5 Fe2+ + 8 H+ -> Mn2+ + 5 Fe3+ + 4 H2O
+        legend.innerHTML = `
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-purple-500 inline-block"></span> المحلول المعايِر $\\text{MnO}_4^-$ ($C_2 = 0.04\\text{ mol/L}$)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-400 inline-block"></span> المعايَر $\\text{Fe}^{2+}$ ($V_1 = 20\\text{ mL}$)</span>
+          </div>
+          <span class="text-purple-300 font-mono">MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O</span>
+        `;
+
+        metricsGrid.innerHTML = [
+          metricCard('حجم التكافؤ $V_E = \\frac{C_1 V_1}{5 C_2}$:', 'cVal_ve', '12.0 mL', 'text-purple-300'),
+          metricCard('حجم البرمنغنات المضاف $V$:', 'cVal_vadd', '6.0 mL', 'text-cyan-300'),
+          metricCard('كمية $\\text{Fe}^{2+}$ المتبقية:', 'cVal_nfe', '1.20 mmol', 'text-emerald-300'),
+          metricCard('حالة الكأس:', 'cVal_eqstate', 'قبل التكافؤ (V < V_E)', 'text-amber-300')
+        ].join('');
+
+        statusBanner.innerHTML = `
+          <div id="cVal_bannerBox" class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center gap-2">
+            <span>💧</span> <span>تفاعل المعايرة <b>سريع وتام</b>: يزول لون $\\text{MnO}_4^-$ فوراً مادام $V < V_E$، ويثبت الوردي-البنفسجي لحظة بلوغ $V_E$!</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = `
+          <b>علاقة التكافؤ الحاسمة في معايرة $\\text{Fe}^{2+}$ بالبرمنغنات:</b><br/>
+          $$\\frac{n_i(\\text{Fe}^{2+})}{5} = \\frac{n_E(\\text{MnO}_4^-)}{1} \\implies C_1 \\cdot V_1 = 5 \\cdot C_2 \\cdot V_E$$
+          • <b>فخ شائع في البكالوريا:</b> نسيان المعامل الستوكيومتري $5$ في علاقة التكافؤ! لاحظ أن كل أيون $\\text{MnO}_4^-$ يلتهم $5$ أيونات $\\text{Fe}^{2+}$.
         `;
       }
 
@@ -333,12 +383,11 @@
 
         const n1Rem = Math.max(0, n10 - aCoeff * x);
         const n2Rem = Math.max(0, n20 - bCoeff * x);
-        const nProd1 = isIodide ? x : 2 * x;       // I2 or Mn2+
-        const nProd2 = isIodide ? 2 * x : 10 * x;  // SO4^2- or CO2
+        const nProd1 = isIodide ? x : 2 * x;
+        const nProd2 = isIodide ? 2 * x : 10 * x;
 
         eqLabel.textContent = `x = ${x.toFixed(2)} mmol / x_max = ${xMax.toFixed(2)} mmol`;
 
-        // Color interpolation for solution inside beaker
         let liqColor;
         if (isIodide) {
           const i2Intensity = Math.min(1, nProd1 / 7.5);
@@ -348,11 +397,9 @@
           liqColor = lerpColor([203, 213, 225, 0.14], [168, 85, 247, 0.82], mno4Intensity);
         }
 
-        // Draw beaker on the left side
         c.drawLabel(ctx, 'وسط التفاعل (Bécher)', 62, 34, { color: '#cbd5e1', font: 'bold 12px monospace' });
         drawBeaker(ctx, 56, 70, 170, 230, 0.72, liqColor, '#94a3b8');
 
-        // Draw gas bubbles if permanganate reaction is progressing
         if (!isIodide && f > 0.02 && f < 0.995) {
           ctx.save();
           ctx.fillStyle = 'rgba(226,232,240,0.65)';
@@ -373,7 +420,6 @@
           c.drawLabel(ctx, lbl, 76, 326, { color: n2Rem < 0.05 ? '#34d399' : '#c084fc', font: 'bold 11px Cairo, sans-serif' });
         }
 
-        // Draw live molar bar chart on the right side
         c.drawLabel(ctx, 'تطور كميات المادة n(t) [mmol]', 335, 34, { color: '#34d399', font: 'bold 12px monospace' });
         const chartX = 285;
         const chartY = 300;
@@ -419,7 +465,6 @@
         });
         ctx.restore();
 
-        // Update metrics DOM
         const elXmax = hostEl.querySelector('#cVal_xmax');
         const elX = hostEl.querySelector('#cVal_x');
         const elLim = hostEl.querySelector('#cVal_lim');
@@ -428,12 +473,11 @@
         if (elX) elX.textContent = `${x.toFixed(2)} mmol`;
         if (elLim) elLim.textContent = limText;
         if (elProd) elProd.textContent = `${nProd1.toFixed(2)} mmol`;
-      } else {
-        // Mode 2: Zn(s) + 2 H3O+ -> Zn2+ + H2(g) + 2 H2O
+      } else if (state.mode === 'metal-acid') {
         const MZn = 65.4;
-        const Vm = 24.0; // L/mol
-        const nZn0 = (state.mZn / MZn) * 1000.0; // mmol
-        const nH3O0 = state.nH3O; // mmol
+        const Vm = 24.0;
+        const nZn0 = (state.mZn / MZn) * 1000.0;
+        const nH3O0 = state.nH3O;
 
         mZnDisplay.textContent = `${state.mZn.toFixed(2)} g (${nZn0.toFixed(1)} mmol)`;
         h3oDisplay.textContent = `${nH3O0.toFixed(1)} mmol`;
@@ -442,7 +486,7 @@
         const rH3O = nH3O0 / 2.0;
         const xMax = Math.min(rZn, rH3O);
         const x = f * xMax;
-        const vh2Ml = x * Vm; // x (mmol) * Vm (L/mol) = mL
+        const vh2Ml = x * Vm;
         const nZnRem = Math.max(0, nZn0 - x);
         const mZnRem = (nZnRem * MZn) / 1000.0;
 
@@ -451,11 +495,9 @@
 
         eqLabel.textContent = `x = ${x.toFixed(2)} mmol | V(H₂) = ${vh2Ml.toFixed(1)} mL`;
 
-        // Left: Erlenmeyer / Flask with corroding Zn strip and rising H2 bubbles
         c.drawLabel(ctx, 'حوجلة التفاعل (Erlenmeyer)', 55, 34, { color: '#cbd5e1', font: 'bold 12px monospace' });
         drawBeaker(ctx, 56, 95, 165, 205, 0.65, 'rgba(34,211,238,0.14)', '#94a3b8');
 
-        // Zinc strip at bottom of beaker (shrinks proportionally with remaining Zn mass)
         const znFrac = Math.max(0, nZnRem / nZn0);
         if (znFrac > 0.02) {
           ctx.save();
@@ -469,7 +511,6 @@
           c.drawLabel(ctx, 'اختفاء Zn كلياً', 94, 286, { color: '#fb7185', font: 'bold 11px Cairo, sans-serif' });
         }
 
-        // H2 gas bubbles inside flask
         if (f > 0.02 && f < 0.995) {
           ctx.save();
           ctx.fillStyle = '#38bdf8';
@@ -483,7 +524,6 @@
           ctx.restore();
         }
 
-        // Delivery tube from flask top (x=138, y=90) to gas syringe (x=310, y=135)
         ctx.save();
         ctx.strokeStyle = '#64748b';
         ctx.lineWidth = 4;
@@ -494,7 +534,6 @@
         ctx.lineTo(310, 145);
         ctx.stroke();
 
-        // Graduated Gas Syringe on the right side (x=310..620, y=115..175)
         c.drawLabel(ctx, 'محقنة مدرجة لقياس حجم H₂ المنطلق (Seringue à gaz)', 315, 96, { color: '#22d3ee', font: 'bold 12px monospace' });
         const maxVolMl = 360;
         const barrelX = 310;
@@ -503,16 +542,13 @@
         const barrelH = 60;
         const pistonOffset = Math.min(barrelW - 35, (vh2Ml / maxVolMl) * (barrelW - 35));
 
-        // Collected H2 gas glow inside syringe
         ctx.fillStyle = 'rgba(34, 211, 238, 0.22)';
         ctx.fillRect(barrelX + 2, barrelY + 2, pistonOffset, barrelH - 4);
 
-        // Syringe cylinder outline
         ctx.strokeStyle = '#94a3b8';
         ctx.lineWidth = 2.4;
         ctx.strokeRect(barrelX, barrelY, barrelW, barrelH);
 
-        // Graduations (0..360 mL)
         ctx.strokeStyle = '#475569';
         ctx.lineWidth = 1.2;
         for (let m = 0; m <= 6; m++) {
@@ -525,7 +561,6 @@
         }
         c.drawLabel(ctx, 'mL', barrelX + barrelW - 22, barrelY + barrelH + 18, { color: '#94a3b8', font: '10px monospace' });
 
-        // Moving piston head + rod
         const px = barrelX + pistonOffset;
         ctx.fillStyle = '#38bdf8';
         ctx.fillRect(px, barrelY + 3, 14, barrelH - 6);
@@ -533,7 +568,6 @@
         ctx.fillRect(px + 14, barrelY + barrelH / 2 - 4, barrelW - pistonOffset + 25, 8);
         ctx.restore();
 
-        // Live Volume readout box below syringe
         ctx.save();
         ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
         ctx.strokeStyle = 'rgba(34, 211, 238, 0.4)';
@@ -554,6 +588,141 @@
         if (elVh2) elVh2.textContent = `${vh2Ml.toFixed(1)} mL`;
         if (elLim) elLim.textContent = limText;
         if (elMrem) elMrem.textContent = `${mZnRem.toFixed(2)} g`;
+      } else {
+        // Mode 3: Volumetric Colorimetric Redox Titration MnO4- (C2=0.04) into Fe2+ (V1=20 mL, C1)
+        const C2 = 0.04;
+        const V1 = 20.0; // mL
+        const C1 = state.dosageC1;
+        const V = state.dosageV;
+        const Ve = (C1 * V1) / (5 * C2); // e.g. 0.12*20/(5*0.04) = 12.0 mL
+
+        const nFe0 = C1 * V1; // mmol
+        const nMnAdded = C2 * V; // mmol
+        const nFeRem = Math.max(0, nFe0 - 5 * nMnAdded);
+        const nMnExc = Math.max(0, nMnAdded - nFe0 / 5);
+        const atOrPastEq = V >= Ve - 0.05;
+
+        dosageVDisplay.textContent = `V = ${V.toFixed(1)} mL`;
+        dosageC1Display.textContent = `C₁ = ${C1.toFixed(2)} mol/L`;
+        eqLabel.textContent = `V = ${V.toFixed(1)} mL  |  V_E = ${Ve.toFixed(1)} mL`;
+
+        // Left side: Burette + Beaker + Magnetic Stirrer
+        c.drawLabel(ctx, 'سحاحة (MnO₄⁻)', 82, 24, { color: '#c084fc', font: 'bold 11px monospace' });
+        const burX = 115;
+        const burY = 38;
+        const burW = 24;
+        const burH = 148;
+        const usedRatio = V / 20.0;
+        const colTop = burY + usedRatio * (burH - 12);
+
+        // Purple liquid inside burette
+        ctx.save();
+        ctx.fillStyle = 'rgba(168, 85, 247, 0.85)';
+        ctx.fillRect(burX + 2, colTop, burW - 4, burY + burH - colTop);
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(burX, burY, burW, burH);
+        // Burette graduations
+        ctx.strokeStyle = 'rgba(226,232,240,0.4)';
+        ctx.lineWidth = 1;
+        for (let g = 0; g <= 4; g++) {
+          const gy = burY + (g / 4) * (burH - 12);
+          ctx.beginPath();
+          ctx.moveTo(burX, gy);
+          ctx.lineTo(burX + 8, gy);
+          ctx.stroke();
+          c.drawLabel(ctx, `${g * 5}`, burX - 20, gy + 4, { color: '#94a3b8', font: '9px monospace' });
+        }
+        // Burette tip + purple drop when V > 0
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillRect(burX + 9, burY + burH, 6, 16);
+        if (V > 0.1 && V < 19.9) {
+          ctx.fillStyle = '#c084fc';
+          ctx.beginPath();
+          ctx.arc(burX + 12, burY + burH + 26, 3.8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // Beaker color: before V_E -> faint pale green/yellow (Fe2+ -> Fe3+); after V_E -> persistent purple-pink
+        let beakerFill;
+        if (!atOrPastEq) {
+          const prog = V / Ve;
+          beakerFill = lerpColor([16, 185, 129, 0.18], [234, 179, 8, 0.22], prog);
+        } else {
+          const exc = Math.min(1, (V - Ve) / 5.0);
+          beakerFill = lerpColor([192, 132, 252, 0.38], [147, 51, 234, 0.85], exc);
+        }
+
+        drawBeaker(ctx, 56, 224, 146, 118, Math.min(0.92, 0.45 + 0.35 * (V / 20)), beakerFill, atOrPastEq ? '#c084fc' : '#94a3b8');
+
+        // Magnetic stirrer plate + spinning pill
+        ctx.save();
+        ctx.fillStyle = '#1e293b';
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(44, 344, 170, 22, 6);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.roundRect(114, 333, 28, 6, 3);
+        ctx.fill();
+        ctx.restore();
+
+        c.drawLabel(
+          ctx,
+          atOrPastEq ? 'ثبات اللون الوردي-البنفسجي (V ≥ V_E)' : 'زوال فوري للون (V < V_E)',
+          48,
+          382,
+          { color: atOrPastEq ? '#c084fc' : '#34d399', font: 'bold 11px Cairo, sans-serif' }
+        );
+
+        // Right side: Quantitative curves n(Fe2+) and n(MnO4-) vs V(mL)
+        const plot = c.createPlane(W, H, { originX: 295, originY: 318, scaleX: 16.5, scaleY: 58 });
+        c.drawGrid(ctx, plot, { xMin: 0, xMax: 20, xStep: 2, yMin: 0, yMax: 3.5, yStep: 0.5 });
+        c.drawAxes(ctx, plot);
+        for (let vk = 0; vk <= 20; vk += 4) {
+          c.drawLabel(ctx, `${vk}`, plot.toPxX(vk) - 6, plot.originY + 16, { color: '#64748b', font: '10px monospace' });
+        }
+        c.drawLabel(ctx, 'V [mL]', plot.toPxX(20.2), plot.originY + 16, { color: '#94a3b8', font: 'bold 10px monospace' });
+        c.drawLabel(ctx, 'تطور كميات المادة خلال المعايرة [mmol]', 300, 34, { color: '#c084fc', font: 'bold 12px monospace' });
+
+        // n(Fe2+) curve (drops linearly from nFe0 to 0 at Ve, then 0)
+        c.plotCurve(ctx, plot, (vv) => Math.max(0, nFe0 - 5 * C2 * vv), 0, 20, { color: '#34d399', lineWidth: 3 });
+        // n(MnO4-) remaining in beaker curve (0 until Ve, then climbs with slope C2)
+        c.plotCurve(ctx, plot, (vv) => Math.max(0, C2 * vv - nFe0 / 5), 0, 20, { color: '#c084fc', lineWidth: 3 });
+
+        // Equivalence vertical marker
+        c.drawLine(ctx, plot, Ve, 0, Ve, 3.3, { color: 'rgba(192,132,252,0.55)', dash: [5, 4] });
+        c.drawPoint(ctx, plot, Ve, 0, { fill: '#c084fc', radius: 5.5 });
+        c.drawLabel(ctx, `V_E=${Ve.toFixed(1)}`, plot.toPxX(Ve) - 22, plot.toPxY(3.4), { color: '#c084fc', font: 'bold 11px monospace' });
+
+        // Current volume cursor V
+        c.drawLine(ctx, plot, V, 0, V, 3.0, { color: 'rgba(34,211,238,0.45)', dash: [3, 3] });
+        c.drawPoint(ctx, plot, V, nFeRem, { fill: '#34d399', radius: 5 });
+        c.drawPoint(ctx, plot, V, nMnExc, { fill: '#c084fc', radius: 5 });
+
+        const elVe = hostEl.querySelector('#cVal_ve');
+        const elVadd = hostEl.querySelector('#cVal_vadd');
+        const elNfe = hostEl.querySelector('#cVal_nfe');
+        const elState = hostEl.querySelector('#cVal_eqstate');
+        if (elVe) elVe.textContent = `${Ve.toFixed(1)} mL`;
+        if (elVadd) elVadd.textContent = `${V.toFixed(1)} mL`;
+        if (elNfe) elNfe.textContent = `${nFeRem.toFixed(2)} mmol`;
+        if (elState) {
+          if (Math.abs(V - Ve) <= 0.15) {
+            elState.textContent = 'نقطة التكافؤ بالضبط (V = V_E)';
+            elState.className = 'font-mono font-bold text-purple-300 text-xs';
+          } else if (V < Ve) {
+            elState.textContent = 'قبل التكافؤ (Fe²⁺ متبقٍ)';
+            elState.className = 'font-mono font-bold text-emerald-300 text-xs';
+          } else {
+            elState.textContent = 'بعد التكافؤ (MnO₄⁻ في وفرة)';
+            elState.className = 'font-mono font-bold text-rose-400 text-xs';
+          }
+        }
       }
     }
 
@@ -576,21 +745,35 @@
       const dt = Math.min(0.05, (ts - state.lastFrameTs) / 1000);
       state.lastFrameTs = ts;
 
-      state.progFrac += dt * 0.28;
-      if (state.progFrac >= 1.0) {
-        state.progFrac = 1.0;
-        progSlider.value = '1.00';
+      if (state.mode === 'dosage-redox') {
+        state.dosageV += dt * 4.5;
+        if (state.dosageV >= 20.0) {
+          state.dosageV = 20.0;
+          dosageVSlider.value = '20.0';
+          drawFrame();
+          stopAnim();
+          return;
+        }
+        dosageVSlider.value = state.dosageV.toFixed(1);
         drawFrame();
-        stopAnim();
-        return;
+      } else {
+        state.progFrac += dt * 0.28;
+        if (state.progFrac >= 1.0) {
+          state.progFrac = 1.0;
+          progSlider.value = '1.00';
+          drawFrame();
+          stopAnim();
+          return;
+        }
+        progSlider.value = state.progFrac.toFixed(2);
+        drawFrame();
       }
-      progSlider.value = state.progFrac.toFixed(2);
-      drawFrame();
       state.rafId = global.requestAnimationFrame(stepAnim);
     }
 
     function startAnim() {
-      if (state.progFrac >= 0.99) state.progFrac = 0.0;
+      if (state.mode === 'dosage-redox' && state.dosageV >= 19.8) state.dosageV = 0.0;
+      else if (state.progFrac >= 0.99) state.progFrac = 0.0;
       state.playing = true;
       state.lastFrameTs = 0;
       playBtn.textContent = '⏸ إيقاف مؤقت';
@@ -609,14 +792,20 @@
           : 'px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition';
       });
 
+      rxnSub.classList.add('hidden');
+      progWrap.classList.remove('hidden');
+      redoxSliders.classList.add('hidden');
+      metalSliders.classList.add('hidden');
+      dosageSliders.classList.add('hidden');
+
       if (mode === 'redox-beaker') {
         rxnSub.classList.remove('hidden');
         redoxSliders.classList.remove('hidden');
-        metalSliders.classList.add('hidden');
-      } else {
-        rxnSub.classList.add('hidden');
-        redoxSliders.classList.add('hidden');
+      } else if (mode === 'metal-acid') {
         metalSliders.classList.remove('hidden');
+      } else {
+        progWrap.classList.add('hidden');
+        dosageSliders.classList.remove('hidden');
       }
 
       syncStaticChrome();
@@ -650,8 +839,13 @@
 
     resetBtn.addEventListener('click', () => {
       stopAnim();
-      state.progFrac = 0.0;
-      progSlider.value = '0.00';
+      if (state.mode === 'dosage-redox') {
+        state.dosageV = 0.0;
+        dosageVSlider.value = '0.0';
+      } else {
+        state.progFrac = 0.0;
+        progSlider.value = '0.00';
+      }
       drawFrame();
     });
 
@@ -678,6 +872,17 @@
 
     h3oSlider.addEventListener('input', () => {
       state.nH3O = parseFloat(h3oSlider.value);
+      drawFrame();
+    });
+
+    dosageVSlider.addEventListener('input', () => {
+      stopAnim();
+      state.dosageV = parseFloat(dosageVSlider.value);
+      drawFrame();
+    });
+
+    dosageC1Slider.addEventListener('input', () => {
+      state.dosageC1 = parseFloat(dosageC1Slider.value);
       drawFrame();
     });
 
