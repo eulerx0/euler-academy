@@ -2,7 +2,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
 
               <div class="space-y-6">
                 <!-- 1. Theoretical Foundation: n-th Root Function -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">1. الأساس النظري لدالة الجذر النوني</span>
                     <span class="text-xs text-slate-400">Fonction Racine n-ième</span>
@@ -49,7 +49,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 2. Algebraic Rules and Reduction of Orders -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">2. القواعد والعمليات الجبرية</span>
                     <span class="text-xs text-slate-400">Règles de Calcul & Réduction des Ordres</span>
@@ -103,7 +103,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 3. Rational Powers x^r (r in Q) -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold">3. القوى الجذرية</span>
                     <span class="text-xs text-slate-400">Puissances Rationnelles xʳ (r ∈ ℚ)</span>
@@ -146,7 +146,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 4. Continuity, Derivability & Limits of nth Root Composite -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">4. الاتصال والاشتقاق لمركب جذر نوني</span>
                     <span class="text-xs text-slate-400">Continuité & Dérivation de ⁿ√u(x)</span>
@@ -178,7 +178,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 5. Advanced Techniques for Indeterminate Forms -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold">5. تقنيات إزالة عدم التعيين</span>
                     <span class="text-xs text-slate-400">Techniques de Levée d'Indétermination</span>
@@ -224,7 +224,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 6. Classic National Exam Traps -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold">6. فخاخ كلاسيكية في الامتحان الوطني</span>
                     <span class="text-xs text-slate-400">Pièges & Erreurs Fréquentes</span>
@@ -249,7 +249,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                     <div class="p-3.5 bg-rose-950/20 border border-rose-900/40 rounded-xl">
                       <div class="text-rose-400 font-bold mb-1">❌ الفخ 3: خطأ نشر المرافق التكعيبي $a^2 + ab + b^2$</div>
                       <p class="text-slate-300 leading-relaxed">
-                        الخلط بين متطابقة الدرجة الثانية $a^2 - b^2$ ومتطابقة التكعيب $a^3 - b^3$. في المقام التكعيبي يجب كتابة ثلاثة حدود موجبة: $A^{2/3} + A^{1/3}B + B^2$.
+                        الخلط بين متطابقة الدرجة الثانية $a^2 - b^2$ ومتطابقة التكعيب $a^3 - b^3$. في المقام التكعيبي لـ $\\sqrt[3]{A} - \\sqrt[3]{B}$ يجب كتابة ثلاثة حدود موجبة: $\\sqrt[3]{A^2} + \\sqrt[3]{AB} + \\sqrt[3]{B^2}$ (أما لـ $\\sqrt[3]{A} - B$ فنكتب $\\sqrt[3]{A^2} + B\\sqrt[3]{A} + B^2$).
                       </p>
                     </div>
 
@@ -263,7 +263,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 7. Model Application 1: Irrational Equation with PPCM -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">7. تمرين نموذجي رسمي رقم 1</span>
                     <span class="text-xs text-slate-400">1.50 نقطة • حل المعادلات بتغيير المتغير</span>
@@ -311,7 +311,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 8. Model Application 2: Calculating Complex Limits -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">8. تمرين نموذجي رسمي رقم 2</span>
                     <span class="text-xs text-slate-400">1.50 نقطة • حساب النهايات غير المحددة</span>
@@ -355,7 +355,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 9. Interactive Auto-Evaluation Card -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold">9. تحدي الفهم الذاتي والتقويم الفوري</span>
                     <span class="text-xs text-slate-400">Auto-Évaluation • 1.50 نقطة</span>
@@ -396,7 +396,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax5', `
                 </div>
 
                 <!-- 10. Master Synthesis Exam Problem (2.00 pts) -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">10. مسألة الامتحان الوطني التوليفية الكبرى</span>
                     <span class="text-xs text-slate-400">Problème de Synthèse Master • معيار د. الرياح (2.00 نقطة)</span>

@@ -2,7 +2,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
 
               <div class="space-y-6">
                 <!-- 1. Rigorous Definition & Theoretical Foundation -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">1. المفهوم الرسمي: الاتصال في نقطة $x_0$ (Continuité en un point)</span>
                     <span class="text-xs text-slate-400 font-mono">الإطار المرجعي 2BAC PC</span>
@@ -26,7 +26,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
                 </div>
 
                 <!-- 2. Right and Left Continuity -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/15 text-amber-300 text-xs font-bold">2. الاتصال على اليمين وعلى اليسار في $x_0$ (Continuité à droite et à gauche)</span>
                     <span class="text-xs text-slate-400 font-mono">الدوال المجزأة والمعرفة بتعبيرين</span>
@@ -52,7 +52,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
                 </div>
 
                 <!-- 3. Classic Indeterminate Forms & 4 Core Techniques -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 text-xs font-bold">3. الترسانة الجبرية لإزالة أشكال عدم التعيين الأربعة (Techniques de Calcul)</span>
                     <span class="text-xs text-slate-400 font-mono">Formes indéterminées</span>
@@ -92,7 +92,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
                 </div>
 
                 <!-- 4. Classic National Exam Traps -->
-                <div class="bg-amber-950/20 border border-amber-500/40 rounded-2xl p-6">
+                <div class="bg-amber-950/20 border border-amber-500/40 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">⚠️ فخاخ كلاسيكية في الامتحان الوطني (Pièges Classiques)</span>
                     <span class="text-xs text-amber-400 font-mono">احذر فقدان النقط</span>
@@ -122,7 +122,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
                 </div>
 
                 <!-- 5. Concrete Application Problems with Full National Exam Solutions -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-4">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">📝 تطبيقات نموذجية محررة بالصياغة الرسمية الكاملة</span>
                     <span class="text-xs text-slate-400 font-mono">معيار الوطني • وسلم التنقيط</span>
@@ -206,7 +206,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax1', `
                 </div>
 
                 <!-- 6. Interactive Auto-Test (Collapsible) -->
-                <div class="bg-cyan-950/20 border border-cyan-500/30 rounded-2xl p-6">
+                <div class="bg-cyan-950/20 border border-cyan-500/30 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 text-xs font-bold">🎯 التحدي الذاتي السريع (Auto-Test)</span>
                     <span class="text-xs text-slate-400">اختبر استيعابك للمحور</span>

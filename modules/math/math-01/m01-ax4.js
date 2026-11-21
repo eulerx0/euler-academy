@@ -2,7 +2,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
 
               <div class="space-y-6">
                 <!-- 1. Theoretical Foundation: Bijection Theorem -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">1. الأساس النظري ومبرهنة التقابل</span>
                     <span class="text-xs text-slate-400">Théorème de la Bijection & Fonction Réciproque</span>
@@ -50,7 +50,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 2. Core Properties of f^{-1} -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">2. خصائص الدالة العكسية</span>
                     <span class="text-xs text-slate-400">Propriétés de la Fonction Réciproque</span>
@@ -96,7 +96,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 3. Geometry & Axial Symmetry y = x -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold">3. الهندسة والتمثيل المبياني</span>
                     <span class="text-xs text-slate-400">Symétrie Axiale par rapport à y = x</span>
@@ -171,7 +171,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 4. Explicit Algebraic Algorithm for f^{-1}(x) -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold">4. الخوارزمية الجبرية الصارمة</span>
                     <span class="text-xs text-slate-400">Algorithme de Détermination de f⁻¹(x)</span>
@@ -217,7 +217,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 5. Classic National Exam Traps -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold">5. فخاخ كلاسيكية في الامتحان الوطني</span>
                     <span class="text-xs text-slate-400">Pièges & Vigilance Examen</span>
@@ -256,7 +256,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 6. Model Application 1: Radical Function & Canonical Form -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">6. تمرين نموذجي رسمي رقم 1</span>
                     <span class="text-xs text-slate-400">1.50 نقطة • معيار الامتحان الوطني</span>
@@ -333,7 +333,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 7. Model Application 2: Negative Interval & Minus Sign Choice -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold">7. تمرين نموذجي رسمي رقم 2</span>
                     <span class="text-xs text-slate-400">فخ إشارة السالب • 1.50 نقطة</span>
@@ -375,7 +375,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 8. Interactive Auto-Evaluation Card -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold">8. تحدي الفهم الذاتي والتقويم الفوري</span>
                     <span class="text-xs text-slate-400">Auto-Évaluation • 1.50 نقطة</span>
@@ -418,7 +418,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
                 </div>
 
                 <!-- 9. Synthesis Master Exam Problem (2.00 pts) -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">9. مسألة الامتحان الوطني التوليفية الكبرى</span>
                     <span class="text-xs text-slate-400">Problème de Synthèse Master • معيار د. الرياح (2.00 نقطة)</span>
@@ -543,7 +543,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
 
 
                 <!-- 10. Derivability of the Inverse Function & Tangents -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">10. اشتقاق الدالة العكسية والتأويلات الهندسية</span>
                     <span class="text-xs text-slate-400">Dérivabilité de f⁻¹ & Demi-tangentes</span>

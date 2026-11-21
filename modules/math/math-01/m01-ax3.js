@@ -2,7 +2,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
 
               <div class="space-y-6">
                 <!-- 1. Theoretical Foundation & Interval Images -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">1. الأساس النظري والمبرهنات</span>
                     <span class="text-xs text-slate-400">Fondement Théorique & Image d'Intervalle</span>
@@ -93,7 +93,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                 </div>
 
                 <!-- 2. TVI: Existence and Uniqueness -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">2. مبرهنة القيم الوسيطية (TVI)</span>
                     <span class="text-xs text-slate-400">Théorème des Valeurs Intermédiaires</span>
@@ -155,7 +155,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                 </div>
 
                 <!-- 3. Dichotomy Algorithm (Méthode de Dichotomie) -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold">3. الخوارزمية والحساب العددي</span>
                     <span class="text-xs text-slate-400">Algorithme de Dichotomie</span>
@@ -206,7 +206,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                 </div>
 
                 <!-- 4. Strategic Link: Sign of f(x) from alpha -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold">4. الربط المنهجي الحاسم</span>
                     <span class="text-xs text-slate-400">Signe de f(x) à partir du zéro alpha</span>
@@ -276,7 +276,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                 </div>
 
                 <!-- 5. Classic National Exam Traps -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold">5. فخاخ كلاسيكية في الامتحان الوطني</span>
                     <span class="text-xs text-slate-400">Pièges Fréquents & Vigilance Examen</span>
@@ -316,7 +316,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                 </div>
 
                 <!-- 6. Model Application 1: Complete National Exam Standard Problem -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">6. تمرين نموذجي مطابق لمعايير الامتحان الوطني</span>
                     <span class="text-xs text-slate-400">1.50 نقطة • سلم التنقيط الرسمي</span>
@@ -425,7 +425,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                 </div>
 
                 <!-- 7. Application 2: Non-Monotone Function & Variations Table -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">7. تطبيق متقدم: قراءة جدول التغيرات</span>
                     <span class="text-xs text-slate-400">Image d'un intervalle par lecture du tableau de variations</span>
@@ -471,7 +471,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
                 </div>
 
                 <!-- 8. Interactive Auto-Evaluation Card -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold">8. تحدي الفهم الذاتي والتقويم الفوري</span>
                     <span class="text-xs text-slate-400">Auto-Évaluation & Défi Méthodologique</span>
@@ -513,7 +513,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax3', `
 
 
                 <!-- 9. Synthesis Exam Problem: Master Standard (2.00 pts) -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold">9. مسألة الامتحان الوطني التوليفية الكبرى</span>
                     <span class="text-xs text-slate-400">Problème de Synthèse • معيار د. الرياح (2.00 نقطة)</span>

@@ -184,6 +184,7 @@
       const metaTag = lesson.unit ? lesson.unit : `الأسدوس ${lesson.semester || 1}`;
 
       const capabilityBadges = [
+        lesson.hasLexique ? `<span class="px-2 py-0.5 rounded bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-[10px] font-bold">📖 معجم ثنائي</span>` : '',
         lesson.simulator ? `<span class="px-2 py-0.5 rounded bg-purple-500/15 border border-purple-500/30 text-purple-300 text-[10px] font-bold">🧪 مختبر بصري</span>` : '',
         lesson.hasExam ? `<span class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-bold">📝 فرض محروس</span>` : ''
       ].filter(Boolean).join(' ');

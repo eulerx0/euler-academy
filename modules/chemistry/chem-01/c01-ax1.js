@@ -281,6 +281,16 @@ window.EulerAcademy.registerAxis('chem-01', 'c01-ax1', `
                       • أيونات الكلورور $\\text{Cl}^-$ (في حمض الكلوريدريك $\\text{H}_3\\text{O}^+ + \\text{Cl}^-$) وأيونات الكبريتات $\\text{SO}_4^{2-}$ (عند التحميض بحمض الكبريتيك $2\\,\\text{H}_3\\text{O}^+ + \\text{SO}_4^{2-}$)!
                     </div>
                   </div>
+
+                  <!-- Subsection 3.3: Special Case: Dismutation of Hydrogen Peroxide -->
+                  <div class="mt-4 bg-slate-950 p-4 rounded-xl border border-rose-500/30 text-xs text-slate-200 leading-relaxed">
+                    <b class="text-rose-300 block mb-1.5">🔥 حالة خاصة متكررة في 2BAC PC — التفكك الذاتي للماء الأوكسيجيني (Dismutation de $\\text{H}_2\\text{O}_2$):</b>
+                    يلعب الماء الأوكسيجيني $\\text{H}_2\\text{O}_2$ دور المؤكسد في المزدوجة $\\text{H}_2\\text{O}_2 / \\text{H}_2\\text{O}$ ودور المختزل في المزدوجة $\\text{O}_2 / \\text{H}_2\\text{O}_2$ في آنٍ واحد. ولذلك يتفكك ذاتياً (تفاعل بطيء يتسارع بوجود محفز مثل أيونات $\\text{Fe}^{3+}$) وفق نصفي المعادلتين:<br/>
+                    • اختزال: $\\text{H}_2\\text{O}_2(\\text{aq}) + 2\\,\\text{H}^+(\\text{aq}) + 2\\,e^- = 2\\,\\text{H}_2\\text{O}(\\ell)$<br/>
+                    • أكسدة: $\\text{H}_2\\text{O}_2(\\text{aq}) = \\text{O}_2(\\text{g}) + 2\\,\\text{H}^+(\\text{aq}) + 2\\,e^-$<br/>
+                    ومنه نحصل بالجمع على المعادلة الحصيلة الشهيرة:
+                    $$2\\,\\text{H}_2\\text{O}_2(\\text{aq}) \\longrightarrow 2\\,\\text{H}_2\\text{O}(\\ell) + \\text{O}_2(\\text{g})$$
+                  </div>
                 </div>
 
                 <!-- 4. Classic National Exam Traps -->

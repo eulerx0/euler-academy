@@ -2,7 +2,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
 
               <div class="space-y-6">
                 <!-- 1. Rigorous Definition: Continuity on an Interval -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">1. المفهوم الرسمي: الاتصال على مجال (Continuité sur un intervalle)</span>
                     <span class="text-xs text-slate-400 font-mono">الإطار المرجعي 2BAC PC</span>
@@ -29,7 +29,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                 </div>
 
                 <!-- 2. Continuity of Standard Functions -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 text-xs font-bold">2. اتصال الدوال الاعتيادية (Fonctions usuelles)</span>
                     <span class="text-xs text-slate-400 font-mono">خاصيات مرجعية تقبل بدون برهان</span>
@@ -56,7 +56,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                 </div>
 
                 <!-- 3. Operations on Continuous Functions -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-indigo-500/15 text-indigo-300 text-xs font-bold">3. العمليات الجبرية على الدوال المتصلة (Opérations algébriques)</span>
                     <span class="text-xs text-slate-400 font-mono">مبرهنات الحساب</span>
@@ -79,7 +79,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                 </div>
 
                 <!-- 4. Composition of Functions: Theorem & Requirements -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-pink-500/15 text-pink-300 text-xs font-bold">4. اتصال مركب دالتين $g \\circ f$ ونهاية المركب</span>
                     <span class="text-xs text-slate-400 font-mono">Composée de deux fonctions</span>
@@ -110,7 +110,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                 </div>
 
                 <!-- 5. Classic National Exam Traps -->
-                <div class="bg-amber-950/20 border border-amber-500/40 rounded-2xl p-6">
+                <div class="bg-amber-950/20 border border-amber-500/40 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">⚠️ فخاخ كلاسيكية في الامتحان الوطني (Pièges Classiques)</span>
                     <span class="text-xs text-amber-400 font-mono">ضمان العلامة الكاملة</span>
@@ -133,7 +133,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                 </div>
 
                 <!-- 6. Rigorous Proof-Based Application Problems -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-4">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">📝 تطبيقات نموذجية محررة بالصياغة الرسمية للامتحان الوطني</span>
                     <span class="text-xs text-slate-400 font-mono">التعليل الكامل • سلم التنقيط</span>
@@ -207,7 +207,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                 </div>
 
                 <!-- 7. Interactive Auto-Test -->
-                <div class="bg-cyan-950/20 border border-cyan-500/30 rounded-2xl p-6">
+                <div class="bg-cyan-950/20 border border-cyan-500/30 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 text-xs font-bold">🎯 التحدي الذاتي السريع (Auto-Test)</span>
                     <span class="text-xs text-slate-400">اختبر استيعابك للمحور 02</span>
@@ -230,7 +230,7 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax2', `
                 </div>
 
                 <!-- 8. Comprehensive National Exam Synthesis Problem -->
-                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-indigo-500/40 rounded-2xl p-6 shadow-xl">
+                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-indigo-500/40 rounded-2xl p-3.5 sm:p-6 shadow-xl">
                   <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
                     <div class="flex items-center gap-2">
                       <span class="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-bold">🌟 مسألة توليفية شاملة (المحوران 01 و 02)</span>

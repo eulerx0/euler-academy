@@ -109,6 +109,9 @@ function runStaticAudit() {
   for (const file of jsFiles) {
     const rel = path.relative(HUB_DIR, file);
     const code = fs.readFileSync(file, 'utf8');
+    if (code.includes('$' + '${')) {
+      errors.push(`${rel}: accidental adjacent dollar-template delimiters ($ + {) detected`);
+    }
     try {
       new vm.Script(code, { filename: rel });
     } catch (err) {
@@ -327,6 +330,14 @@ async function runBrowserAudit() {
 
           const overflow = document.documentElement.scrollWidth > window.innerWidth + 1;
 
+          // Check rendered KaTeX nodes for leaked Arabic text (e.g., from broken $$ delimiters)
+          const katexArabic = [];
+          document.querySelectorAll('.katex-html').forEach((kh) => {
+            if (/[\u0600-\u06FF]/.test(kh.textContent || '')) {
+              katexArabic.push((kh.textContent || '').trim().slice(0, 60));
+            }
+          });
+
           // Check visible SVGs inside lessonView for text clipping or text-to-text overlaps
           const svgIssues = [];
           const lessonView = document.getElementById('lessonView');
@@ -361,10 +372,11 @@ async function runBrowserAudit() {
             });
           }
 
-          return { katexCount, katexErrors, hasBadTokens, unrendered, overflow, svgIssues };
+          return { katexCount, katexErrors, katexArabic, hasBadTokens, unrendered, overflow, svgIssues };
         });
 
         if (res.katexErrors.length > 0) issues.push(`[${vp.name}] ${label}: KaTeX errors: ${JSON.stringify(res.katexErrors)}`);
+        if (res.katexArabic.length > 0) issues.push(`[${vp.name}] ${label}: Arabic text leaked inside rendered KaTeX: ${JSON.stringify(res.katexArabic)}`);
         if (res.hasBadTokens) issues.push(`[${vp.name}] ${label}: found undefined/NaN in visible text`);
         if (res.unrendered.length > 0) issues.push(`[${vp.name}] ${label}: unrendered $ tokens: ${JSON.stringify(res.unrendered)}`);
         if (res.overflow) issues.push(`[${vp.name}] ${label}: horizontal overflow detected`);
