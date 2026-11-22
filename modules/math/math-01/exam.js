@@ -115,12 +115,12 @@ window.EulerAcademy.registerExam('math-01', `
 
           <!-- Collapsible Master Solution & Marking Scheme -->
           <div class="border border-amber-500/30 rounded-2xl overflow-hidden bg-slate-950/90 mt-6">
-            <button onclick="window.EulerAcademy.toggleCollapsible('ds1-master-solution', this);" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
+            <button type="button" aria-expanded="false" onclick="window.EulerAcademy.toggleCollapsible('ds1-master-solution', this);" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
               <span class="flex items-center gap-2">
                 <span>🏆</span>
                 <span>اضغط هنا لعرض عناصر الإجابة الرسمية والحل البرهاني الكامل وسلم التنقيط (20 / 20)</span>
               </span>
-              <span class="text-xs text-slate-400">معاينة الحل الكامل ↧</span>
+              <span class="text-xs text-slate-400 flex items-center gap-1.5"><span>معاينة الحل الكامل</span><span class="sol-chevron inline-block transition-transform">▼</span></span>
             </button>
 
             <div id="ds1-master-solution" class="hidden p-5 sm:p-6 border-t border-slate-800 space-y-6 text-xs text-slate-300 leading-relaxed">

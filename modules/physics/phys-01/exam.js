@@ -171,12 +171,12 @@ window.EulerAcademy.registerExam('phys-01', `
 
           <!-- Collapsible Master Solution & Marking Scheme -->
           <div class="border border-amber-500/30 rounded-2xl overflow-hidden bg-slate-950/90 mt-6">
-            <button onclick="window.EulerAcademy.toggleCollapsible('phys1-master-solution', this);" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
+            <button type="button" aria-expanded="false" onclick="window.EulerAcademy.toggleCollapsible('phys1-master-solution', this);" class="w-full text-right p-4 sm:p-5 bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 hover:from-amber-500/30 text-xs sm:text-sm font-bold text-amber-300 flex items-center justify-between transition">
               <span class="flex items-center gap-2">
                 <span>🏆</span>
                 <span>إظهار / إخفاء عناصر الإجابة النموذجية وسلم التنقيط الرسمي المفصل (20 / 20 نقطة)</span>
               </span>
-              <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40">Corrigé Officiel</span>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center gap-1.5"><span>Corrigé Officiel</span><span class="sol-chevron inline-block transition-transform">▼</span></span>
             </button>
 
             <div id="phys1-master-solution" class="hidden p-4 sm:p-6 border-t border-slate-800 space-y-6 text-xs text-slate-300 leading-relaxed">

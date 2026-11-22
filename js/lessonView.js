@@ -216,11 +216,16 @@
 
         const lessonRoot = document.getElementById('lessonView');
         if (!lessonRoot) return;
-        lessonRoot.querySelectorAll('details').forEach((d) => {
+        lessonRoot.querySelectorAll('#lessonAxesContainer details, #lessonExamContainer details').forEach((d) => {
           d.open = nextOpen;
         });
-        lessonRoot.querySelectorAll('[id$="-master-solution"]').forEach((sol) => {
+        lessonRoot.querySelectorAll('[id$="-solution"], [id$="-master-solution"], [data-solution-panel]').forEach((sol) => {
           sol.classList.toggle('hidden', !nextOpen);
+          if (sol.id) {
+            lessonRoot.querySelectorAll(`[onclick*="'${sol.id}'"], [onclick*='"${sol.id}"']`).forEach((btn) => {
+              btn.setAttribute('aria-expanded', String(nextOpen));
+            });
+          }
         });
         if (nextOpen) api.renderMath(lessonRoot);
       });

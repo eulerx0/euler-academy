@@ -62,6 +62,11 @@ svg {
   100% { background-position: -200% 0; }
 }
 
+/* Synchronized chevron rotation for EulerAcademy.toggleCollapsible triggers */
+[aria-expanded="true"] .sol-chevron {
+  transform: rotate(180deg);
+}
+
 /* Clean Print / PDF Export Styles */
 @media print {
   header,

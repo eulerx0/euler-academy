@@ -94,6 +94,19 @@ function checkTextIntegrity(label, text, errors) {
       errors.push(`${label}: forbidden internal term "${term}" found in public content`);
     }
   }
+
+  // 5. Standardized collapsible solutions (never raw classList.toggle)
+  if (/classList\.toggle\(\s*['"]hidden['"]\s*\)/.test(text)) {
+    errors.push(`${label}: raw classList.toggle('hidden') detected; use window.EulerAcademy.toggleCollapsible('<id>-solution', this) or <details>`);
+  }
+  const tcRegex = /toggleCollapsible\(\s*['"]([^'"]+)['"]/g;
+  let tcMatch;
+  while ((tcMatch = tcRegex.exec(text)) !== null) {
+    const targetId = tcMatch[1];
+    if (!/(?:-solution|-master-solution)$/.test(targetId) && !text.includes(`id="${targetId}" data-solution-panel`) && !text.includes(`id='${targetId}' data-solution-panel`)) {
+      errors.push(`${label}: toggleCollapsible('${targetId}') target ID must end with '-solution' or '-master-solution' (or include data-solution-panel) so #btnToggleAllSolutions controls it`);
+    }
+  }
 }
 
 function runStaticAudit() {
@@ -407,13 +420,75 @@ async function runBrowserAudit() {
       const mathStats = await inspectDom('lesson-math-01');
       if (mathStats.katexCount < 1500) issues.push(`[${vp.name}] math-01 expected >1500 KaTeX nodes, got ${mathStats.katexCount}`);
 
-      // Open all collapsible panels & details in math-01
-      await page.evaluate(() => {
-        document.querySelectorAll('details').forEach((d) => { d.open = true; });
-        document.querySelectorAll('[onclick*="classList.toggle"]').forEach((b) => b.click());
-      });
+      // Verify unified toggle-all & individual collapsible solutions in math-01
+      const mathCollapseCheck = async (expectedOpen, phaseLabel) => {
+        const state = await page.evaluate(() => {
+          const btn = document.getElementById('btnToggleAllSolutions');
+          const expectedIds = [
+            'ax3-solution', 'ax3-synth-solution',
+            'ax4-solution', 'ax4-synth-solution',
+            'ax5-solution', 'ax5-synth-solution',
+            'ds1-master-solution'
+          ];
+          const panels = expectedIds.map((id) => {
+            const el = document.getElementById(id);
+            const trig = document.querySelector(`[onclick*="'${id}'"], [onclick*='"${id}"']`);
+            return {
+              id,
+              exists: Boolean(el),
+              hidden: el ? el.classList.contains('hidden') : null,
+              ariaExpanded: trig ? trig.getAttribute('aria-expanded') : null
+            };
+          });
+          const axisDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details')).map((d) => d.open);
+          const lexDetails = document.querySelector('#lessonLexiqueCard details');
+          return {
+            expandedDataset: btn ? btn.dataset.expanded : null,
+            panels,
+            axisDetails,
+            lexiqueOpen: lexDetails ? lexDetails.open : null
+          };
+        });
+        if (state.expandedDataset !== String(expectedOpen)) {
+          issues.push(`[${vp.name}] math-01 ${phaseLabel}: #btnToggleAllSolutions dataset.expanded=${state.expandedDataset}, expected ${expectedOpen}`);
+        }
+        for (const p of state.panels) {
+          if (!p.exists) issues.push(`[${vp.name}] math-01 ${phaseLabel}: missing solution panel #${p.id}`);
+          else if (p.hidden !== !expectedOpen) {
+            issues.push(`[${vp.name}] math-01 ${phaseLabel}: panel #${p.id} hidden=${p.hidden}, expected ${!expectedOpen}`);
+          }
+          if (p.ariaExpanded !== String(expectedOpen)) {
+            issues.push(`[${vp.name}] math-01 ${phaseLabel}: trigger for #${p.id} aria-expanded=${p.ariaExpanded}, expected ${expectedOpen}`);
+          }
+        }
+        if (state.axisDetails.length < 3 || state.axisDetails.some((o) => o !== expectedOpen)) {
+          issues.push(`[${vp.name}] math-01 ${phaseLabel}: axis <details> states=${JSON.stringify(state.axisDetails)}, expected all ${expectedOpen}`);
+        }
+        if (state.lexiqueOpen !== false) {
+          issues.push(`[${vp.name}] math-01 ${phaseLabel}: #lessonLexiqueCard <details> unexpectedly changed to open=${state.lexiqueOpen}`);
+        }
+      };
+
+      await mathCollapseCheck(false, 'initial-collapsed');
+      await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(300);
+      await mathCollapseCheck(true, 'after-expand-all');
       await inspectDom('lesson-math-01-expanded');
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(150);
+      await mathCollapseCheck(false, 'after-collapse-all');
+
+      // Test individual collapsible solution trigger click & aria sync
+      await page.click('[onclick*="ax3-solution"]');
+      await page.waitForTimeout(100);
+      const ax3Open = await page.evaluate(() => {
+        const el = document.getElementById('ax3-solution');
+        const tr = document.querySelector('[onclick*="ax3-solution"]');
+        return Boolean(el && !el.classList.contains('hidden') && tr && tr.getAttribute('aria-expanded') === 'true');
+      });
+      if (!ax3Open) issues.push(`[${vp.name}] math-01: clicking individual toggle button for #ax3-solution failed`);
+      await page.click('[onclick*="ax3-solution"]');
+      await page.waitForTimeout(100);
 
       // Test all 6 simulator modes + sub-models
       for (const mode of ['continuity', 'piecewise', 'composite', 'tvi', 'reciprocal', 'rootn']) {
@@ -439,13 +514,29 @@ async function runBrowserAudit() {
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/phys-01`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
-      await page.evaluate(() => {
-        document.querySelectorAll('details').forEach((d) => { d.open = true; });
-        document.querySelectorAll('[onclick*="classList.toggle"]').forEach((b) => b.click());
-      });
+      await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(250);
+      const physToggleOk = await page.evaluate(() => {
+        const sol = document.getElementById('phys1-master-solution');
+        const tr = document.querySelector('[onclick*="phys1-master-solution"]');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 3 && axDetails.every((d) => d.open)
+        );
+      });
+      if (!physToggleOk) issues.push(`[${vp.name}] phys-01: #btnToggleAllSolutions did not expand #phys1-master-solution and all axis <details>`);
       const physStats = await inspectDom('lesson-phys-01');
       if (physStats.katexCount < 600) issues.push(`[${vp.name}] phys-01 expected >=600 KaTeX nodes, got ${physStats.katexCount}`);
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(100);
+      const physCollapsedOk = await page.evaluate(() => {
+        const sol = document.getElementById('phys1-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!physCollapsedOk) issues.push(`[${vp.name}] phys-01: #btnToggleAllSolutions did not collapse #phys1-master-solution and axis <details>`);
 
       // Test all 5 phys-01 simulator modes + animation + polarity, tension & delay controls
       for (const pMode of ['transverse', 'longitudinal', 'superposition', 'tension', 'delay']) {
@@ -515,10 +606,14 @@ async function runBrowserAudit() {
       const chemStats = await inspectDom('lesson-chem-01');
       if (chemStats.katexCount < 200) issues.push(`[${vp.name}] chem-01 expected >=200 KaTeX nodes, got ${chemStats.katexCount}`);
 
-      // Test both toggle-all-solutions button & all 3 chem-01 simulator modes
+      // Test toggle-all-solutions expand + collapse & all 3 chem-01 simulator modes
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(150);
       await inspectDom('lesson-chem-01-solutions-open');
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(100);
+      const chemCollapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
+      if (!chemCollapsed) issues.push(`[${vp.name}] chem-01: #btnToggleAllSolutions did not collapse axis <details>`);
       for (const cMode of ['redox-beaker', 'metal-acid', 'dosage-redox']) {
         await page.click(`[data-chem-mode="${cMode}"]`);
         await page.waitForTimeout(150);

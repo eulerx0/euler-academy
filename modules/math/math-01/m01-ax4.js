@@ -394,9 +394,9 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
 
                   <!-- Collapsible Model Solution -->
                   <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-950/40">
-                    <button onclick="const el = document.getElementById('ax4-solution'); el.classList.toggle('hidden');" class="w-full text-right p-3.5 bg-slate-900/80 hover:bg-slate-800/80 text-xs font-bold text-cyan-400 flex items-center justify-between transition-colors">
+                    <button type="button" aria-expanded="false" onclick="window.EulerAcademy.toggleCollapsible('ax4-solution', this);" class="w-full text-right p-3.5 bg-slate-900/80 hover:bg-slate-800/80 text-xs font-bold text-cyan-400 flex items-center justify-between transition-colors">
                       <span class="flex items-center gap-2"><span>👁️</span> اضغط هنا لإظهار / إخفاء الحل النموذجي المفصل وسلالم التنقيط</span>
-                      <span class="text-slate-400 text-[11px]">انقر للمعاينة</span>
+                      <span class="text-slate-400 text-[11px] flex items-center gap-1.5"><span>انقر للمعاينة</span><span class="sol-chevron inline-block transition-transform">▼</span></span>
                     </button>
                     <div id="ax4-solution" class="hidden p-4 border-t border-slate-800 space-y-3 text-xs text-slate-300">
                       <div>
@@ -443,9 +443,9 @@ window.EulerAcademy.registerAxis('math-01', 'm01-ax4', `
 
                   <!-- Collapsible Full Model Solution with Marking Scheme -->
                   <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-950/40">
-                    <button onclick="const el = document.getElementById('ax4-synth-solution'); el.classList.toggle('hidden');" class="w-full text-right p-4 bg-slate-900/90 hover:bg-slate-800/90 text-xs font-bold text-cyan-400 flex items-center justify-between transition-colors">
+                    <button type="button" aria-expanded="false" onclick="window.EulerAcademy.toggleCollapsible('ax4-synth-solution', this);" class="w-full text-right p-4 bg-slate-900/90 hover:bg-slate-800/90 text-xs font-bold text-cyan-400 flex items-center justify-between transition-colors">
                       <span class="flex items-center gap-2"><span>📝</span> اضغط هنا لإظهار / إخفاء عناصر الإجابة الرسمية والتحرير البرهاني الصارم (2.00 نقطة)</span>
-                      <span class="text-slate-400 text-[11px]">معاينة عناصر الإجابة النموذجية ↧</span>
+                      <span class="text-slate-400 text-[11px] flex items-center gap-1.5"><span>معاينة عناصر الإجابة النموذجية</span><span class="sol-chevron inline-block transition-transform">▼</span></span>
                     </button>
                     
                     <div id="ax4-synth-solution" class="hidden p-5 border-t border-slate-800 space-y-4 text-xs text-slate-300">
