@@ -604,7 +604,7 @@ async function runBrowserAudit() {
       });
       await page.waitForTimeout(200);
       const chemStats = await inspectDom('lesson-chem-01');
-      if (chemStats.katexCount < 200) issues.push(`[${vp.name}] chem-01 expected >=200 KaTeX nodes, got ${chemStats.katexCount}`);
+      if (chemStats.katexCount < 500) issues.push(`[${vp.name}] chem-01 expected >=500 KaTeX nodes, got ${chemStats.katexCount}`);
 
       // Test toggle-all-solutions expand + collapse & all 3 chem-01 simulator modes
       await page.click('#btnToggleAllSolutions');
