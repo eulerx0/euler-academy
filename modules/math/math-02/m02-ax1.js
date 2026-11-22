@@ -27,7 +27,7 @@ window.EulerAcademy.registerAxis('math-02', 'm02-ax1', `
                       • تكون $f$ قابلة للاشتقاق على يمين $x_0$ إذا كانت $\\lim_{x \\to x_0^+} \\frac{f(x) - f(x_0)}{x - x_0} = f_d'(x_0) \\in \\mathbb{R}$.<br/>
                       • وتكون قابلة للاشتقاق على يسار $x_0$ إذا كانت $\\lim_{x \\to x_0^-} \\frac{f(x) - f(x_0)}{x - x_0} = f_g'(x_0) \\in \\mathbb{R}$.<br/>
                       • <b>خاصية الربط الأساسية:</b>
-                      $$f \\text{ derivable en } x_0 \\iff f_d'(x_0) \\in \\mathbb{R}, \\; f_g'(x_0) \\in \\mathbb{R}, \\; \\text{et } f_d'(x_0) = f_g'(x_0)$$
+                      $$f \\text{ dérivable en } x_0 \\iff f_d'(x_0) \\in \\mathbb{R}, \\; f_g'(x_0) \\in \\mathbb{R}, \\; \\text{et } f_d'(x_0) = f_g'(x_0)$$
                       • <b>علاقة الاشتقاق بالاتصال:</b> كل دالة قابلة للاشتقاق في $x_0$ هي <b>متصلة حتماً في $x_0$</b> (والعكس خاطئ؛ وإذا لم تكن متصلة في $x_0$ فهي غير قابلة للاشتقاق تلقائياً!).
                     </div>
                   </div>

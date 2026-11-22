@@ -95,6 +95,9 @@ svg {
   [class*="bg-rose-950"],
   [class*="bg-emerald-950"],
   [class*="bg-indigo-950"],
+  [class*="bg-sky-950"],
+  [class*="bg-purple-950"],
+  [class*="bg-violet-950"],
   [class*="bg-[#"] {
     background: #ffffff !important;
     border-color: #d1d5db !important;
@@ -112,13 +115,18 @@ svg {
   [class*="text-indigo-"],
   [class*="text-rose-"],
   [class*="text-violet-"],
-  [class*="text-pink-"] {
+  [class*="text-pink-"],
+  [class*="text-sky-"],
+  [class*="text-teal-"] {
     color: #111827 !important;
   }
 
   .border-slate-800,
-  .border-slate-700 {
-    border-color: #e5e7eb !important;
+  .border-slate-700,
+  table,
+  th,
+  td {
+    border-color: #d1d5db !important;
   }
 
   [id^="svgCard"] [class*="bg-[#050811]"] {

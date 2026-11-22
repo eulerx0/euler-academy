@@ -304,7 +304,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                 </div>
 
                 <!-- 5. Classic National Exam Traps -->
-                <div class="bg-rose-950/20 border border-rose-500/30 rounded-2xl p-6">
+                <div class="bg-rose-950/20 border border-rose-500/30 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-4">
                     <span class="px-3 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-bold">⚠️ ركن الفخاخ الكلاسيكية في الامتحان الوطني (Pièges Classiques)</span>
                     <span class="text-xs text-rose-400 font-mono">تجنب خسارة النقط المجانية</span>
@@ -333,7 +333,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                 </div>
 
                 <!-- 6. Worked Exam Applications -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-4">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">📝 تطبيقات نموذجية محررة بصياغة الامتحان الوطني وسلالم التنقيط</span>
                     <span class="text-xs text-slate-400 font-mono">معيار الوطني 2BAC PC</span>
@@ -393,7 +393,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax1', `
                 </div>
 
                 <!-- 7. Interactive Auto-Test -->
-                <div class="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-6">
+                <div class="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">🎯 التحدي الذاتي السريع (Auto-Évaluation — معيار د. الرياح)</span>
                     <span class="text-xs text-slate-400">اختبر دقة استيعابك المفاهيمي</span>

@@ -180,7 +180,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                 </div>
 
                 <!-- 3. Physical Factors Affecting Celerity -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 text-xs font-bold">3. العوامل المؤثرة في سرعة الانتشار (قصور ومرونة الوسط)</span>
                     <span class="text-xs text-slate-400 font-mono">Inertie et Élasticité du milieu</span>
@@ -222,7 +222,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                 </div>
 
                 <!-- 4. Classic National Exam Traps -->
-                <div class="bg-rose-950/20 border border-rose-500/30 rounded-2xl p-6">
+                <div class="bg-rose-950/20 border border-rose-500/30 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-4">
                     <span class="px-3 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-bold">⚠️ ركن الفخاخ الكلاسيكية في الامتحان الوطني (Pièges Classiques)</span>
                     <span class="text-xs text-rose-400 font-mono">معيار الصفر ضياع للنقط</span>
@@ -250,7 +250,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                 </div>
 
                 <!-- 5. Worked Exam Applications -->
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-4">
                     <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 text-xs font-bold">📝 تطبيقات نموذجية محررة بصياغة الامتحان الوطني وسلالم التنقيط</span>
                     <span class="text-xs text-slate-400 font-mono">2BAC PC</span>
@@ -312,7 +312,7 @@ window.EulerAcademy.registerAxis('phys-01', 'p01-ax2', `
                 </div>
 
                 <!-- 6. Interactive Auto-Test -->
-                <div class="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-6">
+                <div class="bg-amber-950/20 border border-amber-500/30 rounded-2xl p-3.5 sm:p-6">
                   <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">🎯 التحدي الذاتي السريع (Auto-Évaluation — معيار د. الرياح)</span>
                     <span class="text-xs text-slate-400">مسألة موجتي الزلازل $P$ و $S$</span>

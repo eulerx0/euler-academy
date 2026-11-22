@@ -19,7 +19,11 @@ const FORBIDDEN_INTERNAL_TERMS = [
   'الوكيل المستقل',
   'الدورة القادمة',
   'hustle_engine',
-  'AUTONOMOUS EVOLUTION'
+  'AUTONOMOUS EVOLUTION',
+  'Sprint Build',
+  'Cycle #',
+  'roadmap',
+  'subagent'
 ];
 
 function walkJsFiles(dir) {
@@ -114,8 +118,10 @@ function runStaticAudit() {
 
   // Verify index.html & styles.css
   const indexHtml = fs.readFileSync(path.join(HUB_DIR, 'index.html'), 'utf8');
+  const stylesCss = fs.readFileSync(path.join(HUB_DIR, 'css', 'styles.css'), 'utf8');
   for (const term of FORBIDDEN_INTERNAL_TERMS) {
     if (indexHtml.includes(term)) errors.push(`index.html: forbidden internal term "${term}"`);
+    if (stylesCss.includes(term)) errors.push(`css/styles.css: forbidden internal term "${term}"`);
   }
 
   const jsFiles = walkJsFiles(HUB_DIR);
@@ -124,6 +130,14 @@ function runStaticAudit() {
     const code = fs.readFileSync(file, 'utf8');
     if (code.includes('$' + '${')) {
       errors.push(`${rel}: accidental adjacent dollar-template delimiters ($ + {) detected`);
+    }
+    for (const term of FORBIDDEN_INTERNAL_TERMS) {
+      if (code.includes(term)) errors.push(`${rel}: forbidden internal term "${term}" detected`);
+    }
+    if (rel.startsWith('modules/') && !rel.endsWith('lexique.js') && !rel.endsWith('exam.js')) {
+      if (/rounded-2xl p-[56]">/.test(code)) {
+        errors.push(`${rel}: unresponsive outer card padding (use responsive p-3.5 sm:p-6 for mobile clarity)`);
+      }
     }
     try {
       new vm.Script(code, { filename: rel });
@@ -604,7 +618,7 @@ async function runBrowserAudit() {
       });
       await page.waitForTimeout(200);
       const chemStats = await inspectDom('lesson-chem-01');
-      if (chemStats.katexCount < 500) issues.push(`[${vp.name}] chem-01 expected >=500 KaTeX nodes, got ${chemStats.katexCount}`);
+      if (chemStats.katexCount < 700) issues.push(`[${vp.name}] chem-01 expected >=700 KaTeX nodes, got ${chemStats.katexCount}`);
 
       // Test toggle-all-solutions expand + collapse (including #chem1-master-solution) & all 4 chem-01 simulator modes
       await page.click('#btnToggleAllSolutions');
@@ -696,7 +710,7 @@ async function runBrowserAudit() {
       });
       if (!math2Open) issues.push(`[${vp.name}] math-02: #btnToggleAllSolutions did not expand axis <details>`);
       const math2Stats = await inspectDom('lesson-math-02');
-      if (math2Stats.katexCount < 250) issues.push(`[${vp.name}] math-02 expected >=250 KaTeX nodes, got ${math2Stats.katexCount}`);
+      if (math2Stats.katexCount < 400) issues.push(`[${vp.name}] math-02 expected >=400 KaTeX nodes, got ${math2Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
       const math2Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
