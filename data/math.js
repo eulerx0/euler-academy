@@ -93,7 +93,8 @@ window.EulerAcademy.registerSubject({
       "id": "math-02",
       "num": "02",
       "semester": 1,
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "المحوران 01 و 02 مكتملان بالبرهان الصارم والتمارين التوليفية (50%)",
       "titleAr": "الاشتقاق ودراسة الدوال العددية",
       "titleFr": "Dérivation et étude des fonctions numériques",
       "summary": "قابلية الاشتقاق في نقطة، التأويل الهندسي (المماس ونصف المماس)، اشتقاق المركب والدالة العكسية ودالة جذر الرتبة n، الرتابة والتقعر، والفروع اللانهائية.",
@@ -102,25 +103,39 @@ window.EulerAcademy.registerSubject({
           "id": "m02-ax1",
           "num": "المحور 01",
           "titleAr": "الاشتقاق في نقطة وعلى اليمين واليسار والتأويلات الهندسية (معادلة المماس ونصف المماس العمودي/الأفقي/المائل)",
-          "titleFr": "Dérivabilité en un point et interprétations géométriques"
+          "titleFr": "Dérivabilité en un point et interprétations géométriques",
+          "status": "completed",
+          "requirements": [
+            "تعريف العدد المشتق $f'(x_0)$ والاشتقاق على اليمين واليسار وربط قابلية الاشتقاق بالاتصال.",
+            "تحديد التأويلات الهندسية بدقة: المماس المائل والأفقي، النقطة المزواة، وقانون إشارة نصف المماس العمودي $\\uparrow / \\downarrow$.",
+            "توظيف العدد المشتق في إزالة عدم التعيين وإيجاد معادلة المماس والتقريب التآلفي."
+          ]
         },
         {
           "id": "m02-ax2",
           "num": "المحور 02",
           "titleAr": "العمليات على الدوال المشتقة، اشتقاق المركب $g \\circ f$، اشتقاق $\\sqrt[n]{u(x)}$، وحساب $(f^{-1})'(y_0) = \\frac{1}{f'(x_0)}$",
-          "titleFr": "Dérivée de la composée, de la racine n-ième et de la réciproque"
+          "titleFr": "Dérivée de la composée, de la racine n-ième et de la réciproque",
+          "status": "completed",
+          "requirements": [
+            "ضبط شروط ومشتقات العمليات الاعتيادية والجدول المرجعي للدوال المشتقة على مجال مفتوح/مغلق.",
+            "اشتقاق $\\sqrt{u(x)}$ و $\\sqrt[n]{u(x)}$ و $u^r$ مع تعليل الإيجاب القطعي $u(x) &gt; 0$ واشتقاق المركب $g \\circ f$.",
+            "تطبيق مبرهنة مشتقة الدالة العكسية $(f^{-1})'(y_0) = \\frac{1}{f'(x_0)}$ عند $f'(x_0) \\neq 0$ وتفسير حالة $f'(x_0) = 0$."
+          ]
         },
         {
           "id": "m02-ax3",
           "num": "المحور 03",
           "titleAr": "رتابة دالة ومطارفها من إشارة $f'(x)$، وتقعر المنحنى ونقط الانعطاف من إشارة $f''(x)$",
-          "titleFr": "Monotonie, extremums, concavité et points d’inflexion"
+          "titleFr": "Monotonie, extremums, concavité et points d’inflexion",
+          "status": "upcoming"
         },
         {
           "id": "m02-ax4",
           "num": "المحور 04",
           "titleAr": "الفروع اللانهائية (المقاربات الأفقية والعمودية والمائلة والفروع الشلجمية) وعناصر تماثل المنحنى (محور/مركز تماثل)",
-          "titleFr": "Branches infinies, asymptotes et éléments de symétrie"
+          "titleFr": "Branches infinies, asymptotes et éléments de symétrie",
+          "status": "upcoming"
         }
       ]
     },
