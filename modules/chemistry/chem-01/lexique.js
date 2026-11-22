@@ -13,5 +13,10 @@ window.EulerAcademy.registerLexique('chem-01', [
   { ar: 'المتفاعل المحد:', fr: 'Réactif limitant' },
   { ar: 'التقدم الأقصى:', fr: 'Avancement maximal (x_max)' },
   { ar: 'المزيج الستوكيومتري:', fr: 'Mélange stœchiométrique' },
-  { ar: 'الحجم المولي للغاز:', fr: 'Volume molaire (V_m)' }
+  { ar: 'الحجم المولي للغاز:', fr: 'Volume molaire (V_m)' },
+  { ar: 'التحول السريع:', fr: 'Transformation rapide' },
+  { ar: 'التحول البطيء:', fr: 'Transformation lente' },
+  { ar: 'العامل الحركي:', fr: 'Facteur cinétique' },
+  { ar: 'التصادمات الفعالة:', fr: 'Chocs efficaces' },
+  { ar: 'السقي الكيميائي:', fr: 'Trempe chimique' }
 ]);

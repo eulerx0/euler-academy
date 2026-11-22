@@ -1,6 +1,6 @@
 /**
- * Euler Academy — Interactive 3-Mode Chemical Reaction Laboratory for Chemistry Lesson 01
- * (1. Oxydo-réduction & Stœchiométrie en bécher, 2. Réaction Métal-Acide & H₂ dégagé, 3. Dosage colorimétrique MnO₄⁻ / Fe²⁺)
+ * Euler Academy — Interactive 4-Mode Chemical Reaction & Kinetics Laboratory for Chemistry Lesson 01
+ * (1. Oxydo-réduction, 2. Métal-Acide & H₂, 3. Dosage MnO₄⁻/Fe²⁺, 4. Facteurs Cinétiques & Trempe Chimique)
  */
 (function (global) {
   'use strict';
@@ -8,9 +8,10 @@
   const C = () => global.EulerCanvas;
 
   const MODES_META = [
-    { id: 'redox-beaker', label: '1. الأكسدة-اختزال واللون ($x_{\\max}$)', activeCls: 'bg-emerald-500 text-slate-950 shadow' },
-    { id: 'metal-acid', label: '2. الزنك والحمض ($\\text{H}_2$ المتصاعد)', activeCls: 'bg-cyan-500 text-slate-950 shadow' },
-    { id: 'dosage-redox', label: '3. المعايرة اللونية ($\\text{MnO}_4^-$ و $V_E$)', activeCls: 'bg-purple-500 text-slate-950 shadow' }
+    { id: 'redox-beaker', label: '1. الأكسدة-اختزال ($x_{\\max}$)', activeCls: 'bg-emerald-500 text-slate-950 shadow' },
+    { id: 'metal-acid', label: '2. الزنك والحمض ($\\text{H}_2$)', activeCls: 'bg-cyan-500 text-slate-950 shadow' },
+    { id: 'dosage-redox', label: '3. المعايرة اللونية ($V_E$)', activeCls: 'bg-purple-500 text-slate-950 shadow' },
+    { id: 'kinetics-factors', label: '4. الحركية والسقي ($T, C_0$)', activeCls: 'bg-amber-500 text-slate-950 shadow' }
   ];
 
   function metricCard(labelHtml, valId, initVal, valueCls = 'text-emerald-300') {
@@ -83,6 +84,10 @@
       nH3O: 16.0,
       dosageV: 6.0,   // mL of MnO4- added [0..20]
       dosageC1: 0.12, // mol/L of Fe2+ [0.08..0.16]
+      kinTemp: 25,    // °C [10..60]
+      kinConc: 0.15,  // [I-]0 in mol/L [0.05..0.30]
+      kinTime: 8.0,   // min [0..30]
+      kinTrempeAt: null, // frozen time t_q when Trempe chimique triggered
       playing: false,
       lastFrameTs: 0,
       rafId: null
@@ -96,10 +101,10 @@
               <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
                 المختبر البصري التفاعلي • الكيمياء الدرس 01
               </span>
-              <span class="text-xs text-slate-400 font-mono">Simulateur d’Oxydo-réduction (3 Modes)</span>
+              <span class="text-xs text-slate-400 font-mono">Simulateur d’Oxydo-réduction &amp; Cinétique (4 Modes)</span>
             </div>
             <h3 class="text-xl sm:text-2xl font-extrabold text-white">
-              محاكي تفاعلات الأكسدة-اختزال، جدول التقدم، والمعايرة اللونية ($V_E$)
+              محاكي تفاعلات الأكسدة-اختزال، العوامل الحركية ($T, C_0$)، والسقي الكيميائي
             </h3>
           </div>
           <div class="flex flex-wrap gap-2 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800">
@@ -197,6 +202,38 @@
                   <input id="chemDosageC1Slider" type="range" min="0.08" max="0.16" step="0.01" value="0.12" class="w-full accent-emerald-400 cursor-pointer" />
                 </div>
               </div>
+
+              <div id="chemKinSliders" class="hidden space-y-3 pt-2 border-t border-slate-800/80">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-300">درجة الحرارة $T$:</span>
+                      <span id="chemTempDisplay" class="font-mono text-rose-300" dir="ltr">25 °C</span>
+                    </div>
+                    <input id="chemTempSlider" type="range" min="10" max="60" step="5" value="25" class="w-full accent-rose-400 cursor-pointer" />
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-300">التركيز $[\\text{I}^-]_0$ (بوفرة):</span>
+                      <span id="chemConcDisplay" class="font-mono text-cyan-300" dir="ltr">0.15 mol/L</span>
+                    </div>
+                    <input id="chemConcSlider" type="range" min="0.05" max="0.30" step="0.05" value="0.15" class="w-full accent-cyan-400 cursor-pointer" />
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-300">الزمن $t$ (دقيقة):</span>
+                      <span id="chemTimeDisplay" class="font-mono text-amber-300" dir="ltr">t = 8.0 min</span>
+                    </div>
+                    <input id="chemTimeSlider" type="range" min="0" max="30" step="0.5" value="8.0" class="w-full accent-amber-400 cursor-pointer" />
+                  </div>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                  <button type="button" id="chemTrempeBtn" class="px-3.5 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/50 text-sky-300 text-xs font-bold transition">
+                    🧊 تطبيق السقي الكيميائي عند $t$ الحالي (ماء مثلج $0^\\circ\\text{C}$)
+                  </button>
+                  <span class="text-[11px] text-slate-400 font-mono">Limiting S₂O₈²⁻ fixed: x_max = 2.00 mmol</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -222,6 +259,7 @@
     const redoxSliders = hostEl.querySelector('#chemRedoxSliders');
     const metalSliders = hostEl.querySelector('#chemMetalSliders');
     const dosageSliders = hostEl.querySelector('#chemDosageSliders');
+    const kinSliders = hostEl.querySelector('#chemKinSliders');
     const n1Label = hostEl.querySelector('#chemN1Label');
     const n2Label = hostEl.querySelector('#chemN2Label');
     const legend = hostEl.querySelector('#chemSimLegend');
@@ -237,6 +275,10 @@
     const h3oSlider = hostEl.querySelector('#chemH3oSlider');
     const dosageVSlider = hostEl.querySelector('#chemDosageVSlider');
     const dosageC1Slider = hostEl.querySelector('#chemDosageC1Slider');
+    const tempSlider = hostEl.querySelector('#chemTempSlider');
+    const concSlider = hostEl.querySelector('#chemConcSlider');
+    const timeSlider = hostEl.querySelector('#chemTimeSlider');
+    const trempeBtn = hostEl.querySelector('#chemTrempeBtn');
     const progDisplay = hostEl.querySelector('#chemProgDisplay');
     const n1Display = hostEl.querySelector('#chemN1Display');
     const n2Display = hostEl.querySelector('#chemN2Display');
@@ -244,6 +286,9 @@
     const h3oDisplay = hostEl.querySelector('#chemH3oDisplay');
     const dosageVDisplay = hostEl.querySelector('#chemDosageVDisplay');
     const dosageC1Display = hostEl.querySelector('#chemDosageC1Display');
+    const tempDisplay = hostEl.querySelector('#chemTempDisplay');
+    const concDisplay = hostEl.querySelector('#chemConcDisplay');
+    const timeDisplay = hostEl.querySelector('#chemTimeDisplay');
     const playBtn = hostEl.querySelector('#chemPlayBtn');
     const resetBtn = hostEl.querySelector('#chemResetBtn');
 
@@ -316,7 +361,7 @@
           • إذا كان فلز الزنك $\\text{Zn}$ في <b>وفرة</b> (مثلاً $m_0 = 0.80\\text{ g} \\approx 12.2\\text{ mmol}$ مع $n_0(\\text{H}_3\\text{O}^+) = 16\\text{ mmol}$)، يتوقف تصاعد الغاز رغم بقاء قطعة الزنك غير ذائبة جزئياً!<br/>
           • تذكر أن $\\text{Cl}^-$ في حمض الكلوريدريك $(\\text{H}_3\\text{O}^+ + \\text{Cl}^-)$ <b>أيون متفرج</b>.
         `;
-      } else {
+      } else if (state.mode === 'dosage-redox') {
         // Mode 3: Volumetric Colorimetric Redox Titration MnO4- + 5 Fe2+ + 8 H+ -> Mn2+ + 5 Fe3+ + 4 H2O
         legend.innerHTML = `
           <div class="flex flex-wrap items-center gap-3">
@@ -343,6 +388,34 @@
           <b>علاقة التكافؤ الحاسمة في معايرة $\\text{Fe}^{2+}$ بالبرمنغنات:</b><br/>
           $$\\frac{n_i(\\text{Fe}^{2+})}{5} = \\frac{n_E(\\text{MnO}_4^-)}{1} \\implies C_1 \\cdot V_1 = 5 \\cdot C_2 \\cdot V_E$$
           • <b>فخ شائع في البكالوريا:</b> نسيان المعامل الستوكيومتري $5$ في علاقة التكافؤ! لاحظ أن كل أيون $\\text{MnO}_4^-$ يلتهم $5$ أيونات $\\text{Fe}^{2+}$.
+        `;
+      } else {
+        // Mode 4: Facteurs Cinétiques (T, [I-]0) & Trempe Chimique
+        legend.innerHTML = `
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-400 inline-block"></span> منحنى التجربة المختارة $x(t)$</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-500 inline-block"></span> المنحنى المرجعي ($25^\\circ\\text{C}, 0.15\\text{ mol/L}$)</span>
+          </div>
+          <span class="text-amber-300 font-mono">S₂O₈²⁻ (limitant) + 2 I⁻ (excès) → 2 SO₄²⁻ + I₂</span>
+        `;
+
+        metricsGrid.innerHTML = [
+          metricCard('التقدم الأقصى الثابت $x_{\\max}$:', 'cVal_k_xmax', '2.00 mmol', 'text-emerald-400'),
+          metricCard('التقدم اللحظي $x(t)$:', 'cVal_kx', '1.35 mmol', 'text-amber-300'),
+          metricCard('المدة التقديرية $t_f$:', 'cVal_ktf', '21.4 min', 'text-cyan-300'),
+          metricCard('الحالة الحركية:', 'cVal_kstate', 'التفاعل نشط (تحت تأثير T و C₀)', 'text-rose-300')
+        ].join('');
+
+        statusBanner.innerHTML = `
+          <div class="p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center gap-2">
+            <span>🌡️</span> <span>رفع $T$ أو $[\\text{I}^-]_0$ يضاعف <b>التصادمات الفعالة</b> فيُقلّص $t_f$، بينما يظل <b>$x_{\\max}$ ثابتاً</b> ($2.00\\text{ mmol}$)!</span>
+          </div>
+        `;
+
+        ruleBox.innerHTML = `
+          <b>المبدأ الذهبي للعوامل الحركية والسقي الكيميائي:</b><br/>
+          • حرّك منزلق الحرارة $T$ أو التركيز $[\\text{I}^-]_0$ (الموجود بوفرة): يتغيّر الميل عند الأصل وزمن النهاية $t_f$ فقط، بينما تؤول كل المنحنيات لنفس السقف <b>$x_{\\max} = 2.00\\text{ mmol}$</b>!<br/>
+          • اضغط <b>السقي الكيميائي</b> فتجمد العينة عند $0^\\circ\\text{C}$ مع التخفيف، فيتوقف التطور أفقياً لتسهيل المعايرة.
         `;
       }
 
@@ -588,7 +661,7 @@
         if (elVh2) elVh2.textContent = `${vh2Ml.toFixed(1)} mL`;
         if (elLim) elLim.textContent = limText;
         if (elMrem) elMrem.textContent = `${mZnRem.toFixed(2)} g`;
-      } else {
+      } else if (state.mode === 'dosage-redox') {
         // Mode 3: Volumetric Colorimetric Redox Titration MnO4- (C2=0.04) into Fe2+ (V1=20 mL, C1)
         const C2 = 0.04;
         const V1 = 20.0; // mL
@@ -723,6 +796,132 @@
             elState.className = 'font-mono font-bold text-rose-400 text-xs';
           }
         }
+      } else {
+        // Mode 4: Kinetics Factors (T, [I-]0) & Trempe Chimique
+        const xMaxKin = 2.00;
+        const T = state.kinTemp;
+        const C0 = state.kinConc;
+        const tCur = state.kinTime;
+        const tQuench = state.kinTrempeAt;
+        const isQuenched = tQuench !== null;
+
+        const kRef = 0.14;
+        const kCur = kRef * Math.exp(0.055 * (T - 25)) * (C0 / 0.15);
+        const xAtTime = (tt) => {
+          if (isQuenched && tt > tQuench) {
+            return xMaxKin * (1 - Math.exp(-kCur * tQuench));
+          }
+          return xMaxKin * (1 - Math.exp(-kCur * tt));
+        };
+        const xVal = xAtTime(tCur);
+        const tfEst = 3.0 / kCur; // 95% completion time ~ 3/k
+
+        tempDisplay.textContent = isQuenched ? '0 °C (مسقي!)' : `${T} °C`;
+        concDisplay.textContent = `${C0.toFixed(2)} mol/L`;
+        timeDisplay.textContent = `t = ${tCur.toFixed(1)} min`;
+        eqLabel.textContent = `x(t) = ${xVal.toFixed(2)} mmol  |  x_max = ${xMaxKin.toFixed(2)} mmol`;
+        trempeBtn.textContent = isQuenched
+          ? '🔥 إلغاء السقي الكيميائي والعودة للتفاعل'
+          : '🧊 تطبيق السقي الكيميائي عند t الحالي (ماء مثلج 0°C)';
+
+        // Left side: Kinetic beaker + Thermometer + molecular collisions
+        const dispTemp = isQuenched ? 0 : T;
+        c.drawLabel(ctx, isQuenched ? 'السقي الكيميائي (0°C + تخفيف)' : `مفاعل حركي (${T}°C)`, 48, 30, {
+          color: isQuenched ? '#38bdf8' : '#fbbf24',
+          font: 'bold 12px monospace'
+        });
+
+        // Thermometer bar on far left
+        ctx.save();
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.roundRect(28, 64, 14, 175, 7);
+        ctx.fill();
+        ctx.stroke();
+        const thFrac = dispTemp / 60;
+        const thH = Math.max(8, 165 * thFrac);
+        ctx.fillStyle = isQuenched ? '#38bdf8' : (T >= 45 ? '#fb7185' : '#fbbf24');
+        ctx.fillRect(31, 234 - thH, 8, thH);
+        ctx.beginPath();
+        ctx.arc(35, 244, 10, 0, Math.PI * 2);
+        ctx.fill();
+        c.drawLabel(ctx, `${dispTemp}°`, 24, 272, { color: isQuenched ? '#38bdf8' : '#f8fafc', font: 'bold 11px monospace' });
+        ctx.restore();
+
+        const liqFill = isQuenched
+          ? 'rgba(56, 189, 248, 0.25)'
+          : lerpColor([203, 213, 225, 0.14], [180, 83, 9, 0.84], xVal / xMaxKin);
+        drawBeaker(ctx, 64, 70, 152, 188, isQuenched ? 0.90 : 0.65, liqFill, isQuenched ? '#38bdf8' : '#94a3b8');
+
+        // Animated particles visualizing thermal agitation & concentration density
+        const pCount = Math.round(6 + (C0 / 0.30) * 14);
+        const speedMult = isQuenched ? 0.05 : (0.5 + (T / 25) * 1.4);
+        ctx.save();
+        for (let i = 0; i < pCount; i++) {
+          const px = 78 + ((i * 37 + Math.round(tCur * 18 * speedMult)) % 124);
+          const py = 135 + ((i * 53 + Math.round(tCur * 27 * speedMult)) % 112);
+          ctx.fillStyle = i % 3 === 0 ? '#fbbf24' : '#22d3ee';
+          ctx.beginPath();
+          ctx.arc(px, py, isQuenched ? 2.4 : 3.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        c.drawLabel(
+          ctx,
+          isQuenched ? '❄️ التفاعل متوقف عند n_p ثابت' : `شدة I₂: ${Math.round((xVal / xMaxKin) * 100)}%`,
+          66,
+          286,
+          { color: isQuenched ? '#38bdf8' : '#fbbf24', font: 'bold 11px Cairo, sans-serif' }
+        );
+
+        // Right side: x(t) plot vs t [0..30 min]
+        const plot = c.createPlane(W, H, { originX: 280, originY: 315, scaleX: 11.8, scaleY: 96 });
+        c.drawGrid(ctx, plot, { xMin: 0, xMax: 30, xStep: 5, yMin: 0, yMax: 2.4, yStep: 0.5 });
+        c.drawAxes(ctx, plot);
+        for (let tk = 0; tk <= 30; tk += 5) {
+          c.drawLabel(ctx, `${tk}`, plot.toPxX(tk) - 6, plot.originY + 16, { color: '#64748b', font: '10px monospace' });
+        }
+        c.drawLabel(ctx, 't [min]', plot.toPxX(27.0), plot.originY + 32, { color: '#94a3b8', font: 'bold 10px monospace' });
+        c.drawLabel(ctx, 'تطور التقدم x(t) [mmol] عند تغيير العوامل الحركية', 284, 30, { color: '#34d399', font: 'bold 12px monospace' });
+
+        // Asymptote x_max = 2.00 mmol
+        c.drawLine(ctx, plot, 0, xMaxKin, 30, xMaxKin, { color: '#34d399', dash: [6, 4] });
+        c.drawLabel(ctx, 'x_max=2.0', plot.toPxX(0.3), plot.toPxY(xMaxKin) - 8, { color: '#34d399', font: 'bold 10px monospace' });
+
+        // Baseline Ref curve (25°C, 0.15 mol/L)
+        c.plotCurve(ctx, plot, (tt) => xMaxKin * (1 - Math.exp(-kRef * tt)), 0, 30, { color: 'rgba(148,163,184,0.45)', lineWidth: 2, dash: [4, 4] });
+
+        // Active Kinetic Curve
+        const actColor = isQuenched ? '#38bdf8' : (T > 25 || C0 > 0.15 ? '#fb7185' : '#fbbf24');
+        c.plotCurve(ctx, plot, xAtTime, 0, 30, { color: actColor, lineWidth: 3 });
+
+        if (isQuenched) {
+          const xq = xAtTime(tQuench);
+          c.drawLine(ctx, plot, tQuench, 0, tQuench, 2.3, { color: 'rgba(56,189,248,0.55)', dash: [4, 3] });
+          c.drawPoint(ctx, plot, tQuench, xq, { fill: '#38bdf8', radius: 5.5 });
+          c.drawLabel(ctx, `Trempe t=${tQuench.toFixed(1)}`, plot.toPxX(Math.min(22, tQuench)) + 4, plot.toPxY(xq) - 10, { color: '#38bdf8', font: 'bold 10px monospace' });
+        }
+
+        // Time marker cursor
+        c.drawLine(ctx, plot, tCur, 0, tCur, xVal, { color: 'rgba(251,191,36,0.45)', dash: [3, 3] });
+        c.drawPoint(ctx, plot, tCur, xVal, { fill: '#f8fafc', radius: 5 });
+
+        const elKxmax = hostEl.querySelector('#cVal_k_xmax');
+        const elKx = hostEl.querySelector('#cVal_kx');
+        const elKtf = hostEl.querySelector('#cVal_ktf');
+        const elKstate = hostEl.querySelector('#cVal_kstate');
+        if (elKxmax) elKxmax.textContent = `${xMaxKin.toFixed(2)} mmol`;
+        if (elKx) elKx.textContent = `${xVal.toFixed(2)} mmol`;
+        if (elKtf) elKtf.textContent = isQuenched ? 'موقوف ∞' : `${tfEst.toFixed(1)} min`;
+        if (elKstate) {
+          elKstate.textContent = isQuenched
+            ? `السقي مفعّل عند t = ${tQuench.toFixed(1)} min`
+            : (kCur > kRef * 1.15 ? 'متسارع مقارنة بالمرجع' : (kCur < kRef * 0.85 ? 'مُبطّأ مقارنة بالمرجع' : 'سرعة مرجعية'));
+          elKstate.className = isQuenched ? 'font-mono font-bold text-sky-300 text-xs' : 'font-mono font-bold text-rose-300 text-xs';
+        }
       }
     }
 
@@ -756,6 +955,17 @@
         }
         dosageVSlider.value = state.dosageV.toFixed(1);
         drawFrame();
+      } else if (state.mode === 'kinetics-factors') {
+        state.kinTime += dt * 5.0;
+        if (state.kinTime >= 30.0) {
+          state.kinTime = 30.0;
+          timeSlider.value = '30.0';
+          drawFrame();
+          stopAnim();
+          return;
+        }
+        timeSlider.value = state.kinTime.toFixed(1);
+        drawFrame();
       } else {
         state.progFrac += dt * 0.28;
         if (state.progFrac >= 1.0) {
@@ -773,7 +983,8 @@
 
     function startAnim() {
       if (state.mode === 'dosage-redox' && state.dosageV >= 19.8) state.dosageV = 0.0;
-      else if (state.progFrac >= 0.99) state.progFrac = 0.0;
+      else if (state.mode === 'kinetics-factors' && state.kinTime >= 29.8) state.kinTime = 0.0;
+      else if (state.mode !== 'dosage-redox' && state.mode !== 'kinetics-factors' && state.progFrac >= 0.99) state.progFrac = 0.0;
       state.playing = true;
       state.lastFrameTs = 0;
       playBtn.textContent = '⏸ إيقاف مؤقت';
@@ -797,15 +1008,19 @@
       redoxSliders.classList.add('hidden');
       metalSliders.classList.add('hidden');
       dosageSliders.classList.add('hidden');
+      kinSliders.classList.add('hidden');
 
       if (mode === 'redox-beaker') {
         rxnSub.classList.remove('hidden');
         redoxSliders.classList.remove('hidden');
       } else if (mode === 'metal-acid') {
         metalSliders.classList.remove('hidden');
-      } else {
+      } else if (mode === 'dosage-redox') {
         progWrap.classList.add('hidden');
         dosageSliders.classList.remove('hidden');
+      } else {
+        progWrap.classList.add('hidden');
+        kinSliders.classList.remove('hidden');
       }
 
       syncStaticChrome();
@@ -842,6 +1057,10 @@
       if (state.mode === 'dosage-redox') {
         state.dosageV = 0.0;
         dosageVSlider.value = '0.0';
+      } else if (state.mode === 'kinetics-factors') {
+        state.kinTime = 0.0;
+        state.kinTrempeAt = null;
+        timeSlider.value = '0.0';
       } else {
         state.progFrac = 0.0;
         progSlider.value = '0.00';
@@ -883,6 +1102,28 @@
 
     dosageC1Slider.addEventListener('input', () => {
       state.dosageC1 = parseFloat(dosageC1Slider.value);
+      drawFrame();
+    });
+
+    tempSlider.addEventListener('input', () => {
+      state.kinTemp = parseFloat(tempSlider.value);
+      drawFrame();
+    });
+
+    concSlider.addEventListener('input', () => {
+      state.kinConc = parseFloat(concSlider.value);
+      drawFrame();
+    });
+
+    timeSlider.addEventListener('input', () => {
+      stopAnim();
+      state.kinTime = parseFloat(timeSlider.value);
+      drawFrame();
+    });
+
+    trempeBtn.addEventListener('click', () => {
+      stopAnim();
+      state.kinTrempeAt = state.kinTrempeAt === null ? state.kinTime : null;
       drawFrame();
     });
 

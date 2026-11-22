@@ -606,15 +606,25 @@ async function runBrowserAudit() {
       const chemStats = await inspectDom('lesson-chem-01');
       if (chemStats.katexCount < 500) issues.push(`[${vp.name}] chem-01 expected >=500 KaTeX nodes, got ${chemStats.katexCount}`);
 
-      // Test toggle-all-solutions expand + collapse & all 3 chem-01 simulator modes
+      // Test toggle-all-solutions expand + collapse (including #chem1-master-solution) & all 4 chem-01 simulator modes
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(150);
+      const chemToggleOk = await page.evaluate(() => {
+        const sol = document.getElementById('chem1-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && !sol.classList.contains('hidden') && axDetails.length >= 2 && axDetails.every((d) => d.open));
+      });
+      if (!chemToggleOk) issues.push(`[${vp.name}] chem-01: #btnToggleAllSolutions did not expand #chem1-master-solution and all axis <details>`);
       await inspectDom('lesson-chem-01-solutions-open');
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const chemCollapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!chemCollapsed) issues.push(`[${vp.name}] chem-01: #btnToggleAllSolutions did not collapse axis <details>`);
-      for (const cMode of ['redox-beaker', 'metal-acid', 'dosage-redox']) {
+      const chemCollapsed = await page.evaluate(() => {
+        const sol = document.getElementById('chem1-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!chemCollapsed) issues.push(`[${vp.name}] chem-01: #btnToggleAllSolutions did not collapse #chem1-master-solution and axis <details>`);
+      for (const cMode of ['redox-beaker', 'metal-acid', 'dosage-redox', 'kinetics-factors']) {
         await page.click(`[data-chem-mode="${cMode}"]`);
         await page.waitForTimeout(150);
         await inspectDom(`chem-sim-${cMode}`);
@@ -651,6 +661,19 @@ async function runBrowserAudit() {
             issues.push(`[${vp.name}] chem-sim-dosage expected V_E = 12.0 mL at equivalence, got ${veTxt} / ${eqTxt}`);
           }
           await inspectDom('chem-sim-dosage-equivalence');
+        } else if (cMode === 'kinetics-factors') {
+          await page.evaluate(() => {
+            const tEl = document.getElementById('chemTempSlider');
+            tEl.value = '50';
+            tEl.dispatchEvent(new Event('input'));
+          });
+          await page.click('#chemTrempeBtn');
+          await page.waitForTimeout(100);
+          const kStateTxt = await page.textContent('#cVal_kstate');
+          if (!kStateTxt.includes('السقي')) {
+            issues.push(`[${vp.name}] chem-sim-kinetics expected active Trempe state after clicking #chemTrempeBtn, got ${kStateTxt}`);
+          }
+          await inspectDom('chem-sim-kinetics-trempe');
         }
       }
 
