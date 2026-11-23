@@ -71,7 +71,8 @@ window.EulerAcademy.registerSubject({
       "id": "phys-02",
       "num": "02",
       "unit": "الجزء 1: الموجات (Ondes)",
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "المحوران 01 و 02 مكتملان (67% من المحاور)",
       "titleAr": "الموجات الميكانيكية المتوالية الدورية",
       "titleFr": "Ondes mécaniques progressives périodiques",
       "summary": "الدورية الزمانية $T$ والدورية المكانية $\\lambda$، العلاقة $\\lambda = v \\cdot T = v/N$، توافق وتعاكس الطور، حيود الموجات، والوسط المبدد.",
@@ -80,19 +81,32 @@ window.EulerAcademy.registerSubject({
           "id": "p02-ax1",
           "num": "المحور 01",
           "titleAr": "الدورية الزمانية $T$ وطول الموجة $\\lambda$ والعلاقة الأساسية $\\lambda = v / N$",
-          "titleFr": "Périodicité temporelle et spatiale"
+          "titleFr": "Périodicité temporelle et spatiale",
+          "status": "completed",
+          "requirements": [
+            "تعريف الموجة الميكانيكية المتوالية الدورية والجيبية، والتمييز بين الدور $T$ والتردد $N = 1/T$.",
+            "التعبير عن طول الموجة $\\lambda$ بطريقتين ($\\lambda = v \\cdot T = v/N$ وأصغر مسافة بين نقطتين على توافق في الطور).",
+            "استغلال المظهر المكاني $y(x)$ وشاشة راسم التذبذب $y_M(t)$ والوماض الكهربائي لتحديد $T, N, \\lambda, v$ واختبار تبديد الوسط."
+          ]
         },
         {
           "id": "p02-ax2",
           "num": "المحور 02",
           "titleAr": "مقارنة الحركة الاهتزازية لنقطتين من وسط الانتشار (على توافق في الطور $d = k\\lambda$ أو تعاكس في الطور $d = (2k+1)\\frac{\\lambda}{2}$)",
-          "titleFr": "Comparaison de l’état vibratoire de deux points"
+          "titleFr": "Comparaison de l’état vibratoire de deux points",
+          "status": "completed",
+          "requirements": [
+            "معرفة شرط التوافق في الطور ($d = k\\lambda$ أو $\\tau = kT$) وشرط التعاكس في الطور ($d = (2k+1)\\frac{\\lambda}{2}$ أو $\\tau = (k+\\frac{1}{2})T$).",
+            "التمييز في التطبيق بين الانتشار أحادي البعد ($d = M_1 M_2$) والانتشار الدائري 2D ($d = |SM_2 - SM_1|$) مع التحقق من وصول الجبهة ($t \\ge SM/v$).",
+            "تحديد عدد النقط المهتزة على توافق أو تعاكس على قطعة، واستثمار إزاحة مستقبل صوتي لحساب $\\lambda$ و $v$."
+          ]
         },
         {
           "id": "p02-ax3",
           "num": "المحور 03",
           "titleAr": "ظاهرة الحيود (شرط $a \\le \\lambda$) ومفهوم الوسط المبدد",
-          "titleFr": "Phénomène de diffraction et milieu dispersif"
+          "titleFr": "Phénomène de diffraction et milieu dispersif",
+          "status": "upcoming"
         }
       ]
     },
