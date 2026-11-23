@@ -698,23 +698,38 @@ async function runBrowserAudit() {
         issues.push(`[${vp.name}] back button from deep-linked chem-01 did not return to chemistry catalog`);
       }
 
-      // Cold deep-link open math-02 to verify m02-ax1..m02-ax4, SVGs, KaTeX & toggleAll
+      // Cold deep-link open math-02 to verify m02-ax1..m02-ax4, Lexique, #math2-master-solution, 4 sim modes & SVGs
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/math-02`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(200);
       const math2Open = await page.evaluate(() => {
+        const sol = document.getElementById('math2-master-solution');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 4 && axDetails.every((d) => d.open);
+        return Boolean(sol && !sol.classList.contains('hidden') && axDetails.length >= 4 && axDetails.every((d) => d.open));
       });
-      if (!math2Open) issues.push(`[${vp.name}] math-02: #btnToggleAllSolutions did not expand all 4 axis <details>`);
+      if (!math2Open) issues.push(`[${vp.name}] math-02: #btnToggleAllSolutions did not expand #math2-master-solution and all 4 axis <details>`);
       const math2Stats = await inspectDom('lesson-math-02');
-      if (math2Stats.katexCount < 400) issues.push(`[${vp.name}] math-02 expected >=400 KaTeX nodes, got ${math2Stats.katexCount}`);
+      if (math2Stats.katexCount < 800) issues.push(`[${vp.name}] math-02 expected >=800 KaTeX nodes, got ${math2Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const math2Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!math2Collapsed) issues.push(`[${vp.name}] math-02: #btnToggleAllSolutions did not collapse axis <details>`);
+      const math2Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('math2-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!math2Collapsed) issues.push(`[${vp.name}] math-02: #btnToggleAllSolutions did not collapse #math2-master-solution and axis <details>`);
+      for (const m2Mode of ['secant-tangent', 'concavity-inflexion', 'branches-infinies', 'inverse-deriv']) {
+        await page.click(`[data-m2-mode="${m2Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`math2-sim-${m2Mode}`);
+        if (m2Mode === 'branches-infinies') {
+          await page.click('[data-m2-branch="3"]');
+          await page.waitForTimeout(100);
+          await inspectDom('math2-sim-branch-diag');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);

@@ -94,10 +94,17 @@ window.EulerAcademy.registerSubject({
       "num": "02",
       "semester": 1,
       "status": "active",
-      "progressText": "جميع المحاور الـ 4 مكتملة بالبرهان الصارم والتمارين التوليفية (100% من المحاور)",
+      "progressText": "جميع المحاور الـ 4 مكتملة + المعجم (20) + المختبر (4 أنماط) + الفرض المحروس N°2 (100%)",
       "titleAr": "الاشتقاق ودراسة الدوال العددية",
       "titleFr": "Dérivation et étude des fonctions numériques",
       "summary": "قابلية الاشتقاق في نقطة، التأويل الهندسي (المماس ونصف المماس)، اشتقاق المركب والدالة العكسية ودالة جذر الرتبة n، الرتابة والتقعر، والفروع اللانهائية.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°2 (20/20)",
+      "simulator": {
+        "navLabel": "🧪 المختبر البصري للاشتقاق (4 أنماط)",
+        "script": "./simulators/math-02.js"
+      },
       "axes": [
         {
           "id": "m02-ax1",

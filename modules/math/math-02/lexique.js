@@ -1,0 +1,22 @@
+window.EulerAcademy.registerLexique('math-02', [
+  { ar: 'العدد المشتق:', fr: 'Nombre dérivé f’(x₀)' },
+  { ar: 'نسبة التغير:', fr: 'Taux d’accroissement' },
+  { ar: 'الاشتقاق يميناً ويساراً:', fr: 'Dérivabilité à droite / gauche' },
+  { ar: 'المماس للمنحنى:', fr: 'Tangente en A(x₀, f(x₀))' },
+  { ar: 'نصف مماس عمودي:', fr: 'Demi-tangente verticale (↑ / ↓)' },
+  { ar: 'نقطة مزواة:', fr: 'Point anguleux (f’_d ≠ f’_g)' },
+  { ar: 'التقريب التآلفي:', fr: 'Approximation affine locale' },
+  { ar: 'اشتقاق مركب دالتين:', fr: 'Dérivée de g ∘ f : f’·(g’∘f)' },
+  { ar: 'مشتقة الدالة العكسية:', fr: '(f⁻¹)’(y₀) = 1 / f’(x₀)' },
+  { ar: 'الرتابة القطعية:', fr: 'Monotonie stricte' },
+  { ar: 'المطراف المحلي:', fr: 'Extremum local (Max / Min)' },
+  { ar: 'تقعر المنحنى:', fr: 'Concavité (f’’ > 0 ou f’’ < 0)' },
+  { ar: 'نقطة الانعطاف:', fr: 'Point d’inflexion (f’’ = 0)' },
+  { ar: 'مقارب عمودي / أفقي:', fr: 'Asymptote verticale / horizontale' },
+  { ar: 'مقارب مائل:', fr: 'Asymptote oblique (y = ax + b)' },
+  { ar: 'فرع شلجمي:', fr: 'Branche parabolique (Ox / Oy / y=ax)' },
+  { ar: 'الوضع النسبي:', fr: 'Position relative : f(x) − (ax + b)' },
+  { ar: 'محور التماثل:', fr: 'Axe de symétrie (x = a)' },
+  { ar: 'مركز التماثل:', fr: 'Centre de symétrie Ω(a, b)' },
+  { ar: 'شفعية الدالة:', fr: 'Parité (paire / impaire)' }
+]);
