@@ -72,7 +72,7 @@ window.EulerAcademy.registerSubject({
       "num": "02",
       "unit": "الجزء 1: الموجات (Ondes)",
       "status": "active",
-      "progressText": "المحوران 01 و 02 مكتملان (67% من المحاور)",
+      "progressText": "جميع المحاور الـ 3 مكتملة (100% من المحاور)",
       "titleAr": "الموجات الميكانيكية المتوالية الدورية",
       "titleFr": "Ondes mécaniques progressives périodiques",
       "summary": "الدورية الزمانية $T$ والدورية المكانية $\\lambda$، العلاقة $\\lambda = v \\cdot T = v/N$، توافق وتعاكس الطور، حيود الموجات، والوسط المبدد.",
@@ -106,7 +106,12 @@ window.EulerAcademy.registerSubject({
           "num": "المحور 03",
           "titleAr": "ظاهرة الحيود (شرط $a \\le \\lambda$) ومفهوم الوسط المبدد",
           "titleFr": "Phénomène de diffraction et milieu dispersif",
-          "status": "upcoming"
+          "status": "completed",
+          "requirements": [
+            "تعريف ظاهرة حيود موجة ميكانيكية متوالية جيبية وتطبيق شرط وضوحها $a \\le \\lambda$.",
+            "التحقق من ثبات التردد $N$ والسرعة $v$ وطول الموجة $\\lambda$ للموجة المحيدة مع تناقص وسعها فقط.",
+            "تعريف الوسط المبدد (تعلق $v$ بالتردد $N$) والتمييز بين تأثير تغيير التردد وتأثير تغيير عمق الماء على الحيود."
+          ]
         }
       ]
     },

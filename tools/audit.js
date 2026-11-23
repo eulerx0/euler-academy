@@ -731,7 +731,7 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open phys-02 to verify p02-ax1 & p02-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open phys-02 to verify p02-ax1..p02-ax3, SVGs, KaTeX & toggleAll
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/phys-02`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
@@ -739,11 +739,11 @@ async function runBrowserAudit() {
       await page.waitForTimeout(200);
       const phys2Open = await page.evaluate(() => {
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return axDetails.length >= 3 && axDetails.every((d) => d.open);
       });
-      if (!phys2Open) issues.push(`[${vp.name}] phys-02: #btnToggleAllSolutions did not expand axis <details>`);
+      if (!phys2Open) issues.push(`[${vp.name}] phys-02: #btnToggleAllSolutions did not expand all 3 axis <details>`);
       const phys2Stats = await inspectDom('lesson-phys-02');
-      if (phys2Stats.katexCount < 250) issues.push(`[${vp.name}] phys-02 expected >=250 KaTeX nodes, got ${phys2Stats.katexCount}`);
+      if (phys2Stats.katexCount < 350) issues.push(`[${vp.name}] phys-02 expected >=350 KaTeX nodes, got ${phys2Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
       const phys2Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
