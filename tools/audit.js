@@ -698,7 +698,7 @@ async function runBrowserAudit() {
         issues.push(`[${vp.name}] back button from deep-linked chem-01 did not return to chemistry catalog`);
       }
 
-      // Cold deep-link open math-02 to verify m02-ax1 + m02-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open math-02 to verify m02-ax1..m02-ax4, SVGs, KaTeX & toggleAll
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/math-02`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
@@ -706,9 +706,9 @@ async function runBrowserAudit() {
       await page.waitForTimeout(200);
       const math2Open = await page.evaluate(() => {
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return axDetails.length >= 4 && axDetails.every((d) => d.open);
       });
-      if (!math2Open) issues.push(`[${vp.name}] math-02: #btnToggleAllSolutions did not expand axis <details>`);
+      if (!math2Open) issues.push(`[${vp.name}] math-02: #btnToggleAllSolutions did not expand all 4 axis <details>`);
       const math2Stats = await inspectDom('lesson-math-02');
       if (math2Stats.katexCount < 400) issues.push(`[${vp.name}] math-02 expected >=400 KaTeX nodes, got ${math2Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
