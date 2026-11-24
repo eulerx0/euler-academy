@@ -780,6 +780,24 @@ async function runBrowserAudit() {
         }
       }
 
+      // Cold deep-link open chem-02 to verify c02-ax1 & c02-ax2, SVGs, KaTeX & toggleAll
+      await page.goto('about:blank');
+      await page.goto(`${url}#/lesson/chem-02`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(700);
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(200);
+      const chem2Open = await page.evaluate(() => {
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+      });
+      if (!chem2Open) issues.push(`[${vp.name}] chem-02: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      const chem2Stats = await inspectDom('lesson-chem-02');
+      if (chem2Stats.katexCount < 350) issues.push(`[${vp.name}] chem-02 expected >=350 KaTeX nodes, got ${chem2Stats.katexCount}`);
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(100);
+      const chem2Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
+      if (!chem2Collapsed) issues.push(`[${vp.name}] chem-02: #btnToggleAllSolutions did not collapse axis <details>`);
+
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
       if (failedRequests.length) issues.push(`[${vp.name}] failed local requests: ${JSON.stringify(failedRequests)}`);

@@ -58,7 +58,8 @@ window.EulerAcademy.registerSubject({
       "id": "chem-02",
       "num": "02",
       "unit": "الجزء 1: التحولات السريعة والبطيئة",
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
       "titleAr": "التتبع الزمني لتحول كيميائي — سرعة التفاعل",
       "titleFr": "Suivi temporel d’une transformation chimique — Vitesse de réaction",
       "summary": "طرق التتبع الزمني (المعايرة، الموصلية $\\sigma$، ضغط أو حجم غاز)، السرعة الحجمية $v(t) = \\frac{1}{V_S}\\frac{dx}{dt}$، وزمن نصف التفاعل $t_{1/2}$.",
@@ -67,13 +68,25 @@ window.EulerAcademy.registerSubject({
           "id": "c02-ax1",
           "num": "المحور 01",
           "titleAr": "طرق التتبع الزمني واستغلال جدول التقدم لإيجاد تعبير $x(t)$ بدلالة المقدار الفيزيائي المقاس ($\\sigma, G, P, V$)",
-          "titleFr": "Méthodes de suivi temporel et avancement x(t)"
+          "titleFr": "Méthodes de suivi temporel et avancement x(t)",
+          "status": "completed",
+          "requirements": [
+            "التمييز بين الطريقة الكيميائية المتلفة (المعايرة بعد السقي الكيميائي) والطرق الفيزيائية المستمرة (الموصلية، الضغط، الحجم).",
+            "استغلال جدول التقدم وقانون كولروش $\\sigma = \\sum \\lambda_i [X_i]$ وقانون الغازات الكاملة $PV = nRT$ لإيجاد $x(t)$ بدقة الوحدات الدولية.",
+            "إثبات وتطبيق علاقات النسبة التآلفية $x(t) = x_{\\max}\\frac{Y(t)-Y_0}{Y_f-Y_0}$ واستثمار عامل التخفيف $\\frac{V_S}{V_p}$ في المعايرة."
+          ]
         },
         {
           "id": "c02-ax2",
           "num": "المحور 02",
           "titleAr": "تعريف وحساب السرعة الحجمية للتفاعل مبيانياً $v(t) = \\frac{1}{V_S}\\frac{dx}{dt}$ وتحديد زمن نصف التفاعل $t_{1/2}$",
-          "titleFr": "Vitesse volumique de réaction et temps de demi-réaction"
+          "titleFr": "Vitesse volumique de réaction et temps de demi-réaction",
+          "status": "completed",
+          "requirements": [
+            "تعريف السرعة الحجمية $v(t) = \\frac{1}{V_S}\\frac{dx}{dt}$ وحسابها مبيانياً برسم المماس، وكذا استخراجها من منحنيات $[X](t)$ أو $P(t)$ أو $\\sigma(t)$.",
+            "تفسير تناقص السرعة الحجمية مع الزمن مجهرياً بانخفاض تراكيز المتفاعلات وتواتر التصادمات الفعالة.",
+            "تعريف زمن نصف التفاعل $t_{1/2}$ ($x(t_{1/2}) = \\frac{x_f}{2}$) وتحديده مبيانياً بما في ذلك حالة $Y_0 \\neq 0$ ($Y(t_{1/2}) = \\frac{Y_0 + Y_f}{2}$)."
+          ]
         }
       ]
     },
