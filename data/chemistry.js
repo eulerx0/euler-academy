@@ -234,7 +234,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "c09-ax1",
           "num": "المحور 01",
-          "titleAr": "المجموعات المميزة والتسمية النظامية للكحولات والأحماض الكربوكسيلية والإسترات",
+          "titleAr": "المجموعات المميزة والتسمية النظامية للكحولات والأحماض الكربوكسيلية والإسترات (حتى 5 ذرات كربون)",
           "titleFr": "Groupes caractéristiques et nomenclature des composés oxygénés"
         },
         {
@@ -257,7 +257,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "c10-ax1",
           "num": "المحور 01",
-          "titleAr": "حساب المردود $r$ والتحكم في السرعة (درجة الحرارة والحفاز) وفي الحالة النهائية (تصنيع الإستر انطلاقاً من أندريد الحمض)",
+          "titleAr": "حساب المردود $r$، المعدات التجريبية (التسخين بالارتداد والتقطير المجزأ)، والتحكم في السرعة وفي الحالة النهائية (أنهيدريد الحمض)",
           "titleFr": "Rendement d’une synthèse et réactivité d’un anhydride d’acide"
         },
         {

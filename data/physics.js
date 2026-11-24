@@ -129,7 +129,7 @@ window.EulerAcademy.registerSubject({
       "status": "upcoming",
       "titleAr": "انتشار موجة ضوئية",
       "titleFr": "Propagation d’une onde lumineuse",
-      "summary": "الطبيعة الموجية للضوء، حيود الضوء الأحادي اللون ($\\theta = \\lambda/a$ و $L = 2\\lambda D/a$)، معامل الانكسار، وتبدد الضوء الأبيض بالموشور.",
+      "summary": "الطبيعة الموجية للضوء، حيود الضوء الأحادي اللون ($\\theta = \\lambda/a$ و $L = 2\\lambda D/a$)، حدود الطيف المرئي، معامل الانكسار $n = c/v$، والإبراز التجريبي والتفسير النوعي لتبدد الضوء الأبيض بالموشور.",
       "axes": [
         {
           "id": "p03-ax1",
@@ -140,8 +140,8 @@ window.EulerAcademy.registerSubject({
         {
           "id": "p03-ax2",
           "num": "المحور 02",
-          "titleAr": "معامل انكسار وسط شفاف $n = \\frac{c}{v} = \\frac{\\lambda_0}{\\lambda}$ وعلاقات الموشور الأربعة وتبدد الضوء الأبيض",
-          "titleFr": "Indice de réfraction et dispersion par un prisme"
+          "titleAr": "معامل انكسار وسط شفاف $n = \\frac{c}{v} = \\frac{\\lambda_0}{\\lambda}$، حدود الطيف المرئي ($400\\text{ nm} \\le \\lambda_0 \\le 800\\text{ nm}$)، والإبراز التجريبي والتفسير النوعي لتبدد الضوء الأبيض بالموشور",
+          "titleFr": "Indice de réfraction, spectre visible et dispersion qualitative par un prisme"
         }
       ]
     },
@@ -346,9 +346,9 @@ window.EulerAcademy.registerSubject({
       "num": "12",
       "unit": "الجزء 4: الميكانيك (Mécanique)",
       "status": "upcoming",
-      "titleAr": "تطبيقات: الحركات المستوية (القذيفة والأقمار الاصطناعية)",
-      "titleFr": "Applications : Mouvements plans (Projectile et satellites)",
-      "summary": "حركة قذيفة في مجال الثقالة المنتظم (المعادلات الزمنية، معادلة المسار، القمة $S$، المدى $P$)، وحركة الكواكب والأقمار الاصطناعية وقوانين كيبلر.",
+      "titleAr": "تطبيقات: الحركات المستوية (القذيفة، المجال المغناطيسي $\\vec{B}$، والأقمار الاصطناعية)",
+      "titleFr": "Applications : Mouvements plans (Projectile, champ B et satellites)",
+      "summary": "حركة قذيفة في مجال الثقالة المنتظم (المعادلات الزمنية، المسار، القمة $S$، المدى $P$)، حركة دقيقة مشحونة في مجال مغناطيسي منتظم $\\vec{B}$ والانحراف المغناطيسي $D_m$، وحركة الكواكب والأقمار الاصطناعية وقوانين كيبلر.",
       "axes": [
         {
           "id": "p12-ax1",
@@ -361,6 +361,12 @@ window.EulerAcademy.registerSubject({
           "num": "المحور 02",
           "titleAr": "قوانين كيبلر الثلاثة وتطبيق القانون الثاني لنيوتن على الحركة الدائرية المنتظمة لكوكب أو قمر اصطناعي ($v$, $T$, والمدار الجيوساكن)",
           "titleFr": "Mouvement des planètes et des satellites artificiels"
+        },
+        {
+          "id": "p12-ax3",
+          "num": "المحور 03",
+          "titleAr": "حركة دقيقة مشحونة في مجال مغناطيسي منتظم $\\vec{B}$: قوة لورنتز، المسار الدائري ($R = \\frac{mv_0}{|q|B}$)، والانحراف المغناطيسي $D_m$",
+          "titleFr": "Particule chargée dans un champ magnétique uniforme B et déflexion magnétique"
         }
       ]
     },
@@ -399,7 +405,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "p14-ax1",
           "num": "المحور 01",
-          "titleAr": "النواس المرن الأفقي: قوة الارتداد $\\vec{T} = -kx\\vec{i}$، المعادلة التفاضلية، الحل الجيبي، والدور الخاص $T_0 = 2\\pi\\sqrt{\\frac{m}{k}}$",
+          "titleAr": "النواس المرن (الأفقي، المائل، والرأسي): قوة الارتداد $\\vec{T} = -kx\\vec{i}$، المعادلة التفاضلية، الحل الجيبي، والدور الخاص $T_0 = 2\\pi\\sqrt{\\frac{m}{k}}$",
           "titleFr": "Le pendule élastique"
         },
         {

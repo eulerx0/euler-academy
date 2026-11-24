@@ -232,7 +232,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "m05-ax3",
           "num": "المحور 03",
-          "titleAr": "مشتقة $\\ln(|u(x)|)$ والدوال الأصلية لـ $\\frac{u'(x)}{u(x)}$، ودالة اللوغاريتم العشري $\\log(x)$",
+          "titleAr": "مشتقة $\\ln(|u(x)|)$ والدوال الأصلية لـ $\\frac{u'(x)}{u(x)}$، ودالة اللوغاريتم للأساس $a$ واللوغاريتم العشري $\\log(x)$",
           "titleFr": "Dérivée logarithmique, primitives de u’/u et logarithme décimal"
         }
       ]
@@ -255,7 +255,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "m06-ax2",
           "num": "المحور 02",
-          "titleAr": "التمثيل الهندسي لعدد عقدي، لحق نقطة ولحق متجهة، المسافة $AB = |z_B - z_A|$، واستقامية ثلاث نقط",
+          "titleAr": "التمثيل الهندسي لعدد عقدي، لحق نقطة ولحق متجهة، المسافة $AB = |z_B - z_A|$، استقامية ثلاث نقط، وتداور أربع نقط (Cocyclicité)",
           "titleFr": "Représentation géométrique, affixe, distance et alignement"
         },
         {
@@ -284,7 +284,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "m07-ax2",
           "num": "المحور 02",
-          "titleAr": "النهايات الأساسية ($\\lim_{+\\infty}\\frac{e^x}{x^n}=+\\infty$, $\\lim_{-\\infty}x^n e^x=0$, $\\lim_{0}\\frac{e^x-1}{x}=1$) واشتقاق وأصلية $u'(x)e^{u(x)}$",
+          "titleAr": "النهايات الأساسية ($\\lim_{+\\infty}\\frac{e^x}{x^n}=+\\infty$, $\\lim_{-\\infty}x^n e^x=0$, $\\lim_{0}\\frac{e^x-1}{x}=1$)، اشتقاق وأصلية $u'(x)e^{u(x)}$، والدالة الأسية للأساس $a$ ($a^x = e^{x\\ln a}$)",
           "titleFr": "Limites fondamentales, dérivée et primitives de u’e^u"
         }
       ]
@@ -336,7 +336,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "m09-ax2",
           "num": "المحور 02",
-          "titleAr": "حل المعادلة التفاضلية $y'' + ay' + by = 0$ باستعمال المعادلة المميزة $r^2 + ar + b = 0$ في الحالات الثلاث لـ $\\Delta$",
+          "titleAr": "حل المعادلة التفاضلية $y'' + ay' + by = 0$ باستعمال المعادلة المميزة $r^2 + ar + b = 0$ في الحالات الثلاث لـ $\\Delta$، والمعادلات التفاضلية التي تؤول إلى الصيغتين",
           "titleFr": "Équation différentielle y’’ + ay’ + by = 0"
         }
       ]
@@ -388,7 +388,7 @@ window.EulerAcademy.registerSubject({
         {
           "id": "m11-ax2",
           "num": "المحور 02",
-          "titleAr": "معادلة الفلكة $(S)$، والأوضاع النسبية لفلكة ومستوى (تقاطع وفق دائرة، مستوى مماس، أو منفصلان) ولفلكة ومستقيم",
+          "titleAr": "معادلة الفلكة $(S)$ والتمثيل البارامتري لفلكة، المستوى المماس لفلكة، والأوضاع النسبية لفلكة ومستوى ولفلكة ومستقيم (في أمثلة عددية)",
           "titleFr": "Étude analytique de la sphère et positions relatives"
         },
         {
