@@ -232,7 +232,15 @@
     }
 
     const printBtn = document.getElementById('btnPrintLesson');
-    if (printBtn) printBtn.addEventListener('click', () => global.print());
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        if (global.EulerNative && typeof global.EulerNative.printPage === 'function') {
+          global.EulerNative.printPage(lesson ? lesson.titleAr : 'Euler Academy');
+        } else {
+          global.print();
+        }
+      });
+    }
 
     // Initial render (using cache if already loaded, shimmer if loading)
     const axesContainer = document.getElementById('lessonAxesContainer');

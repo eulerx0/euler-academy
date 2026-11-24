@@ -18,17 +18,42 @@
     return { type: 'catalog', subjectKey: 'math' };
   }
 
+  function notifyNativeRoute(route) {
+    try {
+      if (global.EulerNative && typeof global.EulerNative.onRouteChanged === 'function') {
+        let subj = route.subjectKey || '';
+        if (route.type === 'lesson' && route.lessonId) {
+          const found = global.EulerAcademy.findLesson(route.lessonId);
+          if (found) subj = found.subjectKey;
+        }
+        global.EulerNative.onRouteChanged(global.location.hash || '#/' + (subj || 'math'), subj || 'math', route.type || 'catalog');
+      }
+    } catch (_) {}
+  }
+
   function applyRoute() {
     const route = parseRoute();
     if (route.type === 'lesson') {
       const found = global.EulerAcademy.findLesson(route.lessonId);
       if (found) {
         global.EulerLessonView.openLesson(found.subjectKey, found.lesson.id, route.sectionId);
+        notifyNativeRoute(route);
         return;
       }
     }
     global.EulerCatalog.showSubjectCatalog(route.subjectKey || 'math');
+    notifyNativeRoute(route);
   }
+
+  global.EulerMobileBack = function () {
+    const route = parseRoute();
+    if (route.type === 'lesson') {
+      const subj = (global.EulerCatalog && global.EulerCatalog.getCurrentSubject()) || 'math';
+      goToSubject(subj);
+      return true;
+    }
+    return false;
+  };
 
   function goToSubject(subjectKey) {
     const targetHash = `#/${subjectKey}`;

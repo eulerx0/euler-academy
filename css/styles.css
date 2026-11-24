@@ -4,6 +4,26 @@
   display: none;
 }
 
+/* Native Android App Mobile-First Adaptations */
+html.euler-mobile-app header nav {
+  display: none !important;
+}
+
+html.euler-mobile-app header > div {
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+html.euler-mobile-app main {
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+html.euler-mobile-app #scrollTopBtn {
+  bottom: 1rem;
+  left: 1rem;
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: clip;

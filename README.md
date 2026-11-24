@@ -6,6 +6,7 @@
 [![Track](https://img.shields.io/badge/2BAC%20PC-Sciences%20Physiques-10b981?style=for-the-badge)](https://eulerx0.github.io/euler-academy/)
 [![KaTeX](https://img.shields.io/badge/Math%20Engine-KaTeX%200.16-3b82f6?style=for-the-badge)](https://katex.org/)
 [![Canvas 60fps](https://img.shields.io/badge/Interactive%20Labs-HTML5%20Canvas%2060fps-f59e0b?style=for-the-badge)](https://eulerx0.github.io/euler-academy/)
+[![Android APK](https://img.shields.io/badge/Android%20App-Download%20APK-10b981?style=for-the-badge&logo=android)](https://github.com/eulerx0/euler-academy-android/releases/latest)
 
 **المنصة التفاعلية الشاملة للرياضيات والفيزياء والكيمياء — السنة الثانية باكالوريا مسلك العلوم الفيزيائية (المغرب)**  
 *Interactive Moroccan 2BAC PC STEM Learning Hub — Rigorous Proofs, 60fps Simulations & National-Exam Assessments*
@@ -103,6 +104,8 @@ euler-academy/
    فك الضغط ثم افتح `index.html` مباشرة في متصفحك.
 3. **📲 التثبيت كتطبيق (PWA):**  
    عند زيارة [الموقع الحي](https://eulerx0.github.io/euler-academy/) يمكنك تثبيته عبر المتصفح (*Install App / Add to Home Screen*) للعمل تلقائياً بلا إنترنت مع تحديث فوري عند عودة الاتصال (`Network-First Service Worker`).
+4. **🤖 تطبيق أندرويد الأصلي (`Euler Academy APK`):**  
+   متوفر كتطبيق أندرويد مخصص للهاتف يعمل **100% أوفلاين** مع تحديث تلقائي للدروس (`OTA`) في [euler-academy-android](https://github.com/eulerx0/euler-academy-android/releases/latest).
 
 ### 🧪 التشغيل والتدقيق للمطورين
 

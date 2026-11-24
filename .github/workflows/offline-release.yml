@@ -58,3 +58,13 @@ jobs:
           files: |
             dist/Euler-Academy-SingleFile.html
             dist/Euler-Academy-Offline.zip
+
+      - name: Trigger Euler Academy Android APK rebuild
+        if: github.event_name == 'push' && secrets.ANDROID_DISPATCH_TOKEN != ''
+        continue-on-error: true
+        run: |
+          curl -fsSL -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.ANDROID_DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/eulerx0/euler-academy-android/dispatches \
+            -d '{"event_type":"lessons-updated","client_payload":{"sha":"${{ github.sha }}"}}'
