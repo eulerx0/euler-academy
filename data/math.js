@@ -160,7 +160,8 @@ window.EulerAcademy.registerSubject({
       "id": "math-03",
       "num": "03",
       "semester": 1,
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "تم إنجاز المحورين 01 و 02 (67% من المحاور — 2/3 محاور)",
       "titleAr": "المتتاليات العددية",
       "titleFr": "Suites numériques",
       "summary": "الاستدلال بالترجع، المتتاليات المكبورة والمصغورة، رتابة متتالية، نهاية متتالية، مصاديق التقارب، والمتتاليات الترجعية من نوع $u_{n+1} = f(u_n)$.",
@@ -169,13 +170,25 @@ window.EulerAcademy.registerSubject({
           "id": "m03-ax1",
           "num": "المحور 01",
           "titleAr": "البرهان بالترجع، المتتاليات المكبورة والمصغورة والمحدودة، ودراسة رتابة متتالية",
-          "titleFr": "Raisonnement par récurrence, suites bornées et monotonie"
+          "titleFr": "Raisonnement par récurrence, suites bornées et monotonie",
+          "status": "completed",
+          "requirements": [
+            "صياغة مراحل البرهان بالترجع الثلاث بصرامة لإثبات تفاوتات أو مكبورية ومصغورية متتالية ($u_n \\le M$, $u_n \\ge m$).",
+            "دراسة رتابة متتالية باستعمال إشارة الفرق $u_{n+1} - u_n$ أو $f(x) - x$ أو النسبة $u_{n+1}/u_n$ عند الإيجاب القطعي.",
+            "استثمار المتتاليات المساعدة (الهندسية والحسابية) لحساب $u_n$ بدلالة $n$ للمتتاليات التآلفية والمتخاطة $u_{n+1} = \\frac{au_n+b}{cu_n+d}$."
+          ]
         },
         {
           "id": "m03-ax2",
           "num": "المحور 02",
           "titleAr": "نهاية متتالية، النهايات المرجعية ($n^p$ و $q^n$)، ومصاديق التقارب (التقارب الرتيب ومصداق الدرك)",
-          "titleFr": "Limite d’une suite et critères de convergence"
+          "titleFr": "Limite d’une suite et critères de convergence",
+          "status": "completed",
+          "requirements": [
+            "ضبط النهايات المرجعية ($n^p, \\sqrt{n}, 1/n^p$) ونهاية المتتالية الهندسية $(q^n)$ لكل حالات $q \\in \\mathbb{R}^*$.",
+            "تطبيق مبرهنة التقارب الرتيب (تزايدية ومكبورة أو تناقصية ومصغورة) والتمييز بين المكبر والنهاية.",
+            "توظيف مصداق الدركيين، متفاوتة القيمة المطلقة، والبرهان بالترجع على $|u_n - \\ell| \\le k^n |u_0 - \\ell|$ ($0 &lt; k &lt; 1$) لاستنتاج النهاية."
+          ]
         },
         {
           "id": "m03-ax3",
