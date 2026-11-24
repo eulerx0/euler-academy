@@ -786,23 +786,49 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open chem-02 to verify c02-ax1 & c02-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open chem-02 to verify c02-ax1..ax2, Lexique, #chem2-master-solution, 4 sim modes, SVGs & KaTeX
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/chem-02`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const chem2Open = await page.evaluate(() => {
+        const sol = document.getElementById('chem2-master-solution');
+        const tr = document.querySelector('[onclick*="chem2-master-solution"]');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 2 && axDetails.every((d) => d.open)
+        );
       });
-      if (!chem2Open) issues.push(`[${vp.name}] chem-02: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      if (!chem2Open) issues.push(`[${vp.name}] chem-02: #btnToggleAllSolutions did not expand #chem2-master-solution and all 2 axis <details>`);
       const chem2Stats = await inspectDom('lesson-chem-02');
-      if (chem2Stats.katexCount < 350) issues.push(`[${vp.name}] chem-02 expected >=350 KaTeX nodes, got ${chem2Stats.katexCount}`);
+      if (chem2Stats.katexCount < 600) issues.push(`[${vp.name}] chem-02 expected >=600 KaTeX nodes, got ${chem2Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const chem2Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!chem2Collapsed) issues.push(`[${vp.name}] chem-02: #btnToggleAllSolutions did not collapse axis <details>`);
+      const chem2Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('chem2-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!chem2Collapsed) issues.push(`[${vp.name}] chem-02: #btnToggleAllSolutions did not collapse #chem2-master-solution and axis <details>`);
+      for (const c2Mode of ['manometry', 'conductimetry', 'tangent-speed', 'kinetic-compare']) {
+        await page.click(`[data-c2-mode="${c2Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`chem2-sim-${c2Mode}`);
+        if (c2Mode === 'conductimetry') {
+          await page.click('[data-c2-cond="hydrolysis"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem2-sim-hydrolysis');
+          await page.click('[data-c2-cond="saponification"]');
+        } else if (c2Mode === 'kinetic-compare') {
+          await page.click('[data-c2-dilute="yes"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem2-sim-diluted');
+          await page.click('[data-c2-dilute="no"]');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);

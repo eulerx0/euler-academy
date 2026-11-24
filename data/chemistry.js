@@ -59,10 +59,17 @@ window.EulerAcademy.registerSubject({
       "num": "02",
       "unit": "الجزء 1: التحولات السريعة والبطيئة",
       "status": "active",
-      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
+      "progressText": "جميع المحاور الـ 2 مكتملة + معجم ثنائي (15 مصطلحاً) + مختبر تفاعلي (4 أنماط) + الفرض المحروس N°2 (100%)",
       "titleAr": "التتبع الزمني لتحول كيميائي — سرعة التفاعل",
       "titleFr": "Suivi temporel d’une transformation chimique — Vitesse de réaction",
       "summary": "طرق التتبع الزمني (المعايرة، الموصلية $\\sigma$، ضغط أو حجم غاز)، السرعة الحجمية $v(t) = \\frac{1}{V_S}\\frac{dx}{dt}$، وزمن نصف التفاعل $t_{1/2}$.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°2 (20/20)",
+      "simulator": {
+        "navLabel": "🧪 مختبر التتبع والسرعة الحجمية (4 أنماط)",
+        "script": "./simulators/chem-02.js"
+      },
       "axes": [
         {
           "id": "c02-ax1",
