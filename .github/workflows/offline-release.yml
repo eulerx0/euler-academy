@@ -1,0 +1,60 @@
+name: Publish Offline Bundles
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'icon.svg'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'css/**'
+      - 'js/**'
+      - 'data/**'
+      - 'modules/**'
+      - 'simulators/**'
+      - 'vendor/**'
+      - 'tools/build_offline.js'
+      - '.github/workflows/offline-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-offline-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Offline ZIP and Single-File HTML
+        run: node tools/build_offline.js
+
+      - name: Publish rolling offline-latest Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: offline-latest
+          name: "📦 Euler Academy — النسخة الكاملة للعمل بدون إنترنت (Offline Latest)"
+          body: |
+            ### 🎓 النسخة المحدّثة تلقائياً للعمل بدون إنترنت (100% Offline)
+
+            تُحدَّث هذه الحزمة تلقائياً عند كل إضافة أو تحديث في الدروس والمختبرات، وتعمل **بدون إنترنت بالكامل** وبنفس دقة الموقع الحي (مع **Tailwind CSS** و**KaTeX** وخطوط **Cairo / Inter** مضمّنة محلياً).
+
+            | الملف | الأنسب لـ | طريقة التشغيل |
+            | :--- | :--- | :--- |
+            | **`Euler-Academy-SingleFile.html`** | 📱 الهاتف (Android / iOS) أو التشغيل الفوري بملف واحد | حمّل الملف وافتحه مباشرة في المتصفح (لا يحتاج فك ضغط) |
+            | **`Euler-Academy-Offline.zip`** | 💻 الحاسوب (Windows / macOS / Linux) | فك الضغط ثم افتح `index.html` في أي متصفح |
+
+            🌐 **النسخة الحية (تدعم أيضاً التثبيت كتطبيق PWA):** https://eulerx0.github.io/euler-academy/
+          draft: false
+          prerelease: false
+          make_latest: true
+          files: |
+            dist/Euler-Academy-SingleFile.html
+            dist/Euler-Academy-Offline.zip

@@ -1,0 +1,20 @@
+{
+  "name": "أكاديمية أويلر للعلوم الدقيقة — Euler Academy",
+  "short_name": "أكاديمية أويلر",
+  "description": "المنصة التفاعلية للرياضيات والفيزياء والكيمياء — الثانية باكالوريا علوم فيزيائية (2BAC PC Maroc)",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#060911",
+  "theme_color": "#060911",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

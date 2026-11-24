@@ -1,5 +1,9 @@
 /* Euler Academy — Core Design System & Print Styles */
 
+:where(.hidden) {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: clip;

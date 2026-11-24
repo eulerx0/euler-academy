@@ -58,10 +58,17 @@
 
 ```text
 euler-academy/
-├── index.html                  # الواجهة الرئيسية ونقاط التحميل الديناميكي
+├── index.html                  # الواجهة الرئيسية (0 روابط CDN خارجية — 100% Offline)
+├── icon.svg                    # الأيقونة المتجهية للمنصة والتطبيق
+├── manifest.webmanifest        # إعدادات التثبيت كتطبيق (PWA)
+├── sw.js                       # Service Worker باستراتيجية Network-First للعمل Offline
 ├── .nojekyll                   # تفعيل النشر المباشر للملفات الساكنة على GitHub Pages
 ├── css/
 │   └── styles.css              # تنسيقات RTL، Glassmorphism، وأنماط الطباعة
+├── vendor/
+│   ├── tailwindcss.js          # محرك Tailwind CSS المحلي
+│   ├── fonts/                  # خطوط Cairo و Inter محلياً (.woff2)
+│   └── katex/                  # مكتبة KaTeX 0.16.9 مع خطوط الرياضيات كاملة
 ├── data/
 │   ├── math.js                 # سجل دروس ومحاور الرياضيات (12 درساً)
 │   ├── physics.js              # سجل دروس ومحاور الفيزياء (15 درساً)
@@ -78,14 +85,26 @@ euler-academy/
 │   └── chemistry/<lessonId>/   # وحدات محاور الكيمياء ومعاجمها وفروضها
 ├── simulators/                 # مختبرات HTML5 Canvas التفاعلية (60fps)
 └── tools/
-    └── audit.js                # أداة التدقيق الشامل (فحص ساكن + Playwright Chromium)
+    ├── audit.js                # أداة التدقيق الشامل (فحص ساكن + Playwright + Offline)
+    ├── build_offline.js        # مولّد الحزمة المستقلة (SingleFile.html + Offline.zip)
+    └── sync_readme.js          # محدث جدول التقدم التلقائي في README
 ```
 
 ---
 
-## 🛠️ التشغيل المحلي والتدقيق الجودة (QA)
+## 🛠️ التشغيل المحلي، العمل بدون إنترنت (Offline)، والتدقيق الجودة (QA)
 
-المشروع يعمل بملفات ساكنة صافية (**Zero Build Step**) ويمكن تشغيله أو فحصه مباشرةً:
+يعمل المشروع بملفات ساكنة صافية (**Zero Build Step** و**Zero External CDN Dependencies**) — جميع مكتبات `Tailwind CSS` و`KaTeX 0.16.9` وخطوط `Cairo` و`Inter` مضمّنة محلياً داخل `vendor/` لضمان تطابق بصري ورياضي بنسبة **100%** حتى عند انقطاع الإنترنت:
+
+### 📥 خيارات الدراسة بدون إنترنت (Offline)
+1. **📱 ملف واحد فوري للهاتف والحاسوب (`Euler-Academy-SingleFile.html`):**  
+   متاح دائماً في [أحدث إصدار (Releases)](https://github.com/eulerx0/euler-academy/releases/tag/offline-latest) — يُحدَّث تلقائياً مع كل درس جديد، ويفتح مباشرة في أي متصفح دون فك ضغط أو إنترنت.
+2. **💻 الحزمة المضغوطة (`Euler-Academy-Offline.zip`):**  
+   فك الضغط ثم افتح `index.html` مباشرة في متصفحك.
+3. **📲 التثبيت كتطبيق (PWA):**  
+   عند زيارة [الموقع الحي](https://eulerx0.github.io/euler-academy/) يمكنك تثبيته عبر المتصفح (*Install App / Add to Home Screen*) للعمل تلقائياً بلا إنترنت مع تحديث فوري عند عودة الاتصال (`Network-First Service Worker`).
+
+### 🧪 التشغيل والتدقيق للمطورين
 
 ```bash
 # 1. تشغيل خادم محلي للمعاينة
@@ -94,8 +113,11 @@ python3 -m http.server 8080
 # 2. تشغيل الفحص الساكن (سلامة JS، توازن صيغ KaTeX، وفحص المراجع)
 node tools/audit.js
 
-# 3. تشغيل فحص المتصفح الشامل عبر Playwright Chromium (1440px + 375px + SVG + KaTeX)
+# 3. تشغيل فحص المتصفح الشامل (1440px + 375px + وضع Offline عبر file://)
 node tools/audit.js --browser
+
+# 4. بناء حزمتي العمل بدون إنترنت محلياً داخل dist/
+node tools/build_offline.js
 ```
 
 ---

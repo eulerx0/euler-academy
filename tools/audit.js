@@ -32,7 +32,7 @@ function walkJsFiles(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === 'tools') continue;
+      if (['.git', 'node_modules', 'tools', 'vendor', 'dist', '.github'].includes(entry.name)) continue;
       results.push(...walkJsFiles(full));
     } else if (entry.isFile() && entry.name.endsWith('.js')) {
       results.push(full);
@@ -324,6 +324,12 @@ async function runBrowserAudit() {
 
       page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()); });
       page.on('pageerror', (e) => pageErrors.push(e.message));
+      page.on('request', (req) => {
+        const u = req.url();
+        if (!u.startsWith(url) && !u.startsWith('data:') && !u.startsWith('blob:')) {
+          failedRequests.push(`external-network-dependency ${u}`);
+        }
+      });
       page.on('response', (res) => {
         if (res.status() >= 400 && res.url().startsWith(url)) {
           failedRequests.push(`${res.status()} ${res.url()}`);
@@ -804,6 +810,33 @@ async function runBrowserAudit() {
 
       await page.close();
     }
+
+    // Strict Offline file:// verification (network disabled)
+    const offlineCtx = await browser.newContext({ offline: true, viewport: { width: 1440, height: 900 } });
+    const offlinePage = await offlineCtx.newPage();
+    const offlineErrors = [];
+    offlinePage.on('pageerror', (e) => offlineErrors.push(e.message));
+    offlinePage.on('console', (m) => { if (m.type() === 'error') offlineErrors.push(m.text()); });
+    offlinePage.on('requestfailed', (r) => offlineErrors.push(`${r.url()} -> ${r.failure()?.errorText || 'failed'}`));
+
+    const fileUrl = `file://${path.join(HUB_DIR, 'index.html')}#/lesson/math-01`;
+    await offlinePage.goto(fileUrl, { waitUntil: 'load' });
+    await offlinePage.waitForTimeout(1000);
+    const offlineRes = await offlinePage.evaluate(() => {
+      const cat = document.getElementById('catalogView');
+      return {
+        katexCount: document.querySelectorAll('.katex').length,
+        katexErrors: document.querySelectorAll('.katex-error').length,
+        catalogHidden: cat ? window.getComputedStyle(cat).display === 'none' : false,
+        hasCairoFont: (window.getComputedStyle(document.body).fontFamily || '').includes('Cairo')
+      };
+    });
+    if (offlineRes.katexCount < 1500) issues.push(`[offline file://] math-01 expected >=1500 KaTeX nodes, got ${offlineRes.katexCount}`);
+    if (offlineRes.katexErrors > 0) issues.push(`[offline file://] ${offlineRes.katexErrors} KaTeX errors`);
+    if (!offlineRes.catalogHidden) issues.push(`[offline file://] #catalogView was not hidden (Tailwind offline failure)`);
+    if (!offlineRes.hasCairoFont) issues.push(`[offline file://] Cairo font missing`);
+    if (offlineErrors.length > 0) issues.push(`[offline file://] errors: ${JSON.stringify(offlineErrors)}`);
+    await offlineCtx.close();
   } finally {
     await browser.close();
     if (typeof server.closeAllConnections === 'function') server.closeAllConnections();
