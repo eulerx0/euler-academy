@@ -72,10 +72,17 @@ window.EulerAcademy.registerSubject({
       "num": "02",
       "unit": "الجزء 1: الموجات (Ondes)",
       "status": "active",
-      "progressText": "جميع المحاور الـ 3 مكتملة (100% من المحاور)",
+      "progressText": "جميع المحاور الـ 3 مكتملة + معجم ثنائي (15 مصطلحاً) + مختبر تفاعلي (4 أنماط) + الفرض المحروس N°2 (100%)",
       "titleAr": "الموجات الميكانيكية المتوالية الدورية",
       "titleFr": "Ondes mécaniques progressives périodiques",
       "summary": "الدورية الزمانية $T$ والدورية المكانية $\\lambda$، العلاقة $\\lambda = v \\cdot T = v/N$، توافق وتعاكس الطور، حيود الموجات، والوسط المبدد.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°2 (20/20)",
+      "simulator": {
+        "navLabel": "🌊 مختبر الموجات الدورية (4 أنماط)",
+        "script": "./simulators/phys-02.js"
+      },
       "axes": [
         {
           "id": "p02-ax1",

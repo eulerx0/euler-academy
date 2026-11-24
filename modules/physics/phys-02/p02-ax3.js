@@ -91,6 +91,66 @@ window.EulerAcademy.registerAxis('phys-02', 'p02-ax3', `
                       </svg>
                     </div>
                   </div>
+
+                  <!-- SVG Diagram 2: Ultrasonic Diffraction Experimental Setup (Cadre de Reference Item 11) -->
+                  <div class="my-4 bg-slate-950 border border-slate-800 rounded-2xl p-2.5 sm:p-4" id="svgCardUltrasonicDiffraction">
+                    <div class="text-xs font-bold text-slate-300 mb-2 flex flex-wrap items-center justify-between gap-2">
+                      <span>📡 تبيانة التركيب التجريبي لإبراز حيود الموجات فوق الصوتية في الهواء (مطلب رسمي في الإطار المرجعي)</span>
+                      <span class="text-[11px] font-mono text-emerald-400">E (40 kHz) + Fente (a &lt;= 8.5 mm) + R</span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                      للكشف عن حيود موجة فوق صوتية ترددها $N = 40\\text{ kHz}$ (طول موجتها في الهواء $\\lambda = \\frac{340}{40000} = 8.5\\text{ mm}$)، نضع أمام الباعث $E$ حاجزاً به فتحة عرضها قابل للضبط بحيث <b>$a \\le \\lambda$</b> (مثلاً $a = 6.0\\text{ mm}$)، ونُحرّك المستقبل $R$ على قوس دائري حول الفتحة مع معاينة التوتر $U_R$ على راسم التذبذب: <b>نلتقط إشارة واضحة حتى عند الزوايا $\\theta &gt; 0$ خارج الحزمة المستقيمة</b>، مما يثبت حدوث الحيود!
+                    </p>
+                    <div class="bg-[#050811] rounded-xl border border-slate-800/80 p-2 sm:p-3">
+                      <svg direction="ltr" style="direction: ltr;" viewBox="0 0 680 190" class="w-full h-auto">
+                        <defs>
+                          <marker id="arrUsDiff" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                            <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+                          </marker>
+                        </defs>
+                        <!-- Labels top -->
+                        <text x="70" y="24" fill="#67e8f9" font-size="11" font-weight="bold" font-family="monospace" text-anchor="middle">Emetteur US</text>
+                        <text x="244" y="24" fill="#fde68a" font-size="11" font-weight="bold" font-family="monospace" text-anchor="middle">a &lt;= lambda</text>
+
+                        <!-- Emitter E -->
+                        <rect x="26" y="70" width="88" height="44" rx="8" fill="rgba(34,211,238,0.12)" stroke="#22d3ee" stroke-width="1.8"/>
+                        <text x="70" y="96" fill="#e0f2fe" font-size="11" font-weight="bold" font-family="monospace" text-anchor="middle">E (40 kHz)</text>
+
+                        <!-- Incident waves -->
+                        <line x1="138" y1="62" x2="138" y2="122" stroke="#22d3ee" stroke-width="2"/>
+                        <line x1="164" y1="62" x2="164" y2="122" stroke="#22d3ee" stroke-width="2"/>
+                        <line x1="190" y1="62" x2="190" y2="122" stroke="#22d3ee" stroke-width="2"/>
+                        <line x1="216" y1="62" x2="216" y2="122" stroke="#22d3ee" stroke-width="2"/>
+
+                        <!-- Slit walls (slit y=78..106, width 28px) -->
+                        <rect x="240" y="36" width="8" height="42" fill="#94a3b8"/>
+                        <rect x="240" y="106" width="8" height="42" fill="#94a3b8"/>
+
+                        <!-- Straight geometric shadow boundaries -->
+                        <line x1="248" y1="78" x2="500" y2="78" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+                        <line x1="248" y1="106" x2="500" y2="106" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+
+                        <!-- Diffracted circular arcs centered (248, 92) -->
+                        <path d="M 274 62 A 40 40 0 0 1 274 122" fill="none" stroke="#34d399" stroke-width="2.2"/>
+                        <path d="M 294 45 A 66 66 0 0 1 294 139" fill="none" stroke="#34d399" stroke-width="2.2"/>
+                        <path d="M 316 32 A 92 92 0 0 1 316 152" fill="none" stroke="#34d399" stroke-width="2.2"/>
+
+                        <!-- Receiver on straight axis (theta = 0) -->
+                        <rect x="440" y="80" width="44" height="24" rx="5" fill="rgba(52,211,153,0.14)" stroke="#34d399" stroke-width="1.6"/>
+                        <text x="462" y="96" fill="#6ee7b7" font-size="10.5" font-weight="bold" font-family="monospace" text-anchor="middle">R0</text>
+                        <text x="496" y="96" fill="#94a3b8" font-size="10.5" font-family="monospace" text-anchor="start">theta = 0 (U_max)</text>
+
+                        <!-- Off-axis Receiver R(theta > 0) -->
+                        <line x1="248" y1="92" x2="398" y2="42" stroke="#fbbf24" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#arrUsDiff)"/>
+                        <rect x="404" y="28" width="44" height="24" rx="5" fill="rgba(251,191,36,0.16)" stroke="#fbbf24" stroke-width="1.8"/>
+                        <text x="426" y="44" fill="#fde68a" font-size="10.5" font-weight="bold" font-family="monospace" text-anchor="middle">R(θ)</text>
+                        <text x="458" y="44" fill="#fde68a" font-size="10.5" font-weight="bold" font-family="monospace" text-anchor="start">theta &gt; 0 : Signal non nul !</text>
+
+                        <!-- Bottom caption -->
+                        <text x="340" y="174" fill="#cbd5e1" font-size="10.5" font-family="monospace" text-anchor="middle">Oscilloscope relie a R : diffraction prouvee hors de l'axe rectiligne</text>
+                      </svg>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- 2. Dispersive vs Non-dispersive Medium -->

@@ -731,23 +731,54 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open phys-02 to verify p02-ax1..p02-ax3, SVGs, KaTeX & toggleAll
+      // Cold deep-link open phys-02 to verify p02-ax1..p02-ax3, Lexique, #phys2-master-solution, 4 sim modes, SVGs & KaTeX
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/phys-02`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const phys2Open = await page.evaluate(() => {
+        const sol = document.getElementById('phys2-master-solution');
+        const tr = document.querySelector('[onclick*="phys2-master-solution"]');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 3 && axDetails.every((d) => d.open);
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 3 && axDetails.every((d) => d.open)
+        );
       });
-      if (!phys2Open) issues.push(`[${vp.name}] phys-02: #btnToggleAllSolutions did not expand all 3 axis <details>`);
+      if (!phys2Open) issues.push(`[${vp.name}] phys-02: #btnToggleAllSolutions did not expand #phys2-master-solution and all 3 axis <details>`);
       const phys2Stats = await inspectDom('lesson-phys-02');
-      if (phys2Stats.katexCount < 350) issues.push(`[${vp.name}] phys-02 expected >=350 KaTeX nodes, got ${phys2Stats.katexCount}`);
+      if (phys2Stats.katexCount < 600) issues.push(`[${vp.name}] phys-02 expected >=600 KaTeX nodes, got ${phys2Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const phys2Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!phys2Collapsed) issues.push(`[${vp.name}] phys-02: #btnToggleAllSolutions did not collapse axis <details>`);
+      const phys2Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('phys2-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!phys2Collapsed) issues.push(`[${vp.name}] phys-02: #btnToggleAllSolutions did not collapse #phys2-master-solution and axis <details>`);
+      for (const p2Mode of ['double-period', 'phase-compare', 'stroboscope', 'diffraction']) {
+        await page.click(`[data-phys2-mode="${p2Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`phys2-sim-${p2Mode}`);
+        if (p2Mode === 'phase-compare') {
+          await page.click('[data-p2-ratio="0.5"]');
+          await page.waitForTimeout(100);
+          const oppState = await page.textContent('#p2Val_state');
+          if (!oppState.includes('تعاكس')) issues.push(`[${vp.name}] phys2-sim-phase expected opposition state, got ${oppState}`);
+          await inspectDom('phys2-sim-phase-opposition');
+        } else if (p2Mode === 'stroboscope') {
+          await page.click('[data-p2-ne="21"]');
+          await page.waitForTimeout(100);
+          await inspectDom('phys2-sim-stroboscope-inverse');
+        } else if (p2Mode === 'diffraction') {
+          await page.click('[data-p2-medium="nondispersive"]');
+          await page.waitForTimeout(100);
+          await inspectDom('phys2-sim-diffraction-nondispersive');
+          await page.click('[data-p2-medium="dispersive"]');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
