@@ -161,10 +161,17 @@ window.EulerAcademy.registerSubject({
       "num": "03",
       "semester": 1,
       "status": "active",
-      "progressText": "جميع المحاور الـ 3 مكتملة (100% من المحاور)",
+      "progressText": "مكتمل (100% — المعجم والمختبر البصري والفرض 20/20)",
       "titleAr": "المتتاليات العددية",
       "titleFr": "Suites numériques",
       "summary": "الاستدلال بالترجع، المتتاليات المكبورة والمصغورة، رتابة متتالية، نهاية متتالية، مصاديق التقارب، والمتتاليات الترجعية من نوع $u_{n+1} = f(u_n)$.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°3 (20/20)",
+      "simulator": {
+        "navLabel": "🧪 المختبر البصري للمتتاليات (4 أنماط)",
+        "script": "./simulators/math-03.js"
+      },
       "axes": [
         {
           "id": "m03-ax1",

@@ -830,23 +830,52 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open math-03 to verify m03-ax1..m03-ax3, SVGs, KaTeX & toggleAll
+      // Cold deep-link open math-03 to verify m03-ax1..m03-ax3, Lexique, #math3-master-solution, 4 sim modes, SVGs & KaTeX
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/math-03`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const math3Open = await page.evaluate(() => {
+        const sol = document.getElementById('math3-master-solution');
+        const tr = document.querySelector('[onclick*="math3-master-solution"]');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 3 && axDetails.every((d) => d.open);
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 3 && axDetails.every((d) => d.open)
+        );
       });
-      if (!math3Open) issues.push(`[${vp.name}] math-03: #btnToggleAllSolutions did not expand all 3 axis <details>`);
+      if (!math3Open) issues.push(`[${vp.name}] math-03: #btnToggleAllSolutions did not expand #math3-master-solution and all 3 axis <details>`);
       const math3Stats = await inspectDom('lesson-math-03');
-      if (math3Stats.katexCount < 500) issues.push(`[${vp.name}] math-03 expected >=500 KaTeX nodes, got ${math3Stats.katexCount}`);
+      if (math3Stats.katexCount < 750) issues.push(`[${vp.name}] math-03 expected >=750 KaTeX nodes, got ${math3Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const math3Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!math3Collapsed) issues.push(`[${vp.name}] math-03: #btnToggleAllSolutions did not collapse axis <details>`);
+      const math3Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('math3-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!math3Collapsed) issues.push(`[${vp.name}] math-03: #btnToggleAllSolutions did not collapse #math3-master-solution and axis <details>`);
+      for (const m3Mode of ['cobweb', 'geometric', 'squeeze', 'contraction']) {
+        await page.click(`[data-m3-mode="${m3Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`math3-sim-${m3Mode}`);
+        if (m3Mode === 'cobweb') {
+          await page.click('[data-m3-cob="1"]');
+          await page.waitForTimeout(100);
+          await inspectDom('math3-sim-cobweb-spiral');
+          await page.click('[data-m3-cob="2"]');
+          await page.waitForTimeout(100);
+          await inspectDom('math3-sim-cobweb-basin');
+          await page.click('[data-m3-cob="0"]');
+        } else if (m3Mode === 'geometric') {
+          await page.click('[data-m3-q="-1.12"]');
+          await page.waitForTimeout(100);
+          await inspectDom('math3-sim-geom-neg');
+          await page.click('[data-m3-q="0.78"]');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
