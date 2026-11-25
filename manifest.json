@@ -1,16 +1,16 @@
 {
   "schema": 1,
-  "bundleHash": "69d192ade69c99e5",
-  "generatedAt": "2026-11-25T17:07:26.601Z",
+  "bundleHash": "f880f028b314d78d",
+  "generatedAt": "2026-11-25T23:11:20.892Z",
   "stats": {
     "totalLessons": 37,
     "activeLessons": 8,
     "totalAxes": 91,
     "completedAxes": 24,
-    "completedExams": 7,
-    "completedSimulators": 7
+    "completedExams": 8,
+    "completedSimulators": 8
   },
-  "fileCount": 92,
+  "fileCount": 95,
   "files": {
     "index.html": "95efb889e3e9ed426a45c49d7ce6c38a78b5879e0a1d6bffee949106f0d5c2ed",
     "icon.svg": "df5bd0c8ffc6bb1e3e085cc1b88e095a751e27864e0dd63ef72e3949f063b1d7",
@@ -18,7 +18,7 @@
     "css/styles.css": "f0e38608c393dcce827703698d3e6ef927dd7e8b58cf13d913321e9725a835d1",
     "data/chemistry.js": "04dad8ae83eca278b996af1b5f555cb46c711180522beb15f654e612bf2e4475",
     "data/math.js": "54486fef8843008539bfe5683d367f46f5849b1dfc465f1235dfb7d0a46c8f34",
-    "data/physics.js": "b1278cbd6c571bfdbde5d79a4e9e41fbf605049d86dcf90882c31c46909f1968",
+    "data/physics.js": "ec2a5f7bae56e4d999b8db6cc099c040b440b389e22d40a569916e2cf31a13e9",
     "js/canvasUtils.js": "b0c84504ef26156718724d71a79b98b9c617f33ab964d1c99d4ecd348473da4c",
     "js/catalog.js": "30f9ed998003cd56ef2a1819750ae9c9a5b9afec78311d842ad15e377b214ed5",
     "js/core.js": "73bc99323029fb9b8f58ac9129fe7ed4f4c149242c6bb21efcacc928e67ad440",
@@ -60,6 +60,8 @@
     "modules/physics/phys-02/p02-ax1.js": "eea4247dd8dcc674e91a0fe13b5a0ac7403fdf0a173a22793b76fbcd6baa3af9",
     "modules/physics/phys-02/p02-ax2.js": "590018c4da60d39a483ced356d198afa925b0def7cbc357a893b0a25ec654fbb",
     "modules/physics/phys-02/p02-ax3.js": "694f9d7bfc10a99fa9521938e26681f56f3df76858639efd1d2a0229eed6e2d8",
+    "modules/physics/phys-03/exam.js": "31dc8569c093244eef2268c924cc0064059508d6bfcfe70c183ab361c990dba6",
+    "modules/physics/phys-03/lexique.js": "f342fbc1fbfcf35d855a38363bd53a6aed1bf0dbfe5aa1bef71886e4c77fcc8c",
     "modules/physics/phys-03/p03-ax1.js": "c7f6e61483850e2449089b4d019c61368ce5638226bea8841a1be5a05659dfca",
     "modules/physics/phys-03/p03-ax2.js": "8d8c70df9e8dea5350dfcc4c1768b522998183479eb94a147d9070d8b669a585",
     "simulators/chem-01.js": "d95900d4bdc2a659910eeb550360a44b14d76be624d09fbfcc9640786976d90a",
@@ -69,6 +71,7 @@
     "simulators/math-03.js": "45ff0c2c4b0fbbbe95c369b766d30732cc012de3520de4edcd83a9a03559aebe",
     "simulators/phys-01.js": "fe074b8a2652b0fe31b311069a9dac7b4a8d16dba4ae0708b4592aa063d76d9b",
     "simulators/phys-02.js": "a12436e662ae473646ca67ae3b072325364ba9e167ab20f8ba5d379c39e50b35",
+    "simulators/phys-03.js": "5a378dfd7dead0a51378bbd383ac8ab4185b06f69a2d102d414061ddb8f430ea",
     "vendor/fonts/font-01.woff2": "748022f50c427456ad66031e855349be3448ee1f05a5f1eb59574ebe0c686749",
     "vendor/fonts/font-02.woff2": "da6ada83c3a87c2f0211325dc0a123702e1d4a940958b3e943ac4f37b31d5371",
     "vendor/fonts/font-03.woff2": "82c13cbd1352d76e97c3d335caa912ae68fecdc3949a43cf8d149eb892384c1b",

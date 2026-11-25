@@ -127,10 +127,17 @@ window.EulerAcademy.registerSubject({
       "num": "03",
       "unit": "الجزء 1: الموجات (Ondes)",
       "status": "active",
-      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
+      "progressText": "مكتمل (100% — المعجم والمختبر البصري والفرض 20/20)",
       "titleAr": "انتشار موجة ضوئية",
       "titleFr": "Propagation d’une onde lumineuse",
       "summary": "الطبيعة الموجية للضوء، حيود الضوء الأحادي اللون ($\\theta = \\lambda/a$ و $L = 2\\lambda D/a$)، حدود الطيف المرئي، معامل الانكسار $n = c/v$، والإبراز التجريبي والتفسير النوعي لتبدد الضوء الأبيض بالموشور.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°3 (20/20)",
+      "simulator": {
+        "navLabel": "🔬 المختبر البصري للضوء (4 أنماط)",
+        "script": "./simulators/phys-03.js"
+      },
       "axes": [
         {
           "id": "p03-ax1",
