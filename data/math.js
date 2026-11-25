@@ -161,7 +161,7 @@ window.EulerAcademy.registerSubject({
       "num": "03",
       "semester": 1,
       "status": "active",
-      "progressText": "تم إنجاز المحورين 01 و 02 (67% من المحاور — 2/3 محاور)",
+      "progressText": "جميع المحاور الـ 3 مكتملة (100% من المحاور)",
       "titleAr": "المتتاليات العددية",
       "titleFr": "Suites numériques",
       "summary": "الاستدلال بالترجع، المتتاليات المكبورة والمصغورة، رتابة متتالية، نهاية متتالية، مصاديق التقارب، والمتتاليات الترجعية من نوع $u_{n+1} = f(u_n)$.",
@@ -194,7 +194,13 @@ window.EulerAcademy.registerSubject({
           "id": "m03-ax3",
           "num": "المحور 03",
           "titleAr": "المتتاليات الترجعية من نوع $u_{n+1} = f(u_n)$ وتحديد نهايتها بحل المعادلة $f(\\ell) = \\ell$",
-          "titleFr": "Suites récurrentes du type u_{n+1} = f(u_n)"
+          "titleFr": "Suites récurrentes du type u_{n+1} = f(u_n)",
+          "status": "completed",
+          "requirements": [
+            "حساب نهاية متتالية من الشكل $v_n = f(u_n)$ عبر اتصال الدالة $f$ عند $\\ell = \\lim u_n$.",
+            "التحقق من الشروط الأربعة لتحديد نهاية $u_{n+1}=f(u_n)$ ($f$ متصلة على $I$، $f(I) \\subset I$، $u_0 \\in I$، وتقارب $(u_n)$).",
+            "حل المعادلة $f(\\ell) = \\ell$ وتصفية الحلول الدخيلة بالاعتماد على تأطير $(u_n)$ ورتابتها."
+          ]
         }
       ]
     },
