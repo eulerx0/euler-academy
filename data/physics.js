@@ -126,7 +126,8 @@ window.EulerAcademy.registerSubject({
       "id": "phys-03",
       "num": "03",
       "unit": "الجزء 1: الموجات (Ondes)",
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
       "titleAr": "انتشار موجة ضوئية",
       "titleFr": "Propagation d’une onde lumineuse",
       "summary": "الطبيعة الموجية للضوء، حيود الضوء الأحادي اللون ($\\theta = \\lambda/a$ و $L = 2\\lambda D/a$)، حدود الطيف المرئي، معامل الانكسار $n = c/v$، والإبراز التجريبي والتفسير النوعي لتبدد الضوء الأبيض بالموشور.",
@@ -135,13 +136,25 @@ window.EulerAcademy.registerSubject({
           "id": "p03-ax1",
           "num": "المحور 01",
           "titleAr": "حيود الضوء الأحادي اللون، الفرق الزاوي $\\theta = \\frac{\\lambda}{a}$، وعرض البقعة المركزية $L = \\frac{2\\lambda D}{a}$",
-          "titleFr": "Diffraction de la lumière monochromatique"
+          "titleFr": "Diffraction de la lumière monochromatique",
+          "status": "completed",
+          "requirements": [
+            "الربط بين ظاهرة حيود الضوء بشق أو خيط رفيع والطبيعة الموجية للضوء، وتقديم تبيانة التركيب التجريبي وتحديد اتجاه بقع الحيود (التعامد).",
+            "معرفة وتطبيق العلاقتين $\\theta = \\frac{\\lambda}{a}$ و $\\tan\\theta \\approx \\theta = \\frac{L}{2D}$ لاستنتاج $L = \\frac{2\\lambda D}{a}$ في تقريب الزوايا الصغيرة.",
+            "استغلال المنحنيات التجريبية $\\theta = f(1/a)$ أو $L = f(1/a)$ لتحديد طول الموجة $\\lambda$ أو قياس قطر خيط رفيع $d$."
+          ]
         },
         {
           "id": "p03-ax2",
           "num": "المحور 02",
           "titleAr": "معامل انكسار وسط شفاف $n = \\frac{c}{v} = \\frac{\\lambda_0}{\\lambda}$، حدود الطيف المرئي ($400\\text{ nm} \\le \\lambda_0 \\le 800\\text{ nm}$)، والإبراز التجريبي والتفسير النوعي لتبدد الضوء الأبيض بالموشور",
-          "titleFr": "Indice de réfraction, spectre visible et dispersion qualitative par un prisme"
+          "titleFr": "Indice de réfraction, spectre visible et dispersion qualitative par un prisme",
+          "status": "completed",
+          "requirements": [
+            "التمييز بين الضوء الأحادي اللون (تردد ثابت لا يتبدد) والمتعدد الألوان، وتحديد حدود الطيف المرئي في الفراغ ($400\\text{ nm} \\le \\lambda_0 \\le 800\\text{ nm}$).",
+            "تعريف وحساب معامل الانكسار $n = \\frac{c}{v} = \\frac{\\lambda_0}{\\lambda} \\ge 1$ وإبراز ثبات التردد $\\nu$ وتناقص $v$ و $\\lambda$ داخل الوسط الشفاف.",
+            "التفسير النوعي لتبدد الضوء الأبيض بالموشور بتعلق معامل الانكسار والسرعة بالتردد، مع حصر علاقات الموشور الحسابية خارج مقرر 2BAC PC."
+          ]
         }
       ]
     },
