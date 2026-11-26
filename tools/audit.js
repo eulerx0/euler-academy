@@ -969,6 +969,24 @@ async function runBrowserAudit() {
         }
       }
 
+      // Cold deep-link open math-04 to verify m04-ax1..m04-ax2, SVGs, KaTeX & toggleAll
+      await page.goto('about:blank');
+      await page.goto(`${url}#/lesson/math-04`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(700);
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(200);
+      const math4Open = await page.evaluate(() => {
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+      });
+      if (!math4Open) issues.push(`[${vp.name}] math-04: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      const math4Stats = await inspectDom('lesson-math-04');
+      if (math4Stats.katexCount < 350) issues.push(`[${vp.name}] math-04 expected >=350 KaTeX nodes, got ${math4Stats.katexCount}`);
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(100);
+      const math4Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
+      if (!math4Collapsed) issues.push(`[${vp.name}] math-04: #btnToggleAllSolutions did not collapse axis <details>`);
+
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
       if (failedRequests.length) issues.push(`[${vp.name}] failed local requests: ${JSON.stringify(failedRequests)}`);

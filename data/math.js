@@ -215,7 +215,8 @@ window.EulerAcademy.registerSubject({
       "id": "math-04",
       "num": "04",
       "semester": 1,
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
       "titleAr": "الدوال الأصلية",
       "titleFr": "Fonctions primitives",
       "summary": "تعريف الدالة الأصلية لدالة متصلة على مجال، تحديد الدالة الأصلية التي تأخذ قيمة معلومة في نقطة، وجدول الدوال الأصلية الاعتيادية والعمليات عليها.",
@@ -224,13 +225,25 @@ window.EulerAcademy.registerSubject({
           "id": "m04-ax1",
           "num": "المحور 01",
           "titleAr": "تعريف الدالة الأصلية وشرط الاتصال لوجودها، وتحديد الدالة الأصلية الوحيدة التي تحقق $F(x_0)=y_0$",
-          "titleFr": "Définition et existence des primitives sur un intervalle"
+          "titleFr": "Définition et existence des primitives sur un intervalle",
+          "status": "completed",
+          "requirements": [
+            "التحقق من أن $F$ دالة أصلية لـ $f$ على مجال $I$ بإثبات قابلية الاشتقاق أولاً ثم المساواة $F'(x)=f(x)$، وحل مسائل البارامترات.",
+            "معرفة مبرهنة وجود الدوال الأصلية (الاتصال على مجال) وبنية المجموعة $F(x) + k$ على مجال وليس على اتحاد مجالات.",
+            "تعيين الدالة الأصلية الوحيدة التي تحقق الشرط البدئي $F(x_0) = y_0$ وقراءة تغيرات وتقعر $F$ انطلاقاً من $f$ و $f'$."
+          ]
         },
         {
           "id": "m04-ax2",
           "num": "المحور 02",
           "titleAr": "الدوال الأصلية الاعتيادية والصيغ من نوع $u' u^r$ ($r \\in \\mathbb{Q}\\setminus\\{-1\\}$) و $u'/\\sqrt{u}$",
-          "titleFr": "Primitives des fonctions usuelles et opérations"
+          "titleFr": "Primitives des fonctions usuelles et opérations",
+          "status": "completed",
+          "requirements": [
+            "إتقان جدول الدوال الأصلية الاعتيادية بقراءة عكسية لجدول المشتقات (القوى النسبية $r \\neq -1$ والجذور والدوال المثلثية و $1+\\tan^2 x$).",
+            "إبراز واستعمال الصيغ المركبة $u'u^r$، $u'/u^n$، $u'/\\sqrt{u}$، $u'\\cos(u)$، و $u'\\sin(u)$ مع التحقق من شروط الإشارة والاتصال.",
+            "توظيف التحويلات الجبرية المسبقة (تعديل الثابت، تفكيك الكسور إلى $(x-a)^{-k}$، والإخطاط المثلثي لـ $\\cos^2, \\sin^3, \\tan^n$)."
+          ]
         }
       ]
     },
