@@ -101,7 +101,8 @@ window.EulerAcademy.registerSubject({
       "id": "chem-03",
       "num": "03",
       "unit": "الجزء 2: التحولات غير الكلية",
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
       "titleAr": "التحولات الكيميائية التي تحدث في منحيين",
       "titleFr": "Transformations chimiques s’effectuant dans les deux sens",
       "summary": "الأحماض والقواعد حسب برونشتد، $pH$ محلول مائي، نسبة التقدم النهائي $\\tau = x_f / x_{max}$، والتمييز بين التحول الكلي ($\\tau = 1$) وغير الكلي ($\\tau < 1$).",
@@ -110,13 +111,25 @@ window.EulerAcademy.registerSubject({
           "id": "c03-ax1",
           "num": "المحور 01",
           "titleAr": "تعريف الحمض والقاعدة حسب برونشتد وقياس $pH = -\\log[H_3O^+]$",
-          "titleFr": "Acides et bases selon Brönsted et pH d’une solution"
+          "titleFr": "Acides et bases selon Brönsted et pH d’une solution",
+          "status": "completed",
+          "requirements": [
+            "تعريف الحمض والقاعدة حسب برونشتد وكتابة معادلة تفاعل حمض-قاعدة مع تحديد المزدوجتين المتدخلتين والأنواع الأمفوليتية.",
+            "معرفة وتطبيق العلاقتين $pH = -\\log[H_3O^+]$ و $[H_3O^+] = 10^{-pH}$ (بوحدة $\\text{mol}\\cdot\\text{L}^{-1}$ والتحويل إلى $\\text{mol}\\cdot\\text{m}^{-3}$ عند اللزوم).",
+            "استعمال جهاز الـ $pH$-متر وتقدير تأثير الارتياب التجريبي $\\Delta pH$ والتخفيف على قيمة الـ $pH$."
+          ]
         },
         {
           "id": "c03-ax2",
           "num": "المحور 02",
           "titleAr": "نسبة التقدم النهائي $\\tau = \\frac{x_f}{x_{max}}$ ومفهوم التوازن الكيميائي الديناميكي",
-          "titleFr": "Taux d’avancement final et équilibre chimique"
+          "titleFr": "Taux d’avancement final et équilibre chimique",
+          "status": "completed",
+          "requirements": [
+            "التمييز المنهجي بين التقدم النهائي التجريبي $x_f$ والتقدم الأقصى المفترض $x_{\\max}$ انطلاقاً من جدول التقدم.",
+            "حساب نسبة التقدم النهائي $\\tau = \\frac{x_f}{x_{\\max}}$ عبر قياس الـ $pH$ أو الموصلية $\\sigma$ (في حالة حمض وحالة قاعدة في الماء)، وتصنيف التحول (كلي $\\tau = 1$ أم محدود $\\tau < 1$).",
+            "التفسير المجهري لحالة التوازن الكيميائي كحالة توازن ديناميكي تتساوى فيها سرعتا التفاعل في المنحيين المباشر والمعاكس."
+          ]
         }
       ]
     },
