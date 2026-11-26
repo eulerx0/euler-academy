@@ -216,10 +216,17 @@ window.EulerAcademy.registerSubject({
       "num": "04",
       "semester": 1,
       "status": "active",
-      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
+      "progressText": "مكتمل (100% — المعجم والمختبر البصري والفرض 20/20)",
       "titleAr": "الدوال الأصلية",
       "titleFr": "Fonctions primitives",
       "summary": "تعريف الدالة الأصلية لدالة متصلة على مجال، تحديد الدالة الأصلية التي تأخذ قيمة معلومة في نقطة، وجدول الدوال الأصلية الاعتيادية والعمليات عليها.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°4 (20/20)",
+      "simulator": {
+        "navLabel": "🧪 المختبر البصري للدوال الأصلية (4 أنماط)",
+        "script": "./simulators/math-04.js"
+      },
       "axes": [
         {
           "id": "m04-ax1",

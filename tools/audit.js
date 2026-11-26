@@ -969,23 +969,54 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open math-04 to verify m04-ax1..m04-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open math-04 to verify m04-ax1..m04-ax2, Lexique, #math4-master-solution, 4 sim modes, SVGs & KaTeX
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/math-04`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const math4Open = await page.evaluate(() => {
+        const sol = document.getElementById('math4-master-solution');
+        const tr = document.querySelector('[onclick*="math4-master-solution"]');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 2 && axDetails.every((d) => d.open)
+        );
       });
-      if (!math4Open) issues.push(`[${vp.name}] math-04: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      if (!math4Open) issues.push(`[${vp.name}] math-04: #btnToggleAllSolutions did not expand #math4-master-solution and all 2 axis <details>`);
       const math4Stats = await inspectDom('lesson-math-04');
-      if (math4Stats.katexCount < 350) issues.push(`[${vp.name}] math-04 expected >=350 KaTeX nodes, got ${math4Stats.katexCount}`);
+      if (math4Stats.katexCount < 500) issues.push(`[${vp.name}] math-04 expected >=500 KaTeX nodes, got ${math4Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const math4Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!math4Collapsed) issues.push(`[${vp.name}] math-04: #btnToggleAllSolutions did not collapse axis <details>`);
+      const math4Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('math4-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!math4Collapsed) issues.push(`[${vp.name}] math-04: #btnToggleAllSolutions did not collapse #math4-master-solution and axis <details>`);
+      for (const m4Mode of ['family', 'geometry', 'domain', 'verify']) {
+        await page.click(`[data-m4-mode="${m4Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`math4-sim-${m4Mode}`);
+        if (m4Mode === 'geometry') {
+          await page.click('[data-m4-geo="1"]');
+          await page.waitForTimeout(100);
+          await inspectDom('math4-sim-geo-rational');
+          await page.click('[data-m4-geo="0"]');
+        } else if (m4Mode === 'domain') {
+          await page.click('[data-m4-dom="same"]');
+          await page.waitForTimeout(100);
+          await inspectDom('math4-sim-dom-same');
+          await page.click('[data-m4-dom="jump"]');
+        } else if (m4Mode === 'verify') {
+          await page.click('[data-m4-up="2"]');
+          await page.waitForTimeout(100);
+          await inspectDom('math4-sim-verify-trig');
+          await page.click('[data-m4-up="0"]');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);

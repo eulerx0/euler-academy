@@ -151,13 +151,13 @@ window.EulerAcademy.registerAxis('math-04', 'm04-ax1', `
                   <!-- Application 2 -->
                   <div class="bg-slate-950 p-3 sm:p-5 rounded-2xl border border-slate-800">
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                      <h6 class="text-xs font-bold text-amber-400">تطبيق 2: إثبات قابلية اشتقاق مركب مثلثي-جذري والتحقق من الشرط البدئي $F(0)=1$</h6>
+                      <h6 class="text-xs font-bold text-amber-400">تطبيق 2: إثبات دالة أصلية مثلثية وتعيين الدالة المارة بنقطة معلومة</h6>
                       <span class="text-[11px] text-slate-400 font-mono">1.50 نقطة</span>
                     </div>
                     <p class="text-xs text-slate-300 mb-3 leading-relaxed">
                       نعتبر الدالة $F(x) = \\frac{x + \\sin x \\cos x}{2}$ و $f(x) = \\cos^2 x$ على المجال $I = \\mathbb{R}$.<br/>
                       <b>1.</b> بيّن أن $F$ دالة أصلية لـ $f$ على $\\mathbb{R}$. <span class="text-emerald-400 font-mono">(0.90 ن)</span><br/>
-                      <b>2.</b> استنتج جميع الدوال الأصلية لـ $f$ على $\\mathbb{R}$، ثم حدّد الدالة الأصلية $H$ التي يحقق منحناها المماس في الأصل مرور $H$ بالنقطة $M\\!\\left(\\frac{\\pi}{2}, 2\\right)$. <span class="text-emerald-400 font-mono">(0.60 ن)</span>
+                      <b>2.</b> استنتج جميع الدوال الأصلية لـ $f$ على $\\mathbb{R}$، ثم حدّد الدالة الأصلية $H$ التي يمر منحناها $(C_H)$ بالنقطة $M\\!\\left(\\frac{\\pi}{2}, 2\\right)$. <span class="text-emerald-400 font-mono">(0.60 ن)</span>
                     </p>
                     <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/20 text-xs text-slate-200 space-y-2.5 leading-relaxed">
                       <p class="font-bold text-cyan-300">💡 عناصر الإجابة النموذجية وسلم التنقيط:</p>
