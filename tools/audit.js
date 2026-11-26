@@ -925,23 +925,49 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open chem-03 to verify c03-ax1..c03-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open chem-03 to verify c03-ax1..c03-ax2, Lexique, #chem3-master-solution, 4 sim modes, SVGs & KaTeX
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/chem-03`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const chem3Open = await page.evaluate(() => {
+        const sol = document.getElementById('chem3-master-solution');
+        const tr = document.querySelector('[onclick*="chem3-master-solution"]');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 2 && axDetails.every((d) => d.open)
+        );
       });
-      if (!chem3Open) issues.push(`[${vp.name}] chem-03: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      if (!chem3Open) issues.push(`[${vp.name}] chem-03: #btnToggleAllSolutions did not expand #chem3-master-solution and all 2 axis <details>`);
       const chem3Stats = await inspectDom('lesson-chem-03');
-      if (chem3Stats.katexCount < 250) issues.push(`[${vp.name}] chem-03 expected >=250 KaTeX nodes, got ${chem3Stats.katexCount}`);
+      if (chem3Stats.katexCount < 420) issues.push(`[${vp.name}] chem-03 expected >=420 KaTeX nodes, got ${chem3Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const chem3Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!chem3Collapsed) issues.push(`[${vp.name}] chem-03: #btnToggleAllSolutions did not collapse axis <details>`);
+      const chem3Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('chem3-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!chem3Collapsed) issues.push(`[${vp.name}] chem-03: #btnToggleAllSolutions did not collapse #chem3-master-solution and axis <details>`);
+      for (const c3Mode of ['ph-scale', 'tau-compare', 'equilibrium', 'dilution']) {
+        await page.click(`[data-c3-mode="${c3Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`chem3-sim-${c3Mode}`);
+        if (c3Mode === 'ph-scale') {
+          await page.click('[data-c3-acid="strong"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem3-sim-ph-strong');
+          await page.click('[data-c3-acid="weak"]');
+        } else if (c3Mode === 'dilution') {
+          await page.click('[data-c3-species="base"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem3-sim-dil-base');
+          await page.click('[data-c3-species="acid"]');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);

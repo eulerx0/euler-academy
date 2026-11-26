@@ -102,10 +102,17 @@ window.EulerAcademy.registerSubject({
       "num": "03",
       "unit": "الجزء 2: التحولات غير الكلية",
       "status": "active",
-      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
+      "progressText": "مكتمل (100% — المعجم والمختبر البصري والفرض 20/20)",
       "titleAr": "التحولات الكيميائية التي تحدث في منحيين",
       "titleFr": "Transformations chimiques s’effectuant dans les deux sens",
       "summary": "الأحماض والقواعد حسب برونشتد، $pH$ محلول مائي، نسبة التقدم النهائي $\\tau = x_f / x_{max}$، والتمييز بين التحول الكلي ($\\tau = 1$) وغير الكلي ($\\tau < 1$).",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°3 (20/20)",
+      "simulator": {
+        "navLabel": "🧪 المختبر البصري للتوازن والـ pH (4 أنماط)",
+        "script": "./simulators/chem-03.js"
+      },
       "axes": [
         {
           "id": "c03-ax1",
