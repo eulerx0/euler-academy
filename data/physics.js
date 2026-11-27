@@ -170,10 +170,17 @@ window.EulerAcademy.registerSubject({
       "num": "04",
       "unit": "الجزء 2: التحولات النووية (Nucléaire)",
       "status": "active",
-      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
+      "progressText": "مكتمل (100% — المعجم والمختبر النووي والفرض 20/20)",
       "titleAr": "التناقص الإشعاعي",
       "titleFr": "Décroissance radioactive",
       "summary": "استقرار وعدم استقرار النوى، مخطط سيغري $(N,Z)$، قوانين صودي للانحفاظ، النشاط الإشعاعي $\\alpha, \\beta^-, \\beta^+, \\gamma$، وقانون التناقص $N(t) = N_0 e^{-\\lambda t}$.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°4 (20/20)",
+      "simulator": {
+        "navLabel": "☢️ المختبر النووي للتناقص الإشعاعي (4 أنماط)",
+        "script": "./simulators/phys-04.js"
+      },
       "axes": [
         {
           "id": "p04-ax1",

@@ -1018,23 +1018,49 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open phys-04 to verify p04-ax1..p04-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open phys-04 to verify p04-ax1..p04-ax2, Lexique, #phys4-master-solution, 4 sim modes, SVGs & KaTeX
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/phys-04`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const phys4Open = await page.evaluate(() => {
+        const sol = document.getElementById('phys4-master-solution');
+        const tr = document.querySelector('[onclick*="phys4-master-solution"]');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 2 && axDetails.every((d) => d.open)
+        );
       });
-      if (!phys4Open) issues.push(`[${vp.name}] phys-04: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      if (!phys4Open) issues.push(`[${vp.name}] phys-04: #btnToggleAllSolutions did not expand #phys4-master-solution and all 2 axis <details>`);
       const phys4Stats = await inspectDom('lesson-phys-04');
-      if (phys4Stats.katexCount < 250) issues.push(`[${vp.name}] phys-04 expected >=250 KaTeX nodes, got ${phys4Stats.katexCount}`);
+      if (phys4Stats.katexCount < 500) issues.push(`[${vp.name}] phys-04 expected >=500 KaTeX nodes, got ${phys4Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const phys4Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!phys4Collapsed) issues.push(`[${vp.name}] phys-04: #btnToggleAllSolutions did not collapse axis <details>`);
+      const phys4Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('phys4-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!phys4Collapsed) issues.push(`[${vp.name}] phys-04: #btnToggleAllSolutions did not collapse #phys4-master-solution and axis <details>`);
+      for (const p4Mode of ['segre', 'decay', 'isotope', 'dating']) {
+        await page.click(`[data-phys4-mode="${p4Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`phys4-sim-${p4Mode}`);
+        if (p4Mode === 'segre') {
+          await page.click('[data-p4-decay="2"]');
+          await page.waitForTimeout(100);
+          await inspectDom('phys4-sim-segre-betaplus');
+          await page.click('[data-p4-decay="0"]');
+        } else if (p4Mode === 'dating') {
+          await page.click('[data-p4-rock="rock"]');
+          await page.waitForTimeout(100);
+          await inspectDom('phys4-sim-dating-rock');
+          await page.click('[data-p4-rock="c14"]');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
