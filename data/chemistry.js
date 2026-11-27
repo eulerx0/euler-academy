@@ -144,7 +144,8 @@ window.EulerAcademy.registerSubject({
       "id": "chem-04",
       "num": "04",
       "unit": "الجزء 2: التحولات غير الكلية",
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
       "titleAr": "حالة توازن مجموعة كيميائية",
       "titleFr": "État d’équilibre d’un système chimique",
       "summary": "خارج التفاعل $Q_r$، ثابتة التوازن $K = Q_{r,éq}$، استغلال الموصلية $\\sigma$، وتأثير الحالة البدئية على نسبة التقدم النهائي $\\tau$.",
@@ -153,13 +154,25 @@ window.EulerAcademy.registerSubject({
           "id": "c04-ax1",
           "num": "المحور 01",
           "titleAr": "تعبير خارج التفاعل $Q_r$ وثابتة التوازن $K$ التي تتعلق فقط بدرجة الحرارة",
-          "titleFr": "Quotient de réaction Q_r et constante d’équilibre K"
+          "titleFr": "Quotient de réaction Q_r et constante d’équilibre K",
+          "status": "completed",
+          "requirements": [
+            "كتابة التعبير الحرفي لخارج التفاعل $Q_r$ باحترام المعاملات التناسبية وحذف الأجسام الصلبة والماء كمذيب ($\\text{mol}\\cdot\\text{L}^{-1}$).",
+            "معرفة أن $Q_{r,\\text{éq}} = K$ قيمة ثابتة مستقلة عن التركيز البدئي ولا تتعلق إلا بمعادلة التفاعل ودرجة الحرارة $T$.",
+            "إثبات وتطبيق العلاقة $K = \\frac{C\\,\\tau^2}{1 - \\tau}$ وتغيّر $K$ عند عكس المعادلة أو ضربها في معامل."
+          ]
         },
         {
           "id": "c04-ax2",
           "num": "المحور 02",
           "titleAr": "تحديد $Q_{r,éq}$ بواسطة الموصلية $\\sigma$ وتأثير التركيز البدئي وثابتة التوازن $K$ على نسبة التقدم النهائي $\\tau$",
-          "titleFr": "Conductimétrie et influence de l’état initial sur τ"
+          "titleFr": "Conductimétrie et influence de l’état initial sur τ",
+          "status": "completed",
+          "requirements": [
+            "استغلال المواصلة $G = k\\cdot\\sigma$ والموصلية $\\sigma_{\\text{éq}} = \\sum \\lambda_i [X_i]_{\\text{éq}}$ لتحديد التراكيز بـ $\\text{mol}\\cdot\\text{m}^{-3}$ وتحويلها إلى $\\text{mol}\\cdot\\text{L}^{-1}$ لحساب $\\tau$ و $K$.",
+            "تحليل وتبرير تأثير ارتفاع ثابتة التوازن $K$ وتناقص التركيز البدئي $C$ (التخفيف) على ارتفاع نسبة التقدم النهائي $\\tau$.",
+            "التمييز المنهجي بين تغيّر $\\tau$ و $[\\text{H}_3\\text{O}^+]_{\\text{éq}}$ والـ $pH$ عند التخفيف مع ثبات $K(T)$."
+          ]
         }
       ]
     },
