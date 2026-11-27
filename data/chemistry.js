@@ -144,11 +144,18 @@ window.EulerAcademy.registerSubject({
       "id": "chem-04",
       "num": "04",
       "unit": "الجزء 2: التحولات غير الكلية",
-      "status": "active",
-      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
+      "status": "completed",
+      "progressText": "مكتمل (100% — المعجم والمختبر البصري والفرض 20/20)",
       "titleAr": "حالة توازن مجموعة كيميائية",
       "titleFr": "État d’équilibre d’un système chimique",
       "summary": "خارج التفاعل $Q_r$، ثابتة التوازن $K = Q_{r,éq}$، استغلال الموصلية $\\sigma$، وتأثير الحالة البدئية على نسبة التقدم النهائي $\\tau$.",
+      "hasLexique": true,
+      "hasExam": true,
+      "examNavLabel": "📝 الفرض المحروس N°4 (20/20)",
+      "simulator": {
+        "navLabel": "⚗️ المختبر البصري لثابتة التوازن والـ $\\sigma$ (4 أنماط)",
+        "script": "./simulators/chem-04.js"
+      },
       "axes": [
         {
           "id": "c04-ax1",

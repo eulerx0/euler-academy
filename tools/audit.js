@@ -1062,23 +1062,56 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open chem-04 to verify c04-ax1..c04-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open chem-04 to verify c04-ax1..c04-ax2, lexique, simulator, master exam, SVGs, KaTeX & toggleAll
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/chem-04`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
       await page.click('#btnToggleAllSolutions');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(250);
       const chem4Open = await page.evaluate(() => {
+        const sol = document.getElementById('chem4-master-solution');
+        const tr = document.querySelector('[onclick*="chem4-master-solution"]');
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return Boolean(
+          sol && !sol.classList.contains('hidden')
+          && tr && tr.getAttribute('aria-expanded') === 'true'
+          && axDetails.length >= 2 && axDetails.every((d) => d.open)
+        );
       });
-      if (!chem4Open) issues.push(`[${vp.name}] chem-04: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      if (!chem4Open) issues.push(`[${vp.name}] chem-04: #btnToggleAllSolutions did not expand #chem4-master-solution and all 2 axis <details>`);
       const chem4Stats = await inspectDom('lesson-chem-04');
-      if (chem4Stats.katexCount < 250) issues.push(`[${vp.name}] chem-04 expected >=250 KaTeX nodes, got ${chem4Stats.katexCount}`);
+      if (chem4Stats.katexCount < 500) issues.push(`[${vp.name}] chem-04 expected >=500 KaTeX nodes, got ${chem4Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
-      const chem4Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
-      if (!chem4Collapsed) issues.push(`[${vp.name}] chem-04: #btnToggleAllSolutions did not collapse axis <details>`);
+      const chem4Collapsed = await page.evaluate(() => {
+        const sol = document.getElementById('chem4-master-solution');
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return Boolean(sol && sol.classList.contains('hidden') && axDetails.every((d) => !d.open));
+      });
+      if (!chem4Collapsed) issues.push(`[${vp.name}] chem-04: #btnToggleAllSolutions did not collapse #chem4-master-solution and axis <details>`);
+      for (const c4Mode of ['quotient', 'conductance', 'influence', 'equation']) {
+        await page.click(`[data-c4-mode="${c4Mode}"]`);
+        await page.waitForTimeout(150);
+        await inspectDom(`chem4-sim-${c4Mode}`);
+        if (c4Mode === 'quotient') {
+          await page.click('[data-c4-temp="60"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem4-sim-quotient-60');
+          await page.click('[data-c4-temp="25"]');
+        } else if (c4Mode === 'conductance') {
+          await page.click('[data-c4-acid="1"]');
+          await page.click('[data-c4-cell="toggle"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem4-sim-conductance-alt');
+          await page.click('[data-c4-acid="0"]');
+          await page.click('[data-c4-cell="toggle"]');
+        } else if (c4Mode === 'equation') {
+          await page.click('[data-c4-trans="reverse"]');
+          await page.waitForTimeout(100);
+          await inspectDom('chem4-sim-equation-rev');
+          await page.click('[data-c4-trans="base"]');
+        }
+      }
 
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
