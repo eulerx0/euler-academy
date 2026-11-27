@@ -169,7 +169,8 @@ window.EulerAcademy.registerSubject({
       "id": "phys-04",
       "num": "04",
       "unit": "الجزء 2: التحولات النووية (Nucléaire)",
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "جميع المحاور الـ 2 مكتملة (100% من المحاور)",
       "titleAr": "التناقص الإشعاعي",
       "titleFr": "Décroissance radioactive",
       "summary": "استقرار وعدم استقرار النوى، مخطط سيغري $(N,Z)$، قوانين صودي للانحفاظ، النشاط الإشعاعي $\\alpha, \\beta^-, \\beta^+, \\gamma$، وقانون التناقص $N(t) = N_0 e^{-\\lambda t}$.",
@@ -178,13 +179,25 @@ window.EulerAcademy.registerSubject({
           "id": "p04-ax1",
           "num": "المحور 01",
           "titleAr": "مخطط سيغري $(N,Z)$، قوانين صودي للانحفاظ، ومعادلات التفتتات الإشعاعية $\\alpha, \\beta^-, \\beta^+, \\gamma$",
-          "titleFr": "Diagramme de Segrè et lois de conservation de Soddy"
+          "titleFr": "Diagramme de Segrè et lois de conservation de Soddy",
+          "status": "completed",
+          "requirements": [
+            "تحديد تركيب النواة $ {}_{Z}^{A}X$ والنظائر، وضبط خصائص التفتت الإشعاعي (تلقائي، عشوائي، حتمي، ومستقل عن العوامل الفيزيوكيميائية).",
+            "استغلال مخطط سيغري $(N,Z)$ وتحديد مناطق عدم الاستقرار ($\\alpha, \\beta^-, \\beta^+$) مقارنة بمنطقة الاستقرار والمستقيم $N=Z$.",
+            "تطبيق قانوني صودي للانحفاظ لكتابة معادلات $\\alpha, \\beta^-, \\beta^+, \\gamma$ وحساب عدد التفتتات المتتالية وتفسير نشأة $\\beta^-$ و $\\beta^+$."
+          ]
         },
         {
           "id": "p04-ax2",
           "num": "المحور 02",
           "titleAr": "قانون التناقص الإشعاعي $N(t) = N_0 e^{-\\lambda t}$، ثابتة الزمن $\\tau$، عمر النصف $t_{1/2} = \\frac{\\ln 2}{\\lambda}$، والتأريخ بالنشاط $a(t)$",
-          "titleFr": "Loi de décroissance radioactive, demi-vie et datation"
+          "titleFr": "Loi de décroissance radioactive, demi-vie et datation",
+          "status": "completed",
+          "requirements": [
+            "صياغة وتطبيق قانون التناقص الإشعاعي للأنوية المتبقية والمتفتتة وللكتلة $m(t)$ وكمية المادة $n(t)$.",
+            "تحديد ثابتة الزمن $\\tau = \\frac{1}{\\lambda}$ وعمر النصف $t_{1/2} = \\frac{\\ln 2}{\\lambda}$ مبيانياً وتحليلياً مع معادلة الأبعاد لوحدتيهما.",
+            "توظيف النشاط الإشعاعي $a(t) = \\lambda N(t)$ بوحدة البكريل ($\\text{Bq}$ بتحويل $\\lambda$ إلى $\\text{s}^{-1}$) وتقنية التأريخ واختيار النويدة الملائمة."
+          ]
         }
       ]
     },

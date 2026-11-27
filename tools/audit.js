@@ -1018,6 +1018,24 @@ async function runBrowserAudit() {
         }
       }
 
+      // Cold deep-link open phys-04 to verify p04-ax1..p04-ax2, SVGs, KaTeX & toggleAll
+      await page.goto('about:blank');
+      await page.goto(`${url}#/lesson/phys-04`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(700);
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(200);
+      const phys4Open = await page.evaluate(() => {
+        const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
+        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+      });
+      if (!phys4Open) issues.push(`[${vp.name}] phys-04: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      const phys4Stats = await inspectDom('lesson-phys-04');
+      if (phys4Stats.katexCount < 250) issues.push(`[${vp.name}] phys-04 expected >=250 KaTeX nodes, got ${phys4Stats.katexCount}`);
+      await page.click('#btnToggleAllSolutions');
+      await page.waitForTimeout(100);
+      const phys4Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));
+      if (!phys4Collapsed) issues.push(`[${vp.name}] phys-04: #btnToggleAllSolutions did not collapse axis <details>`);
+
       if (consoleErrors.length) issues.push(`[${vp.name}] console errors: ${JSON.stringify(consoleErrors)}`);
       if (pageErrors.length) issues.push(`[${vp.name}] page errors: ${JSON.stringify(pageErrors)}`);
       if (failedRequests.length) issues.push(`[${vp.name}] failed local requests: ${JSON.stringify(failedRequests)}`);
