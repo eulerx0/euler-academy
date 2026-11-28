@@ -258,7 +258,8 @@ window.EulerAcademy.registerSubject({
       "id": "math-05",
       "num": "05",
       "semester": 1,
-      "status": "upcoming",
+      "status": "active",
+      "progressText": "2 من 3 محاور مكتملة (67% من المحاور)",
       "titleAr": "الدوال اللوغاريتمية",
       "titleFr": "Fonctions logarithmiques",
       "summary": "دالة اللوغاريتم النيبيري $\\ln$، خصائصها الجبرية، النهايات الأساسية، مشتقة ودوال أصلية لـ $u'/u$، ودالة اللوغاريتم للأساس $a$ واللوغاريتم العشري $\\log$.",
@@ -267,13 +268,25 @@ window.EulerAcademy.registerSubject({
           "id": "m05-ax1",
           "num": "المحور 01",
           "titleAr": "تعريف دالة اللوغاريتم النيبيري $\\ln$، خصائصها الجبرية، وحل المعادلات والمتراجحات اللوغاريتمية",
-          "titleFr": "Définition de la fonction ln et propriétés algébriques"
+          "titleFr": "Définition de la fonction ln et propriétés algébriques",
+          "status": "completed",
+          "requirements": [
+            "تعريف دالة $\\ln$ كأصلية لـ $x \\mapsto \\frac{1}{x}$ على $]0, +\\infty[$ تنعدم في $1$، وإتقان رتابتها وإشارتها والعدد النيبيري $\\ln(e) = 1$.",
+            "تطبيق القواعد الجبرية للوغاريتم ($\\ln(ab), \\ln(a/b), \\ln(a^r), \\ln(u^2) = 2\\ln|u|$) بعد التحقق الصارم من مجموعة التعريف.",
+            "حل المعادلات والمتراجحات والنظمات اللوغاريتمية باستعمال التكافؤات وتغيير المتغير $X = \\ln x$ وتقاطع الحلول مع حيز التعريف."
+          ]
         },
         {
           "id": "m05-ax2",
           "num": "المحور 02",
           "titleAr": "النهايات الاعتيادية الأساسية لدالة $\\ln$ ($\\lim_{x\\to+\\infty}\\frac{\\ln x}{x^n}=0$, $\\lim_{x\\to 0^+}x^n\\ln x=0$, $\\lim_{x\\to 1}\\frac{\\ln x}{x-1}=1$)",
-          "titleFr": "Limites fondamentales et branches infinies de ln"
+          "titleFr": "Limites fondamentales et branches infinies de ln",
+          "status": "completed",
+          "requirements": [
+            "ضبط النهايات المرجعية الست لدالة $\\ln$ عند $0^+$ و$+\\infty$ وعند $1$ و$0$، واستنتاج المقارب العمودي والفرع الشلجمي $(Ox)$.",
+            "تبرير نهايات التزايد المقارن لقوى جذرية $r \\in \\mathbb{Q}_+^*$ (مثل $\\frac{\\ln x}{\\sqrt{x}}$ و$(\\ln x)^2/x$) بتغيير المتغير $t = \\sqrt{x}$.",
+            "كسر الأشكال غير المحددة في الدوال المركبة بتعميل الحدوديات داخل $\\ln$ وتوظيف النهايات المشتقة ودراسة الفروع اللانهائية والوضع النسبي."
+          ]
         },
         {
           "id": "m05-ax3",
