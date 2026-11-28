@@ -1113,7 +1113,7 @@ async function runBrowserAudit() {
         }
       }
 
-      // Cold deep-link open math-05 to verify m05-ax1..m05-ax2, SVGs, KaTeX & toggleAll
+      // Cold deep-link open math-05 to verify m05-ax1..m05-ax3, SVGs, KaTeX & toggleAll
       await page.goto('about:blank');
       await page.goto(`${url}#/lesson/math-05`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(700);
@@ -1121,11 +1121,11 @@ async function runBrowserAudit() {
       await page.waitForTimeout(200);
       const math5Open = await page.evaluate(() => {
         const axDetails = Array.from(document.querySelectorAll('#lessonAxesContainer details'));
-        return axDetails.length >= 2 && axDetails.every((d) => d.open);
+        return axDetails.length >= 3 && axDetails.every((d) => d.open);
       });
-      if (!math5Open) issues.push(`[${vp.name}] math-05: #btnToggleAllSolutions did not expand all 2 axis <details>`);
+      if (!math5Open) issues.push(`[${vp.name}] math-05: #btnToggleAllSolutions did not expand all 3 axis <details>`);
       const math5Stats = await inspectDom('lesson-math-05');
-      if (math5Stats.katexCount < 250) issues.push(`[${vp.name}] math-05 expected >=250 KaTeX nodes, got ${math5Stats.katexCount}`);
+      if (math5Stats.katexCount < 350) issues.push(`[${vp.name}] math-05 expected >=350 KaTeX nodes, got ${math5Stats.katexCount}`);
       await page.click('#btnToggleAllSolutions');
       await page.waitForTimeout(100);
       const math5Collapsed = await page.evaluate(() => Array.from(document.querySelectorAll('#lessonAxesContainer details')).every((d) => !d.open));

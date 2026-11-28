@@ -259,7 +259,7 @@ window.EulerAcademy.registerSubject({
       "num": "05",
       "semester": 1,
       "status": "active",
-      "progressText": "2 من 3 محاور مكتملة (67% من المحاور)",
+      "progressText": "جميع المحاور الـ 3 مكتملة (100% من المحاور)",
       "titleAr": "الدوال اللوغاريتمية",
       "titleFr": "Fonctions logarithmiques",
       "summary": "دالة اللوغاريتم النيبيري $\\ln$، خصائصها الجبرية، النهايات الأساسية، مشتقة ودوال أصلية لـ $u'/u$، ودالة اللوغاريتم للأساس $a$ واللوغاريتم العشري $\\log$.",
@@ -292,7 +292,13 @@ window.EulerAcademy.registerSubject({
           "id": "m05-ax3",
           "num": "المحور 03",
           "titleAr": "مشتقة $\\ln(|u(x)|)$ والدوال الأصلية لـ $\\frac{u'(x)}{u(x)}$، ودالة اللوغاريتم للأساس $a$ واللوغاريتم العشري $\\log(x)$",
-          "titleFr": "Dérivée logarithmique, primitives de u’/u et logarithme décimal"
+          "titleFr": "Dérivée logarithmique, primitives de u’/u et logarithme décimal",
+          "status": "completed",
+          "requirements": [
+            "حساب مشتقة $\\ln|u(x)|$ وتعيين الدوال الأصلية لـ $\\frac{u'(x)}{u(x)}$ ($\\ln|u(x)| + k$) مع الاحتفاظ الإلزامي بالقيمة المطلقة عندما $u(x) \\lt 0$.",
+            "توظيف تفكيك الكسور وإبراز $\\tan x$ و $\\frac{1}{x\\ln x}$ لإيجاد الدوال الأصلية، وتعيين الدالة الأصلية الوحيدة بشرط بدئي.",
+            "إتقان اللوغاريتم للأساس $a$ ($\\log_a x = \\frac{\\ln x}{\\ln a}$) وتمييز انقلاب الرتابة ($a \\gt 1$ مقابل $0 \\lt a \\lt 1$) واللوغاريتم العشري $\\log$ وحل $10^x = c$."
+          ]
         }
       ]
     },
